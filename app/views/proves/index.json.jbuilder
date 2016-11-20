@@ -1,0 +1,1 @@
+json.array! @proves, partial: 'proves/profe', as: :profe

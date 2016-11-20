@@ -1,0 +1,1 @@
+json.partial! "answergroups/answergroup", answergroup: @answergroup

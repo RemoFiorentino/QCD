@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  asignatura_id: 
+  salon: MyString
+  fecha: 2016-10-06 17:29:06
+  grupo: false
+
+two:
+  asignatura_id: 
+  salon: MyString
+  fecha: 2016-10-06 17:29:06
+  grupo: false

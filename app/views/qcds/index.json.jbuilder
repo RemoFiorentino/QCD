@@ -1,0 +1,1 @@
+json.array! @qcds, partial: 'qcds/qcd', as: :qcd

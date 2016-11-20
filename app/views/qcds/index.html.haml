@@ -1,0 +1,27 @@
+%h1 Listing qcds
+
+%table
+  %thead
+    %tr
+      %th Asignatura
+      %th Salon
+      %th Fecha
+      %th Grupo
+      %th
+      %th
+      %th
+
+  %tbody
+    - @qcds.each do |qcd|
+      %tr
+        %td= qcd.asignatura
+        %td= qcd.salon
+        %td= qcd.fecha
+        %td= qcd.grupo
+        %td= link_to 'Show', qcd
+        %td= link_to 'Edit', edit_qcd_path(qcd)
+        %td= link_to 'Destroy', qcd, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Qcd', new_qcd_path

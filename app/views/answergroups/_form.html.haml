@@ -1,0 +1,211 @@
+= simple_form_for [@qcd.asignatura, @qcd, @answergroup] do |f|
+  = f.error_notification
+  .form-inputs
+    = f.association :qcd, :as => :hidden
+    %h2 ACTIVIDAD 1: NIVEL GENERAL DE SATISFACCIÓN...
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "1" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => "Escribe una frase que describa tu nivel general de satisfacción en esta asignatura… "
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "2" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:
+      %p Selecciona un número del 1 al 5 (1 = indica el nivel más bajo… 5 = indica el nivel más alto)
+      = answer.input :answer,:collection => [['1', "1"], ['2', "2"], ['3', "3"], ['4', "4"], ['5', "5"]], :as => :radio_buttons, :label => false
+    %h2 ACTIVIDAD 2: LOGRO DE LOS OBJETIVOS DE APRENDIZAJE
+    %h4 Indica en que medida consideras se han logrado los objetivos de aprendizaje propuestos en la asignatura
+    %p Responde tomando en consideración los objetivos que se encuentran descritos en la diapositiva.
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "3" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b 
+        = @qcd.asignatura.objetivo1
+      = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo2 != nil
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "4" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo2
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo3 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "5" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo3
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo4 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "6" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo4
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo5 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "7" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo5
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo6 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "8" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo6
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo7 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "9" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo7
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo8 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "10" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo8
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo9 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "11" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo9
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    - if @qcd.asignatura.objetivo10 != ""
+      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+        = answer.input :order, :as => :hidden, :input_html => { :value => "12" }
+        = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+        %b 
+          = @qcd.asignatura.objetivo10
+        = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :as => :radio_buttons, :label => false
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "13" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b ¿Cuál es tu promedio académico?
+      = answer.input :answer, :label => false,:collection => [['Entre 2,95 y 3,24', "Entre 2,95 y 3,24"], ['Entre 3,25 y 3,94', "Entre 3,25 y 3,94"], ['Entre 3,95 y 5,00', "Entre 3,95 y 5,00"], ['Soy de primer semestre', "Soy de primer semestre"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "14" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b ¿Eres becario?
+      = answer.input :answer,:label => false, :collection => [['Si', "Si"], ['No', "No"]]
+    %h4 En esta asignatura....
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "15" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Me considero lo suficientemente capacitado para enfrentarme con éxito a cualquier tarea académica (De este curso).
+      = answer.input :answer, as: :radio_buttons, :label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "16" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Pienso que tengo bastante capacidad para comprender bien y con rapidez esta asignatura.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "17" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Me siento con confianza para abordar situaciones que ponen a prueba mi capacidad académica (Abordaje de caso clínico y construcción de historia clínica).
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "18" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Tengo la convicción de que puedo hacer exámenes excelentes.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "19" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Me da lo mismo que la profesora sea exigente y dura, pues confío mucho en mi propia capacidad académica.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "20" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Creo que soy una persona bastante capacitada y competente en mi vida académica.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "21" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Si me lo propongo, creo que tengo la suficiente capacidad para obtener un buen resultado académico en esta asignatura.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "22" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Pienso que puedo pasar este curso con bastante facilidad, e incluso, sacar buenas notas.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "23" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Soy de esas personas que no necesita estudiar para aprobar esta Asignatura.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "24" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Creo que estoy preparado/a y bastante capacitado/a para conseguir muchos éxitos académicos durante el desarrollo de este curso.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    %h4 Piensa en esta asignatura y responde sinceramente a cada una de las siguientes preguntas...
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "25" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases el profesor (a) ajusta la forma y velocidad de la enseñanza e interacción para equipararlo con las capacidades y ritmos de aprendizaje de todos los estudiantes.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "26" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases el profesor (a) escucha, es flexible y permite que cada estudiante trabaje a su propio paso.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "27" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases el profesor (a) expresa afecto (agrado, aprecio) hacia los estudiantes.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "28" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases el profesor (a) proporciona a los estudiantes posibilidades de elección y opciones de trabajo en clase o fuera de ella.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "29" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases el profesor (a) realiza actividades (talleres, ejercicios, tareas, etc.) que están acordes con el nivel de conocimiento y experticia de sus estudiantes (No son ni muy difíciles ni muy fáciles).
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "30" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      %b Durante el desarrollo de las clases es posible apreciar que en verdad el profesor (a) disfruta estar con sus estudiantes e interactuar con ellos.
+      = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
+  .form-actions
+    = f.button :submit

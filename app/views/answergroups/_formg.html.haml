@@ -1,0 +1,47 @@
+= simple_form_for [@qcd.asignatura, @qcd, @answergroup] do |f|
+  = f.error_notification
+  .form-inputs
+    = f.association :qcd, :as => :hidden
+    %h2 ACTIVIDAD 3: TRABAJO EN GRUPO SOBRE IDENTIFICACIÓN DE FORTALEZAS Y DEBILIDADES DE LA ASIGNATURA
+    %h3 ASPECTOS QUE PERMITEN IDENTIFICAR FORTALEZAS Y DEBILIDADES DE LA ASIGNATURA
+    = image_tag "/assets/qcd.PNG"
+    %h2 ACTIVIDAD 3A: IDENTIFICACIÓN DE FORTALEZAS DE LA ASIGNATURA
+    %p Como grupo deben elegir a una persona encargada de redactar las respuestas a las actividades que se plantean a continuación.
+    %b Escriban en este espacio la fortaleza mencionada por cada integrante del grupo:
+    %p Cada integrante del grupo debe expresar UNA fortaleza que considere es la más relevante de la asignatura. Es importante que redacten de manera clara y precisa.
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "31" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => false
+    %h2 ACTIVIDAD 3B: IDENTIFICACIÓN DE DEBILIDADES DE LA ASIGNATURA
+    %p Como grupo deben elegir a una persona encargada de redactar las respuestas a las actividades que se plantean a continuación.
+    %b Escriban en este espacio la debilidad mencionada por cada integrante del grupo:
+    %p Cada integrante del grupo debe expresar UNA debilidad que considere es la más relevante de la asignatura. Es importante que redacten de manera clara y precisa.
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "32" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => false
+    %h2 ACTIVIDAD 3C: PRIORIZACIÓN DE FORTALEZAS Y DEBILIDADES
+    %p Trabajando en equipo, identifiquen la FORTALEZA número 1 y la DEBILIDAD número 1 de esta asignatura de acuerdo a los aspectos planteados en las actividades anteriores. 
+    %b Seleccionen solo UNA FORTALEZA de esta asignatura:
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "33" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => false, :collection => [['Estrategias de enseñanza utilizadas en las clases', "1"], ['Organización y claridad de los contenidos', "2"], ['Actividades de aprendizaje en el aula', "3"], ['Interacción con los estudiantes', "4"], ['Evaluación', "5"], ['Uso de TIC como mediación pedagógica', "6"], ['Materiales de estudio y de consulta empleados', "7"], ['Organización y cumplimiento de los compromisos académicos', "8"], ['Otros.', "9"]]
+    %b Seleccionen solo UNA DEBILIDAD de esta asignatura:
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "34" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => false, :collection => [['Estrategias de enseñanza utilizadas en las clases', "1"], ['Organización y claridad de los contenidos', "2"], ['Actividades de aprendizaje en el aula', "3"], ['Interacción con los estudiantes', "4"], ['Evaluación', "5"], ['Uso de TIC como mediación pedagógica', "6"], ['Materiales de estudio y de consulta empleados', "7"], ['Organización y cumplimiento de los compromisos académicos', "8"], ['Otros.', "9"]]
+    %b ¿Qué pueden hacer ustedes y qué sugieren al docente para mejorar el desarrollo de las clases en esta asignatura?
+    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
+      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
+      = answer.input :order, :as => :hidden, :input_html => { :value => "35" }
+      = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
+      = answer.input :answer, :label => false
+  .form-actions
+    = f.button :submit

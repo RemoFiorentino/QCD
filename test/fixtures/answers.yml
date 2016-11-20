@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  qcd_id: 
+  order: 1
+  answer: MyString
+
+two:
+  qcd_id: 
+  order: 1
+  answer: MyString

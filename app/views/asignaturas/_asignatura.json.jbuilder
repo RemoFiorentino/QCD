@@ -1,0 +1,2 @@
+json.extract! asignatura, :id, :profe_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10, :created_at, :updated_at
+json.url asignatura_url(asignatura, format: :json)

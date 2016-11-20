@@ -1,0 +1,10 @@
+= simple_form_for([@qcd.asignatura, @qcd]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :asignatura, :as => :hidden, :input_html => { :value => @qcd.asignatura.id }
+    = f.input :salon
+    = f.input :fecha
+
+  .form-actions
+    = f.button :submit, value: "Guardar"

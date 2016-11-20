@@ -1,0 +1,10 @@
+= simple_form_for(@profe) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.hidden_field :user_id, :value => current_user.id
+    = f.input :ubicacion
+    = f.input :numero
+
+  .form-actions
+    = f.button :submit, value: 'Guardar Perfil'

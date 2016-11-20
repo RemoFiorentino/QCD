@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  profe_id: 
+  division: MyString
+  dpto: MyString
+  programa: MyString
+  nombre: MyString
+  nrc: 1
+  semestre: MyString
+  creditos: 1
+  objetivo1: MyString
+  objetivo2: MyString
+  objetivo3: MyString
+  objetivo4: MyString
+  objetivo5: MyString
+  objetivo6: MyString
+  objetivo7: MyString
+  objetivo8: MyString
+  objetivo9: MyString
+  objetivo10: MyString
+
+two:
+  profe_id: 
+  division: MyString
+  dpto: MyString
+  programa: MyString
+  nombre: MyString
+  nrc: 1
+  semestre: MyString
+  creditos: 1
+  objetivo1: MyString
+  objetivo2: MyString
+  objetivo3: MyString
+  objetivo4: MyString
+  objetivo5: MyString
+  objetivo6: MyString
+  objetivo7: MyString
+  objetivo8: MyString
+  objetivo9: MyString
+  objetivo10: MyString
