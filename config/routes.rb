@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
-  resources :proves
+  resources :users
   resources :asignaturas do
     resources :qcds do
       get '/answergroups/grupal' => 'answergroups#grupal' # or match for older Rails versions

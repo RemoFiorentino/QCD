@@ -1,4 +1,4 @@
 class Asignatura < ActiveRecord::Base
-  belongs_to :profe
+  belongs_to :user
   has_many :qcds, dependent: :destroy
 end

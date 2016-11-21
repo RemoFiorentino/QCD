@@ -1,7 +1,7 @@
 class CreateAsignaturas < ActiveRecord::Migration
   def change
     create_table :asignaturas do |t|
-      t.references :profe, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :division
       t.string :dpto
       t.string :programa

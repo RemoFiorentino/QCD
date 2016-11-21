@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120021635) do
+ActiveRecord::Schema.define(version: 20161121013327) do
 
   create_table "answergroups", force: :cascade do |t|
     t.integer  "qcd_id"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20161120021635) do
   add_index "answers", ["qcd_id"], name: "index_answers_on_qcd_id"
 
   create_table "asignaturas", force: :cascade do |t|
-    t.integer  "profe_id"
+    t.integer  "user_id"
     t.string   "division"
     t.string   "dpto"
     t.string   "programa"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20161120021635) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "asignaturas", ["profe_id"], name: "index_asignaturas_on_profe_id"
+  add_index "asignaturas", ["user_id"], name: "index_asignaturas_on_user_id"
 
   create_table "qcds", force: :cascade do |t|
     t.integer  "asignatura_id"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20161120021635) do
     t.string   "last_sign_in_ip"
     t.string   "provider"
     t.string   "uid"
+    t.string   "ubicacion"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -6,7 +6,7 @@ class AsignaturasController < ApplicationController
   # GET /asignaturas.json
   def index
     #@asignaturas = Asignatura.all
-    @asignaturas = Asignatura.where(profe_id: current_user.profe.id).order("semestre DESC")
+    @asignaturas = Asignatura.where(user_id: current_user.id).order("semestre DESC")
   end
 
   # GET /asignaturas/1
@@ -64,17 +64,6 @@ class AsignaturasController < ApplicationController
     end
   end
   
-  def qcdform
-    @rapidfire_question_group = RapidfireQuestionGroup.new
-    @rapidfire_question_group.name = @asignatura.nrc + @asignatura.semestre
-    @rapidfire_question_group.asignatura = @asignatura
-    if @rapidfire_question_group.save
-      format.html { redirect_to asignaturas_path, notice: 'Asignatura was successfully created.' }
-    else
-      format.html { redirect_to asignaturas_path, notice: 'No se pudo' }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_asignatura
@@ -83,6 +72,6 @@ class AsignaturasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def asignatura_params
-      params.require(:asignatura).permit(:profe_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10)
+      params.require(:asignatura).permit(:user_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10)
     end
 end
