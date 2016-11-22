@@ -597,4 +597,5 @@ class QcdsController < ApplicationController
       };
       return data
     end
+
 end

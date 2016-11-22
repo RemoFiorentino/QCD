@@ -8,6 +8,8 @@ gem 'bootswatch-rails'
 gem 'ejs'
 gem 'chartjs-ror'
 gem "omniauth-google-oauth2"
+gem 'whenever', :require => false
+gem 'rails_admin', '~> 1.0'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

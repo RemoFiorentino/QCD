@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  get '/estudiante', to: 'estudiante#index'
   get 'error/show'
   get 'error/no_disponible'
+  get 'error/no_permiso'
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
   resources :users
   resources :asignaturas do

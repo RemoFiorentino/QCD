@@ -12,6 +12,10 @@ class AsignaturasController < ApplicationController
   # GET /asignaturas/1
   # GET /asignaturas/1.json
   def show
+    if current_user.id != @asignatura.user_id
+      redirect_to error_no_permiso_path
+      return true
+    end
     @qcd = Qcd.where(asignatura_id: @asignatura.id)
   end
 

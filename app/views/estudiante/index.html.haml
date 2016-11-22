@@ -1,0 +1,18 @@
+= form_tag(estudiante_path, :method => "get", id: "search-form") do
+  %p 
+    %b NRC:
+  = text_field_tag :nrc, params[:nrc], placeholder: "NRC de la asignatura", class: "form-control"
+  %p 
+    %b Semestre:
+  = text_field_tag :semestre, params[:semestre], placeholder: "Semestre Academico", class: "form-control"
+  %br
+  = submit_tag "Buscar", class: "btn btn-primary btn-large"
+  
+- if params[:nrc] and params[:semestre]
+  - if @qcds.present?
+    = render @qcds
+  - else
+    %br
+    %br
+    %h4 No hay QCD disponible con NRC: #{params[:nrc]} y semestre #{params[:semestre]}.
+
