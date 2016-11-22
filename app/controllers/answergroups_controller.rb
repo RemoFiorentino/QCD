@@ -15,6 +15,10 @@ class AnswergroupsController < ApplicationController
   # GET /answergroups/new
   def new
     @qcd = Qcd.find(params[:qcd_id])
+    if @qcd.estados != "Aprobado"
+      redirect_to error_no_disponible_path
+      return true
+    end
     @answergroup = @qcd.answergroups.build
     @answer = @answergroup.answers.build
   end

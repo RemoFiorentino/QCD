@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'error/show'
+  get 'error/no_disponible'
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
   resources :users
   resources :asignaturas do

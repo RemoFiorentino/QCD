@@ -10,7 +10,7 @@
   = @asignatura.semestre
 
 %br
-= link_to 'Agregar QCD', new_asignatura_qcd_path(@asignatura), class: "btn btn-primary"
+= button_to 'Agregar QCD', {:controller => "qcds", :action => "create", :asignatura_id => @asignatura.id, :estado => 0}, :method=>:post, class: "btn btn-primary"
 %br
 %br
 - if @rapidfire_question_groups.nil?
@@ -21,18 +21,42 @@
           %tr
             %th Fecha
             %th Salon
-            %th Editar
+            %th Estado
             %th Form. Ind.
             %th Form. Gru.
             %th Resultados
         %tbody
           - @qcd.each do |qcd|
-            %tr
-              %td= qcd.fecha
-              %td= qcd.salon
-              %td= link_to 'Edit', edit_asignatura_qcd_path(@asignatura, qcd)
-              %td= link_to 'Link ind.', new_asignatura_qcd_answergroup_path(@asignatura, qcd)
-              %td= link_to 'Link gru.', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd)
-              %td= link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd)
+            -if qcd.estados == "En Espera de Aprobacion" or qcd.estados == "No Aprobado"
+              %tr
+                %td= "No asignada"
+                %td= "No asignado"
+                %td= qcd.estados
+                %td= ""
+                %td= ""
+                %td= ""
+            -if qcd.estados == "Aprobado"
+              %tr
+                %td= qcd.fecha
+                %td= qcd.salon
+                %td= qcd.estados
+                %td= link_to 'Link ind.', new_asignatura_qcd_answergroup_path(@asignatura, qcd)
+                %td= link_to 'Link gru.', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd)
+                %td= "Resultados no disponibles"
+            -if qcd.estados == "Revision"
+              %tr
+                %td= qcd.fecha
+                %td= qcd.salon
+                %td= qcd.estados
+                %td= ""
+                %td= ""
+                %td= "Resultados no disponibles"
+            -if qcd.estados == "Terminado"
+              %tr
+                %td= qcd.fecha
+                %td= qcd.salon
+                %td= qcd.estados
+                %td= ""
+                %td= ""
+                %td= link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd)
   = link_to 'Back', asignaturas_path
-

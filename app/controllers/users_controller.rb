@@ -41,12 +41,8 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-          params[:user].delete(:password)
-          params[:user].delete(:password_confirmation)
-      end
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to proves_path, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }

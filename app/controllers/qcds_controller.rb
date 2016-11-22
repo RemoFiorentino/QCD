@@ -31,7 +31,7 @@ class QcdsController < ApplicationController
   def create
     asignatura = Asignatura.find(params[:asignatura_id])
     @qcd = asignatura.qcds.create(qcd_params)
-
+    @qcd.estados = 0
     respond_to do |format|
       if @qcd.save
         format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente creado' }
@@ -77,7 +77,7 @@ class QcdsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def qcd_params
-      params.require(:qcd).permit(:asignatura_id, :salon, :fecha, :grupo)
+      params.permit(:asignatura_id, :salon, :fecha, :grupo)
     end
     def autoeficacia(qcdid)
         answer = ["","",""]
