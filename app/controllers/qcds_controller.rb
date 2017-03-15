@@ -34,6 +34,7 @@ class QcdsController < ApplicationController
     @qcd.estados = 0
     respond_to do |format|
       if @qcd.save
+        Mailer.cedu_email().deliver
         format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente creado' }
         format.json { render :show, status: :created, location: @qcd }
       else
@@ -50,6 +51,7 @@ class QcdsController < ApplicationController
     @qcd = asignatura.qcds.find(params[:id])
     respond_to do |format|
       if @qcd.update(qcd_params)
+        Mailer.profe_email(qcd.asignatura.user.email).deliver
         format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente actualizado.' }
         format.json { render :show, status: :ok, location: @qcd }
       else

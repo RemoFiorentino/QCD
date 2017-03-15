@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get '/estudiante', to: 'estudiante#index'
   get 'error/show'
   get 'error/no_disponible'
