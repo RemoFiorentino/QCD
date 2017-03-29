@@ -36,7 +36,7 @@
                             %td= ""
                     -if qcd.estados == "Aprobado"
                         %tr
-                            %td= qcd.fecha
+                            %td= qcd.fecha.strftime("%F %I:%M %P")
                             %td= qcd.salon
                             %td= qcd.estados
                             %td= link_to 'Link ind.', new_asignatura_qcd_answergroup_path(@asignatura, qcd)
@@ -44,7 +44,7 @@
                             %td= "Resultados no disponibles"
                     -if qcd.estados == "Revision"
                         %tr
-                            %td= qcd.fecha
+                            %td= qcd.fecha.strftime("%F %I:%M %P")
                             %td= qcd.salon
                             %td= qcd.estados
                             %td= ""
@@ -52,7 +52,7 @@
                             %td= "Resultados no disponibles"
                     -if qcd.estados == "Terminado"
                         %tr
-                            %td= qcd.fecha
+                            %td= qcd.fecha.strftime("%F %I:%M %P")
                             %td= qcd.salon
                             %td= qcd.estados
                             %td= ""
