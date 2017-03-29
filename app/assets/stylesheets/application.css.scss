@@ -13,19 +13,220 @@
  * @import require_self
  */
 
-@import "bootstrap-sprockets";
-// Import cerulean variables
-@import "bootswatch/cerulean/variables";
 
+//Remo's imports; Mario no los borres.
+@import "variables";
+@import "bootstrap-sprockets";
 // Then bootstrap itself
 @import "bootstrap";
 
 // Bootstrap body padding for fixed navbar
-body { padding-top: 60px; }
-
-// And finally bootswatch style itself
-@import "bootswatch/cerulean/bootswatch";
+body{ 
+    padding-top: 60px;
+}
 
 span{
     margin: 0;
 }
+
+// General Classes ============================================================
+.text_align_center{
+  text-align: center;
+}
+
+
+@mixin btn-shadow($color){
+  @include gradient-vertical-three-colors(lighten($color, 8%), $color, 60%, darken($color, 4%));
+  filter: none;
+  border-bottom: 1px solid darken($color, 10%);
+}
+
+// Navbar =====================================================================
+
+.navbar {
+  &-default {
+    @include btn-shadow($navbar-default-bg);
+    filter: none;
+    @include box-shadow(0 1px 10px rgba(0, 0, 0, 0.1));
+
+    .badge {
+      background-color: #fff;
+      color: $navbar-default-bg;
+    }
+  }
+
+  &-inverse {
+    @include gradient-vertical-three-colors(lighten($navbar-inverse-bg, 8%), lighten($navbar-inverse-bg, 4%), 60%, darken($navbar-inverse-bg, 2%));
+    filter: none;
+    border-bottom: 1px solid darken($navbar-inverse-bg, 10%);
+
+    .badge {
+      background-color: #fff;
+      color: $navbar-inverse-bg;
+    }
+  }
+
+  .navbar-nav > li > a,
+  &-brand {
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: $grid-float-breakpoint-max) {
+
+  .navbar {
+
+    .dropdown-header {
+      color: #fff;
+    }
+
+    .dropdown-menu {
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
+
+// Buttons ====================================================================
+
+.btn {
+
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+
+  .caret {
+    border-top-color: #fff;
+  }
+}
+
+.btn-default {
+  
+  @include btn-shadow($btn-default-bg);
+
+  &:hover {
+    color: $btn-default-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+.btn-default {
+  @include btn-shadow($btn-default-bg);
+}
+
+.btn-primary {
+  @include btn-shadow($btn-primary-bg);
+  
+    &:hover {
+    background: darken($btn-primary-bg, 2%);  
+    color: $btn-primary-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+.btn-success {
+  @include btn-shadow($btn-success-bg);
+  
+    &:hover {
+    background: darken($btn-success-bg, 2%);
+    color: $btn-success-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+.btn-info {
+  @include btn-shadow($btn-info-bg);
+  
+    &:hover {
+    background: darken($btn-info-bg, 2%);
+    color: $btn-info-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+.btn-warning {
+  @include btn-shadow($btn-warning-bg);
+  
+    &:hover {
+    background: darken($btn-warning-bg, 2%);
+    color: $btn-warning-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+.btn-danger {
+  @include btn-shadow($btn-danger-bg);
+  
+    &:hover {
+    background: darken($btn-danger-bg, 2%);
+    color: $btn-danger-color;
+  }
+
+  .caret {
+    border-top-color: $text-color;
+  }
+}
+
+// Typography =================================================================
+
+// Tables =====================================================================
+
+// Forms ======================================================================
+
+// Navs =======================================================================
+
+// Indicators =================================================================
+
+// Progress bars ==============================================================
+
+// Containers =================================================================
+
+.panel-primary,
+.panel-success,
+.panel-warning,
+.panel-danger,
+.panel-info {
+
+  .panel-heading,
+  .panel-title {
+    color: #fff;
+  }
+}
+
+// Footer =====================================================================
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 80px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+  
+  div{
+    margin: 20px 0;
+  }
+}
+

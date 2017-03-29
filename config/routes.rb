@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get '/estudiante', to: 'estudiante#index'
+  get 'static/home'
   get 'error/show'
   get 'error/no_disponible'
   get 'error/no_permiso'
+  resources :static
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
   resources :users
   resources :asignaturas do
@@ -14,8 +16,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :proves
-  root to: 'proves#index'
+  root to: 'static#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

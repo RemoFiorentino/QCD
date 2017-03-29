@@ -18,7 +18,7 @@ Rails.application.configure do
      :address              => "smtp.gmail.com",
      :port                 => 587,
      :user_name            => "qcd.mailer.no.reply@gmail.com",
-     :password             => "Remo2907",
+     :password             => "Remo2907", #figaro aqui remo no lo olvides
      :authentication       => "plain",
     :enable_starttls_auto => true
     }

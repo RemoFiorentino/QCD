@@ -14,7 +14,7 @@
       = answer.input :qcd, :as => :hidden, :input_html => { :value => @qcd.id }
       %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:
       %p Selecciona un número del 1 al 5 (1 = indica el nivel más bajo… 5 = indica el nivel más alto)
-      = answer.input :answer,:collection => [['1', "1"], ['2', "2"], ['3', "3"], ['4', "4"], ['5', "5"]], :as => :radio_buttons, :label => false
+      = answer.input :answer, input_html: { class: 'radio_inline' }, :collection => [['1', "1"], ['2', "2"], ['3', "3"], ['4', "4"], ['5', "5"]], :as => :radio_buttons, :label => false
     %h2 ACTIVIDAD 2: LOGRO DE LOS OBJETIVOS DE APRENDIZAJE
     %h4 Indica en que medida consideras se han logrado los objetivos de aprendizaje propuestos en la asignatura
     %p Responde tomando en consideración los objetivos que se encuentran descritos en la diapositiva.
