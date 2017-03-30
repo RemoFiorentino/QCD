@@ -49,6 +49,8 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    bootstrap3-datetimepicker-rails (4.17.47)
+      momentjs-rails (>= 2.8.1)
     bootswatch-rails (3.3.5)
       railties (>= 3.1)
     builder (3.2.2)
@@ -119,6 +121,8 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
+    momentjs-rails (2.17.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -245,6 +249,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   bootstrap-sass (~> 3.3.5.1)
+  bootstrap3-datetimepicker-rails (~> 4.17.47)
   bootswatch-rails
   byebug
   chartjs-ror
@@ -254,6 +259,7 @@ DEPENDENCIES
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
+  momentjs-rails (>= 2.9.0)
   omniauth-google-oauth2
   rails (= 4.2.5)
   rails_admin (~> 1.0)

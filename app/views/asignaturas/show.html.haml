@@ -10,51 +10,102 @@
         = @asignatura.semestre
     
     %br
-    = button_to 'Agregar QCD', {:controller => "qcds", :action => "create", :asignatura_id => @asignatura.id, :estado => 0}, :method=>:post, class: "btn btn-primary"
+    /= button_to 'Agregar QCD', {:controller => "qcds", :action => "create", :asignatura_id => @asignatura.id, :estado => 0}, :method=>:post, class: "btn btn-primary"
+    %button.btn.btn-primary{"data-target" => "#qcdForm", "data-toggle" => "modal", :type => "button"}
+        Agregar QCD
+
+    
+    #qcdForm.modal.fade{"aria-labelledby" => "qcdFormLabel", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog{:role => "document"}
+            .modal-content
+                .modal-header
+                    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                        %span{"aria-hidden" => "true"} ×
+                    %h4#qcdFormLabel.modal-title Agregar QCD al Curso
+                .modal-body
+                    %h5 Recuerde ingresar información real de la asignatura, el QCD se aplica en una hora de la clase 
+                    %p Ingrese la Fecha tentativa en la que esperaria realizar el QCD. 
+                    %b Fecha y Hora Tentativa:
+                    #datetimepicker1.input-group.date
+                        %input.form-control{:type => "text", :name => "fecha", :id => "fecha"}/
+                        %span.input-group-addon
+                            %span.glyphicon.glyphicon-calendar
+                    :javascript
+                        $(function () {
+                            var minDateVal = new Date();
+                            minDateVal.setDate(minDateVal.getDate() + 2);
+                            var maxDateVal = new Date();
+                            maxDateVal.setDate(maxDateVal.getDate() + 30);
+                            $('#datetimepicker1').datetimepicker({
+                                sideBySide: true,
+                                minDate: minDateVal,
+                                maxDate: maxDateVal
+                            });
+                        });
+
+                    %p 
+                        %b Salon de Clase:
+                        %input.form-control{:type => "text", :name => "salon", :id => "salon",:placeholder => "Numero - Bloque"}
+                .modal-footer
+                    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar
+                    %button.btn.btn-primary{:type => "button", :id  => "btn1"} Agregar
+                    :javascript
+                          $("#btn1").click(function(){
+                            $.ajax({
+                              type: "POST",
+                              url: "/asignaturas/#{@asignatura.id}/qcds",
+                              data: { estado: 0, fecha: $('#fecha').val(), salon: $('#salon').val() } ,
+                              success: function(data) {
+                                alert("Successful");
+                              },
+                              failure: function() {
+                                alert("Unsuccessful");
+                              }
+                            })})
 %br
 %br
-    .container
-    .table-responsive
-        %table.table.table-hover
-            %thead
-                %tr
-                    %th Fecha
-                    %th Salon
-                    %th Estado
-                    %th Form. Ind.
-                    %th Form. Gru.
-                    %th Resultados
-            %tbody
-                - @qcd.each do |qcd|
-                    -if qcd.estados == "En Espera de Aprobacion" or qcd.estados == "No Aprobado"
-                        %tr
-                            %td= "No asignada"
-                            %td= "No asignado"
-                            %td= qcd.estados
-                            %td= ""
-                            %td= ""
-                            %td= ""
-                    -if qcd.estados == "Aprobado"
-                        %tr
-                            %td= qcd.fecha.strftime("%F %I:%M %P")
-                            %td= qcd.salon
-                            %td= qcd.estados
-                            %td= link_to 'Link ind.', new_asignatura_qcd_answergroup_path(@asignatura, qcd)
-                            %td= link_to 'Link gru.', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd)
-                            %td= "Resultados no disponibles"
-                    -if qcd.estados == "Revision"
-                        %tr
-                            %td= qcd.fecha.strftime("%F %I:%M %P")
-                            %td= qcd.salon
-                            %td= qcd.estados
-                            %td= ""
-                            %td= ""
-                            %td= "Resultados no disponibles"
-                    -if qcd.estados == "Terminado"
-                        %tr
-                            %td= qcd.fecha.strftime("%F %I:%M %P")
-                            %td= qcd.salon
-                            %td= qcd.estados
-                            %td= ""
-                            %td= ""
-                            %td= link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd)
+.container
+.table-responsive
+    %table.table.table-hover
+        %thead
+            %tr
+                %th Fecha
+                %th Salon
+                %th Estado
+                %th Form. Ind.
+                %th Form. Gru.
+                %th Resultados
+        %tbody
+            - @qcd.each do |qcd|
+                -if qcd.estados == "En Espera de Aprobacion" or qcd.estados == "No Aprobado"
+                    %tr
+                        %td= qcd != nil ? qcd.fecha.strftime("%F %I:%M %P") : ""
+                        %td= qcd != nil ? qcd.salon : ""
+                        %td= qcd.estados
+                        %td= ""
+                        %td= ""
+                        %td= ""
+                -if qcd.estados == "Aprobado"
+                    %tr
+                        %td= qcd.fecha.strftime("%F %I:%M %P")
+                        %td= qcd.salon
+                        %td= qcd.estados
+                        %td= link_to 'Link ind.', new_asignatura_qcd_answergroup_path(@asignatura, qcd)
+                        %td= link_to 'Link gru.', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd)
+                        %td= "Resultados no disponibles"
+                -if qcd.estados == "Revision"
+                    %tr
+                        %td= qcd.fecha.strftime("%F %I:%M %P")
+                        %td= qcd.salon
+                        %td= qcd.estados
+                        %td= ""
+                        %td= ""
+                        %td= "Resultados no disponibles"
+                -if qcd.estados == "Terminado"
+                    %tr
+                        %td= qcd.fecha.strftime("%F %I:%M %P")
+                        %td= qcd.salon
+                        %td= qcd.estados
+                        %td= ""
+                        %td= ""
+                        %td= link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd)

@@ -17,8 +17,8 @@
 //Remo's imports; Mario no los borres.
 @import "variables";
 @import "bootstrap-sprockets";
-// Then bootstrap itself
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 
 // Bootstrap body padding for fixed navbar
 body{ 

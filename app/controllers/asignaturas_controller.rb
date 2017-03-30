@@ -17,6 +17,7 @@ class AsignaturasController < ApplicationController
       return true
     end
     @qcd = Qcd.where(asignatura_id: @asignatura.id)
+    @newQcd = Qcd.new
   end
 
   # GET /asignaturas/new

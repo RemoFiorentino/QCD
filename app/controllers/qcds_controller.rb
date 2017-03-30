@@ -19,7 +19,7 @@ class QcdsController < ApplicationController
   # GET /qcds/new
   def new
     asignatura = Asignatura.find(params[:asignatura_id])
-    @qcd = asignatura.qcds.build
+    @newQcd = Qcd.new
   end
 
   # GET /qcds/1/edit
@@ -29,12 +29,15 @@ class QcdsController < ApplicationController
   # POST /qcds
   # POST /qcds.json
   def create
+    logger.debug("#{params[:asignatura_id]}")
+    logger.debug("#{params[:salon]}")
+    logger.debug("#{params[:fecha]}")
     asignatura = Asignatura.find(params[:asignatura_id])
     @qcd = asignatura.qcds.create(qcd_params)
     @qcd.estados = 0
     respond_to do |format|
       if @qcd.save
-        Mailer.cedu_email().deliver
+        #Mailer.cedu_email().deliver
         format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente creado' }
         format.json { render :show, status: :created, location: @qcd }
       else
@@ -79,7 +82,7 @@ class QcdsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def qcd_params
-      params.permit(:asignatura_id, :salon, :fecha, :grupo)
+      params.permit(:asignatura_id, :salon, :fecha, :grupo, :qcd => [])
     end
     def autoeficacia(qcdid)
         answer = ["","",""]
