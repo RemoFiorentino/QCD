@@ -30,6 +30,14 @@ RailsAdmin.config do |config|
     end
   end
   config.model 'Qcd' do
+    configure :informe do
+      pretty_value do
+        util = bindings[:object]
+        %{<a href="/asignaturas/#{util.asignatura_id}/qcds/#{util.id}">informe</a>}.html_safe
+      end
+      children_fields [:asignatura_id, :id] 
+      read_only true 
+    end
     list do
       include_all_fields
       exclude_fields :id, :created_at, :updated_at, :grupo
@@ -41,6 +49,9 @@ RailsAdmin.config do |config|
     show do
       include_all_fields
       exclude_fields :id, :created_at, :updated_at, :grupo
+      field :informe do
+        formatted_value{ bindings[:qcd].informe }
+      end
     end
   end
   config.model 'Asignatura' do
