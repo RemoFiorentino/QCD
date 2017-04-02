@@ -1,18 +1,32 @@
 = form_tag(estudiante_path, :method => "get", id: "search-form") do
-  %p 
-    %b NRC:
-  = text_field_tag :nrc, params[:nrc], placeholder: "NRC de la asignatura", class: "form-control"
-  %p 
-    %b Semestre:
-  = text_field_tag :semestre, params[:semestre], placeholder: "Semestre Academico", class: "form-control"
-  %br
-  = submit_tag "Buscar", class: "btn btn-primary btn-large"
-  
+  .row
+    .col-xs-12.col-sm-6.col-md-4.col-lg-3
+      %br
+      .input-group 
+        %span.input-group-addon
+          %b NRC:
+        = text_field_tag :nrc, params[:nrc], placeholder: "NRC de la asignatura", class: "form-control",:required => true
+    .col-xs-12.col-sm-6.col-md-4.col-lg-3
+      %br 
+      .input-group 
+        %span.input-group-addon
+          %b Semestre:
+        = select_tag(:semestre, options_for_select(@date), {:class => 'form-control', :name => :semestre})
+        // = text_field_tag :semestre, params[:semestre], placeholder: "Semestre Academico", class: "form-control"
+    .col-xs-12.col-sm-12.col-md-4.col-lg-2.text-center
+      %br
+      = submit_tag "Buscar", class: "btn btn-primary"
+    
 - if params[:nrc] and params[:semestre]
   - if @qcds.present?
     = render @qcds
   - else
     %br
     %br
-    %h4 No hay QCD disponible con NRC: #{params[:nrc]} y semestre #{params[:semestre]}.
+    %h4 
+      No hay QCD disponible con 
+      %b NRC:
+      #{params[:nrc]} y 
+      %b semestre
+      #{params[:semestre]}.
 

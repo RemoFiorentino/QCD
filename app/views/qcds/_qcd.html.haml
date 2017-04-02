@@ -1,0 +1,23 @@
+%br/
+.panel.panel-default
+    .panel-heading
+        %h4
+            %b #{qcd.asignatura.nombre}
+    .panel-body
+        .row
+            .col-xs-12.col-sm-6.col-md-4.col-lg-3
+                %p
+                    %b Salon: 
+                    #{qcd.salon}
+                %p
+                    %b Fecha: 
+                    #{qcd.fecha.strftime("%F %I:%M %P")}
+                %p
+                    %b Estado: 
+                    #{qcd.estados}
+            .col-xs-12.col-sm-6.col-md-4.col-lg-3.text-center
+                = link_to 'Formulario indiviual', new_asignatura_qcd_answergroup_path(qcd.asignatura, qcd), class: "btn btn-default"
+                %br
+                %br
+                = link_to 'Formulario grupal', asignatura_qcd_answergroups_grupal_path(qcd.asignatura, qcd), class: "btn btn-default"
+%br/

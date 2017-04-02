@@ -23,10 +23,12 @@ class AsignaturasController < ApplicationController
   # GET /asignaturas/new
   def new
     @asignatura = Asignatura.new
+    @date = listyear
   end
 
   # GET /asignaturas/1/edit
   def edit
+    @date = listyear
   end
 
   # POST /asignaturas

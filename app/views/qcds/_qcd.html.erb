@@ -1,9 +1,0 @@
-<br>
-<h4><b>Nombre de la Asignatura:</b> <%= qcd.asignatura.nombre %></h4>
-<p>Salon: <%= qcd.salon %></p>
-<p>Fecha: <%= qcd.fecha %></p>
-<p>Estado: <%= qcd.estados %></p>
-<%= link_to 'Enlace Formulario indiviual.', new_asignatura_qcd_answergroup_path(qcd.asignatura, qcd)%>
-<br>
-<%= link_to 'Enlace Formulario grupal.', asignatura_qcd_answergroups_grupal_path(qcd.asignatura, qcd)%>
-<br>
