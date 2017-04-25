@@ -37,7 +37,7 @@ en:
       unlocked: 'Su cuenta fue desbloqueada con éxito, usted ha sido ingresado al sistema.'
       send_paranoid_instructions: 'Si su cuenta existe, usted recibirá un correo electrónico con instrucciones sobre cómo desbloquear su cuenta en unos minutos.'
     omniauth_callbacks:
-      success: 'Exitosamente autorizado desde la cuenta %{kind}.'
+      success: 'Exitosamente autorizado desde la cuenta de %{kind}.'
       failure: 'No se le pudo autorizar en %{kind} debido a "%{reason}".'
     mailer:
       confirmation_instructions:

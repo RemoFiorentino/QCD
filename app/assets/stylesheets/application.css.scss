@@ -33,6 +33,13 @@ span{
 .text_align_center{
   text-align: center;
 }
+textarea{ 
+       resize: vertical; 
+    }
+.ver_allign{
+  vertical-align: middle !important
+}
+
 
 
 @mixin btn-shadow($color){

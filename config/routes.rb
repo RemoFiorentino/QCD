@@ -5,8 +5,7 @@ Rails.application.routes.draw do
   get 'error/show'
   get 'error/no_disponible'
   get 'error/no_permiso'
-  resources :static
-  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}, :skip => [:sessions, :registrations, :passwords]
   resources :users
   resources :asignaturas do
     resources :qcds do
