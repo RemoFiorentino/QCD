@@ -6,12 +6,16 @@ Rails.application.routes.draw do
   get 'error/no_disponible'
   get 'error/no_permiso'
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}, :skip => [:sessions, :registrations, :passwords]
-  resources :users
-  resources :asignaturas do
+  as :user do
+    get "/users/sign_in" => "error#no_permiso", :as => :new_user_session
+    post "/users/sign_out" => "devise/sessions#destroy", :as => :destroy_user_session
+  end 
+  resources :users, :only => [:edit, :update]
+  resources :asignaturas, :except => [:destroy] do
     resources :qcds do
-      get '/answergroups/grupal' => 'answergroups#grupal' # or match for older Rails versions
-      resources :answergroups do
-        resources :answers 
+      get '/answergroups/grupal' => 'answergroups#grupal' 
+      resources :answergroups, :only => [:new, :create] do
+        resources :answers, :only => [:new, :create]
       end
     end
   end
