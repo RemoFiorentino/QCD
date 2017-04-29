@@ -41,7 +41,6 @@ textarea{
 }
 
 
-
 @mixin btn-shadow($color){
   @include gradient-vertical-three-colors(lighten($color, 8%), $color, 60%, darken($color, 4%));
   filter: none;
@@ -190,6 +189,20 @@ textarea{
 
 // Typography =================================================================
 
+.text-red{
+  color: #C00000;
+}
+.text-bold{
+  font-weight: bold;
+}
+.font-size-large{
+  font-size: $font-size-large;
+}
+
+.font-size-small{
+  font-size: $font-size-small;
+}
+
 // Tables =====================================================================
 
 // Forms ======================================================================
@@ -212,6 +225,9 @@ textarea{
   .panel-title {
     color: #fff;
   }
+}
+.informe-panel-blue{
+  background: #B7DEE8;
 }
 
 // Footer =====================================================================

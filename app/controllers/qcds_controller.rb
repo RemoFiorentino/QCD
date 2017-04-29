@@ -10,6 +10,9 @@ class QcdsController < ApplicationController
   # GET /qcds/1
   # GET /qcds/1.json
   def show
+    @answergroup = Answergroup.where(qcd_id: @qcd.id)
+    #@informeJson = informeToJson(@answergroup)
+    @nivelsatis = nivelsatis(@answergroup)
     @autoeficacia = autoeficacia(@qcd.id)
     @engament = engament(@qcd.id)
     @estadoAcad = estadoAcad(@qcd.id)
@@ -82,7 +85,52 @@ class QcdsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def qcd_params
-      params.permit(:asignatura_id, :salon, :fecha, :grupo, :qcd => [])
+      params.permit(:asignatura_id, :salon, :fecha, :grupo)
+    end
+    def nivelsatis(answergroup)
+        n1 = 0.0
+        n2 = 0.0
+        n3 = 0.0
+        n4 = 0.0
+        n5 = 0.0
+        @answers = Answer.where(answergroup_id: answergroup.ids, order: "2")
+        @answers = @answers.compact
+        @answers.each do |ans|
+            if ans.answer == "1"
+               n1 = n1 + 1
+            end
+            if ans.answer == "2"
+               n2 = n2 + 1
+            end
+            if ans.answer == "3"
+               n3 = n3 + 1
+            end
+            if ans.answer == "4"
+               n4 = n4 + 1
+            end
+            if ans.answer == "5"
+               n5 = n5 + 1
+            end
+            if ans.answer == nil
+              @answers.delete(ans)
+            end
+        end
+        n1 = n1*100/(@answers.length.nonzero? || 1)
+        n2 = n2*100/(@answers.length.nonzero? || 1)
+        n3 = n3*100/(@answers.length.nonzero? || 1)
+        n4 = n4*100/(@answers.length.nonzero? || 1)
+        n5 = n5*100/(@answers.length.nonzero? || 1)
+        data = {
+          labels: ["N1 Muy Bajo", "N2 Bajo", "N3 Medio", "N4 Alto", "N5 Muy Alto"],
+          datasets: [{
+            backgroundColor: 'rgba(54, 112, 181,0.2)',
+            borderColor: 'rgba(38, 79, 128,1)',
+            borderWidth: 1,
+            data: [n1.round,n2.round,n3.round,n4.round,n5.round]
+          }
+          ]
+        };
+        return data
     end
     def autoeficacia(qcdid)
         answer = ["","",""]
@@ -602,5 +650,88 @@ class QcdsController < ApplicationController
       };
       return data
     end
-
+    def informeToJson(answergroup)
+      answer = Answer.where(answergroup_id: answergroup.ids, order: [1..35])
+      answerjson = [{}]
+      answergroup.each do |group|
+        temp = nil
+        temp = {id: group.id}
+        answer.answergroup_id(group.id).each do |ans|
+          case ans.order
+          when 1
+            temp << {col1: ans.answer}
+          when 2
+            temp << {col2: ans.answer}
+          when 3
+            temp << {col3: ans.answer}
+          when 4
+            temp << {col4: ans.answer}
+          when 5
+            temp << {col5: ans.answer}
+          when 6
+            temp << {col6: ans.answer}
+          when 7
+            temp << {col7: ans.answer}
+          when 8
+            temp << {col8: ans.answer}
+          when 9
+            temp << {col9: ans.answer}
+          when 10
+            temp << {col10: ans.answer}
+          when 11
+            temp << {col11: ans.answer}
+          when 12
+            temp << {col12: ans.answer}
+          when 13
+            temp << {col13: ans.answer}
+          when 14
+            temp << {col14: ans.answer}
+          when 15
+            temp << {col15: ans.answer}
+          when 16
+            temp << {col16: ans.answer}
+          when 17
+            temp << {col17: ans.answer}
+          when 18
+            temp << {col18: ans.answer}
+          when 19
+            temp << {col19: ans.answer}
+          when 20
+            temp << {col20: ans.answer}
+          when 21
+            temp << {col21: ans.answer}
+          when 22
+            temp << {col22: ans.answer}
+          when 23
+            temp << {col23: ans.answer}
+          when 24
+            temp << {col24: ans.answer}
+          when 25
+            temp << {col25: ans.answer}
+          when 26
+            temp << {col26: ans.answer}
+          when 27
+            temp << {col27: ans.answer}
+          when 28
+            temp << {col28: ans.answer}
+          when 29
+            temp << {col29: ans.answer}
+          when 30
+            temp << {col30: ans.answer}
+          when 31
+            temp << {col31: ans.answer}
+          when 32
+            temp << {col32: ans.answer}
+          when 33
+            temp << {col33: ans.answer}
+          when 34
+            temp << {col34: ans.answer}
+          when 35
+            temp << {col35: ans.answer}
+          end
+        end
+        answerjson << temp
+      end
+      return answerjson
+    end
 end

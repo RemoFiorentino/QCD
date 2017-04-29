@@ -1,17 +1,6 @@
 class AnswergroupsController < ApplicationController
   before_action :set_answergroup, only: [:show, :edit, :update, :destroy]
 
-  # GET /answergroups
-  # GET /answergroups.json
-  def index
-    @answergroups = Answergroup.all
-  end
-
-  # GET /answergroups/1
-  # GET /answergroups/1.json
-  def show
-  end
-
   # GET /answergroups/new
   def new
     @qcd = Qcd.find(params[:qcd_id])
@@ -30,10 +19,6 @@ class AnswergroupsController < ApplicationController
   end
 
 
-  # GET /answergroups/1/edit
-  def edit
-  end
-
   # POST /answergroups
   # POST /answergroups.json
   def create
@@ -48,30 +33,6 @@ class AnswergroupsController < ApplicationController
         format.html { render :new }
         format.json { render json: @answergroup.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /answergroups/1
-  # PATCH/PUT /answergroups/1.json
-  def update
-    respond_to do |format|
-      if @answergroup.update(answergroup_params)
-        format.html { redirect_to @answergroup, notice: 'Answergroup was successfully updated.' }
-        format.json { render :show, status: :ok, location: @answergroup }
-      else
-        format.html { render :edit }
-        format.json { render json: @answergroup.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /answergroups/1
-  # DELETE /answergroups/1.json
-  def destroy
-    @answergroup.destroy
-    respond_to do |format|
-      format.html { redirect_to answergroups_url, notice: 'Answergroup was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

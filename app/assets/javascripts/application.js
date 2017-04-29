@@ -10,11 +10,21 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
+// Angular requires 
+//= require angular
+//= require AngularDevise/lib/devise
+//= require angular-resource
+//= require angular-route
+//= require angular-rails-templates
+//= require_tree ./templates
+
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+
 //= require_tree .
 //= require bootstrap-sprockets
 //= require Chart.min
 //= require moment
 //= require bootstrap-datetimepicker
+//= require main.js

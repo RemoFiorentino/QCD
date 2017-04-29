@@ -1,12 +1,33 @@
 class AsignaturasController < ApplicationController
   before_action :authenticate_user!
   before_action :set_asignatura, only: [:show, :edit, :update, :destroy]
+  respond_to :json
+  
+  # def index
+  #   respond_with Post.all
+  # end
 
+  # def create
+  #   respond_with Post.create(post_params)
+  # end
+
+  # def show
+  #   respond_with Post.find(params[:id])
+  # end
+
+  # def upvote
+  #   post = Post.find(params[:id])
+  #   post.increment!(:upvotes)
+
+  #   respond_with post
+  # end
+  
   # GET /asignaturas
   # GET /asignaturas.json
   def index
     #@asignaturas = Asignatura.all
     @asignaturas = Asignatura.where(user_id: current_user.id).order("semestre DESC")
+    #respond_with Asignatura.all
   end
 
   # GET /asignaturas/1
@@ -17,7 +38,6 @@ class AsignaturasController < ApplicationController
       return true
     end
     @qcd = Qcd.where(asignatura_id: @asignatura.id)
-    @newQcd = Qcd.new
   end
 
   # GET /asignaturas/new

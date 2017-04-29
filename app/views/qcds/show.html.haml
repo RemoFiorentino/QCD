@@ -1,386 +1,472 @@
 .row
-  .col-md-8.head
-    .red
-      %p CENTRO PARA LA EXCELENCIA DOCENTE - CEDU
-    %p Universidad del Norte
-.row
-  .col-md-8.title
-    %p INFORME DE LA ASIGNATURA VALORADA MEDIANTE “QCD”
-.row
-  .col-md-8
-    El QCD (Quick Course Diagnosis), desarrollado por Barbara Millis  recoge la percepción u opinión que los estudiantes tienen sobre una clase en tres aspectos centrales: El nivel de satisfacción con el curso, el cumplimiento de los objetivos de aprendizaje y las fortalezas y debilidades de la misma, con la finalidad de que el profesor obtenga una retroalimentación oportuna de sus clases y pueda hacer cambios o mejoras en el proceso de enseñanza-aprendizaje.
-.row.subtitle
-  .col-md-8
-    Identificación
-.table-responsive
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-    %tbody
-      %tr
-        %td División	
-        %td= @qcd.asignatura.division
-      %tr
-        %td Programa	
-        %td= @qcd.asignatura.programa      
-      %tr
-        %td Departamento	
-        %td= @qcd.asignatura.dpto
-      %tr
-        %td Nombre de la asignatura	
-        %td= @qcd.asignatura.nombre
-      %tr
-        %td NRC	
-        %td= @qcd.asignatura.nrc
-      %tr
-        %td Semestre	
-        %td= @qcd.asignatura.semestre
-      %tr
-        %td Número de créditos	
-        %td= @qcd.asignatura.creditos
-      %tr
-        %td Nombre del profesor	
-        %td= @qcd.asignatura.user.name
-      %tr
-        %td Ubicación del profesor 	
-        %td= @qcd.asignatura.user.ubicacion
-.row.subtitle
-  .col-md-8
-    Resultados de las actividades realizadas en forma individual durante la aplicación del QCD
-.row
-  .col-md-8
-    %b Nivel de satisfacción con la experiencia de aprendizaje en la asignatura (actividad individual). 
+  .col-xs-12.col-sm-10.col-md-8.col-sm-offset-1.col-md-offset-2
+    .text-red.text-center.text-bold
+      CENTRO PARA LA EXCELENCIA DOCENTE - CEDU
+    .text-center.text-bold
+      %p Universidad del Norte
+    .text-center.text-bold.font-size-large
+      %p INFORME DE LA ASIGNATURA VALORADA MEDIANTE “QCD”
+    .font-size-small
+      %p El QCD (Quick Course Diagnosis), desarrollado por Barbara Millis  recoge la percepción u opinión que los estudiantes tienen sobre una clase en tres aspectos centrales: El nivel de satisfacción con el curso, el cumplimiento de los objetivos de aprendizaje y las fortalezas y debilidades de la misma, con la finalidad de que el profesor obtenga una retroalimentación oportuna de sus clases y pueda hacer cambios o mejoras en el proceso de enseñanza-aprendizaje.
+    //%p #{@informeJson.to_json}
+    .text-red.text-center.text-bold.informe-panel-blue
+      %p Identificación
+    .table-responsive
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+        %tbody
+          %tr
+            %td.text-bold.font-size-small
+              División	
+            %td.font-size-small
+              = @qcd.asignatura.division
+          %tr
+            %td.text-bold.font-size-small
+              Programa	
+            %td.font-size-small
+              = @qcd.asignatura.programa      
+          %tr
+            %td.text-bold.font-size-small
+              Departamento	
+            %td.font-size-small
+              = @qcd.asignatura.dpto
+          %tr
+            %td.text-bold.font-size-small
+              Nombre de la asignatura	
+            %td.font-size-small
+              = @qcd.asignatura.nombre
+          %tr
+            %td.text-bold.font-size-small
+              NRC	
+            %td.font-size-small
+              = @qcd.asignatura.nrc
+          %tr
+            %td.text-bold.font-size-small
+              Semestre	
+            %td.font-size-small
+              = @qcd.asignatura.semestre
+          %tr
+            %td.text-bold.font-size-small
+              Número de créditos	
+            %td.font-size-small
+              = @qcd.asignatura.creditos
+          %tr
+            %td.text-bold.font-size-small
+              Nombre del profesor	
+            %td.font-size-small
+              = @qcd.asignatura.user.name
+          %tr
+            %td.text-bold.font-size-small
+              Ubicación del profesor 	
+            %td.font-size-small
+              = @qcd.asignatura.user.ubicacion
+    .text-red.text-center.text-bold.informe-panel-blue
+      Resultados de las actividades realizadas en forma individual durante la aplicación del QCD
+    .text-bold
+      %b Nivel de satisfacción con la experiencia de aprendizaje en la asignatura (actividad individual). 
     %p La gráfica que se muestra a continuación refleja la percepción de cada estudiante sobre el nivel de satisfacción con la experiencia de aprendizaje que ha vivido en las diferentes clases en esta asignatura.
-%canvas#myChart{:style => "width:400px; height:250px;"}
-:javascript
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: #{nivelsatis(@qcd.id)},
-      options: {
+    %canvas#nivel_satisfaccion
+    :javascript
+      var ctx = document.getElementById("nivel_satisfaccion");
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: #{@nivelsatis.to_json},
+        options: {
+          title: {
+                display: true,
+                text: 'Nivel de satisfacción con la experiencia de aprendizaje en la asignatura',
+                fontColor: '#3670b5',
+                fontSize: 14
+          },
+          legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                      label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                      }
+                    }
+          },
           scales: {
               yAxes: [{
                   ticks: {
-                      beginAtZero:true
+                      min: 0,
+                      max: 100,
+                      callback: function(value) {
+                         return value + "%"
+                      }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Porcentaje de estudiantes',
+                    fontColor: '#3670b5',
+                    fontSize: 12
+                  }
+              }],
+              xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Niveles de satisfacción',
+                    fontColor: '#3670b5',
+                    fontSize: 12
                   }
               }]
-          }
-      }
-  });
-
-%b Comentarios de los estudiantes sobre el nivel de satisfacción							
-.table-responsive
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-        %th Nivel de satisfacción 
-        %th Comentario
-    %tbody
-      -opisatis2(@qcd.id).each do |op2|
-        -opisatis1(@qcd.id).each do |op|
-          -if op.answer != ""
-            -if op.answergroup_id == op2.answergroup_id
-              %tr
-                %td= op2.answer	
-                %td= op.answer	
-.row.subtitle_green
-  .col-md-8
-    Autoeficacia percibida para las situaciones académicas de la asignatura
-.row
-  .col-md-8
-    %p A continuación se presentan los resultados del test de autoeficacia percibida para alcanzar los retos de la asignatura. La autoeficacia es el juicio de una persona acerca de sus capacidades para completar una tarea específica con las habilidades que él / ella posee. Wang (2013) citando a Bandura (1997).
-.row
-  .col-md-4
-    %p Capacidad percibida para comprender los temas y tareas de la asignatura
-    %canvas#myChart2{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("myChart2");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@autoeficacia[0].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
+          },
+          tooltips: {
+            enabled: false,
+            callbacks: {
+              label: function(tooltipItem, data) {
+                //get the concerned dataset
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                return dataset.data[tooltipItem.index] + "%";
               }
-          }
-      });
-  .col-md-4
-    %p Capacidad percibida para obtener buenos resultados académicos en la asignatura
-    %canvas#myChart3{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("myChart3");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@autoeficacia[1].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
+            }
+          },
+          events: false,
+          tooltips: {
+              enabled: false
+          },
+          hover: {
+              animationDuration: 0
+          },
+          animation:{
+            onComplete: function () {
+              var ctx = this.chart.ctx;              
+              ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              this.data.datasets.forEach(function (dataset) {
+                for (var i = 0; i < dataset.data.length; i++) {
+                  var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                      scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                  ctx.fillStyle = '#444';
+                  var y_pos = model.y - 5;
+                  if ((scale_max - model.y) / scale_max >= 0.5)
+                      y_pos = model.y + 20;
+                  ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
                 }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
+              });              
+            }
           }
+        }
       });
-  .col-md-4
-    %p Capacidad percibida global para desempeñarse en las exigencias académicas de la asignatura
-    %canvas#myChart4{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("myChart4");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@autoeficacia[2].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-.row.subtitle_green
-  .col-md-8
-    Nivel de compromiso (engagement) percibido por los estudiantes con la asignaturanatura
-.row
-  .col-md-8
-    %p En la gráfica se muestran los resultados del test de compromiso estudiantil. De acuerdo con Reeve (2003), cuando uno se involucra en actividades que ofrecen oportunidades de elección e iniciativa Apoyo a la autonomía), un desafío cognitivo óptimo (Desafio optimo) y una interacción social frecuente (inclusión), la gente tiende a sentirse interesada y comprometida en lo que hace. 
-.row
-  .col-md-3
-    %p Inclusión (Aspectos socio-emocionales)
-  .col-md-3
-    %p Desafío óptimo (Retos planteados en clase)
-  .col-md-3
-    %p Apoyo a la autonomía (Toma de decisiones en el aprendizaje)
-  .col-md-3
-    %p Compromiso con la clase (engagement)
-.row
-  .col-md-3
-    %canvas#Chart_inclusion{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("Chart_inclusion");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@engament[0].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-  .col-md-3
-    %canvas#Chart_desafio{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("Chart_desafio");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@engament[1].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-  .col-md-3
-    %canvas#Chart_apoyo{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("Chart_apoyo");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@engament[2].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-  .col-md-3
-    %canvas#Chart_engament{:style => "width:400px; height:250px;"}
-    :javascript
-      var ctx = document.getElementById("Chart_engament");
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: #{@engament[3].to_json},
-          options: {
-              legend: {
-                display: false
-              },
-              tooltips: {
-                callbacks: {
-                   label: function(tooltipItem) {
-                          return tooltipItem.yLabel;
-                   }
-                }
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-.row.subtitle_green
-  .col-md-8
-    Estado académico de los estudiantes
-.row
-  .col-md-8
-    La siguiente gráfica muestra el estado académico actual reportado por cada estudiante y su ditribución en cuanto a su condición de becario o no.
-%canvas#Chart_estado{:style => "width:400px; height:250px;"}
-:javascript
-  var ctx = document.getElementById("Chart_estado");
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: #{@estadoAcad.to_json},
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
+    %br
+    %br
+    %b Comentarios de los estudiantes sobre el nivel de satisfacción							
+    .table-responsive
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+            %th Nivel de satisfacción 
+            %th Comentario
+        %tbody
+          -opisatis2(@qcd.id).each do |op2|
+            -opisatis1(@qcd.id).each do |op|
+              -if op.answer != ""
+                -if op.answergroup_id == op2.answergroup_id
+                  %tr
+                    %td= op2.answer	
+                    %td= op.answer	
+    .row.subtitle_green
+      .col-md-8
+        Autoeficacia percibida para las situaciones académicas de la asignatura
+    .row
+      .col-md-8
+        %p A continuación se presentan los resultados del test de autoeficacia percibida para alcanzar los retos de la asignatura. La autoeficacia es el juicio de una persona acerca de sus capacidades para completar una tarea específica con las habilidades que él / ella posee. Wang (2013) citando a Bandura (1997).
+    .row
+      .col-md-4
+        %p Capacidad percibida para comprender los temas y tareas de la asignatura
+        %canvas#myChart2{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("myChart2");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@autoeficacia[0].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
                   }
-              }]
-          }
-      }
-  });
-.row.subtitle_green
-  .col-md-8
-    Cumplimiento de los resultados de aprendizaje de la asignatura (actividad individual). 
-%canvas#Chart_resultados{:style => "width:400px; height:250px;"}
-:javascript
-  var ctx = document.getElementById("Chart_resultados");
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: #{@resultados.to_json},
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
+              }
+          });
+      .col-md-4
+        %p Capacidad percibida para obtener buenos resultados académicos en la asignatura
+        %canvas#myChart3{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("myChart3");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@autoeficacia[1].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
                   }
-              }]
+              }
+          });
+      .col-md-4
+        %p Capacidad percibida global para desempeñarse en las exigencias académicas de la asignatura
+        %canvas#myChart4{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("myChart4");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@autoeficacia[2].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+    .row.subtitle_green
+      .col-md-8
+        Nivel de compromiso (engagement) percibido por los estudiantes con la asignaturanatura
+    .row
+      .col-md-8
+        %p En la gráfica se muestran los resultados del test de compromiso estudiantil. De acuerdo con Reeve (2003), cuando uno se involucra en actividades que ofrecen oportunidades de elección e iniciativa Apoyo a la autonomía), un desafío cognitivo óptimo (Desafio optimo) y una interacción social frecuente (inclusión), la gente tiende a sentirse interesada y comprometida en lo que hace. 
+    .row
+      .col-md-3
+        %p Inclusión (Aspectos socio-emocionales)
+      .col-md-3
+        %p Desafío óptimo (Retos planteados en clase)
+      .col-md-3
+        %p Apoyo a la autonomía (Toma de decisiones en el aprendizaje)
+      .col-md-3
+        %p Compromiso con la clase (engagement)
+    .row
+      .col-md-3
+        %canvas#Chart_inclusion{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("Chart_inclusion");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@engament[0].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+      .col-md-3
+        %canvas#Chart_desafio{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("Chart_desafio");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@engament[1].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+      .col-md-3
+        %canvas#Chart_apoyo{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("Chart_apoyo");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@engament[2].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+      .col-md-3
+        %canvas#Chart_engament{:style => "width:400px; height:250px;"}
+        :javascript
+          var ctx = document.getElementById("Chart_engament");
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@engament[3].to_json},
+              options: {
+                  legend: {
+                    display: false
+                  },
+                  tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+    .row.subtitle_green
+      .col-md-8
+        Estado académico de los estudiantes
+    .row
+      .col-md-8
+        La siguiente gráfica muestra el estado académico actual reportado por cada estudiante y su ditribución en cuanto a su condición de becario o no.
+    %canvas#Chart_estado{:style => "width:400px; height:250px;"}
+    :javascript
+      var ctx = document.getElementById("Chart_estado");
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: #{@estadoAcad.to_json},
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
           }
-      }
-  });
-%p Objetivos de aprendizaje revisados en el diagnóstico:
-.table-responsive
-  %table.table.table-bordered.table-hover
-    %thead
-      %tr
-    %tbody
-      %tr
-        %td= 1
-        %td= @qcd.asignatura.objetivo1
-      -if @qcd.asignatura.objetivo2 != ""
-        %tr
-          %td= 2
-          %td= @qcd.asignatura.objetivo2
-      -if @qcd.asignatura.objetivo3 != ""
-        %tr
-          %td= 3
-          %td= @qcd.asignatura.objetivo3
-      -if @qcd.asignatura.objetivo4 != ""
-        %tr
-          %td= 4
-          %td= @qcd.asignatura.objetivo4
-      -if @qcd.asignatura.objetivo5 != ""
-        %tr
-          %td= 5
-          %td= @qcd.asignatura.objetivo5
-      -if @qcd.asignatura.objetivo6 != ""
-        %tr
-          %td= 6
-          %td= @qcd.asignatura.objetivo6
-      -if @qcd.asignatura.objetivo7 != ""
-        %tr
-          %td= 7
-          %td= @qcd.asignatura.objetivo7
-      -if @qcd.asignatura.objetivo8 != ""
-        %tr
-          %td= 8
-          %td= @qcd.asignatura.objetivo8
-      -if @qcd.asignatura.objetivo9 != ""
-        %tr
-          %td= 9
-          %td= @qcd.asignatura.objetivo9
-      -if @qcd.asignatura.objetivo10 != ""
-        %tr
-          %td= 10
-          %td= @qcd.asignatura.objetivo10
+      });
+    .row.subtitle_green
+      .col-md-8
+        Cumplimiento de los resultados de aprendizaje de la asignatura (actividad individual). 
+    %canvas#Chart_resultados{:style => "width:400px; height:250px;"}
+    :javascript
+      var ctx = document.getElementById("Chart_resultados");
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: #{@resultados.to_json},
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      });
+    %p Objetivos de aprendizaje revisados en el diagnóstico:
+    .table-responsive
+      %table.table.table-bordered.table-hover
+        %thead
+          %tr
+        %tbody
+          %tr
+            %td= 1
+            %td= @qcd.asignatura.objetivo1
+          -if @qcd.asignatura.objetivo2 != ""
+            %tr
+              %td= 2
+              %td= @qcd.asignatura.objetivo2
+          -if @qcd.asignatura.objetivo3 != ""
+            %tr
+              %td= 3
+              %td= @qcd.asignatura.objetivo3
+          -if @qcd.asignatura.objetivo4 != ""
+            %tr
+              %td= 4
+              %td= @qcd.asignatura.objetivo4
+          -if @qcd.asignatura.objetivo5 != ""
+            %tr
+              %td= 5
+              %td= @qcd.asignatura.objetivo5
+          -if @qcd.asignatura.objetivo6 != ""
+            %tr
+              %td= 6
+              %td= @qcd.asignatura.objetivo6
+          -if @qcd.asignatura.objetivo7 != ""
+            %tr
+              %td= 7
+              %td= @qcd.asignatura.objetivo7
+          -if @qcd.asignatura.objetivo8 != ""
+            %tr
+              %td= 8
+              %td= @qcd.asignatura.objetivo8
+          -if @qcd.asignatura.objetivo9 != ""
+            %tr
+              %td= 9
+              %td= @qcd.asignatura.objetivo9
+          -if @qcd.asignatura.objetivo10 != ""
+            %tr
+              %td= 10
+              %td= @qcd.asignatura.objetivo10
