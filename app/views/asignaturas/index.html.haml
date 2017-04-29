@@ -1,25 +1,33 @@
-%h1 Cursos:
+.row
+  .col-xs-12.col-sm-6
+    %h1 Cursos:
+  .col-xs-12.col-sm-6.text-center
+    %br
+    = link_to 'Agregar Curso', new_asignatura_path, class: "btn btn-primary"
+    %br
 %br
-= link_to 'Agregar Curso', new_asignatura_path, class: "btn btn-primary"
-%br
-%br
-%div
-  .table-responsive
-    %table.table.table-hover
-      %thead
-        %tr
-          %th Nombre
-          %th Nrc
-          %th Semestre
-          %th Editar
-      %tbody
-        - @asignaturas.each do |asignatura|
-          %tr
-            %td= asignatura.nombre
-            %td= asignatura.nrc
-            %td= asignatura.semestre
-            %td= link_to 'Editar', edit_asignatura_path(asignatura)
-            %td= link_to 'Ver QCD', asignatura_path(asignatura)
+- @asignaturas.group_by{|h| h[:semestre]}.each_with_index do |asignatura,index|
+  .panel.panel-default
+    .panel-heading{"data-target" => "#item_#{index}", "data-toggle" => "collapse"} 
+      =asignatura[0]
+    %ul.list-group.collapse{:id => "item_#{index}"}
+      -asignatura[1].each do |temp|
+        %li.list-group-item
+          .row
+            .col-xs-12.col-sm-6.col-md-5
+              %p
+                %b Nombre:
+                =temp.nombre
+            .col-xs-12.col-sm-6.col-md-2
+              %p
+                %b NRC:
+                =temp.nrc
+            .col-xs-12.col-sm-10.col-md-4.col-sm-offset-1.col-md-offset-1
+              .btn-group-vertical.btn-group-justified
+                =link_to 'Editar', edit_asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
+                =link_to 'Ver QCD', asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
+
+
 
 
 

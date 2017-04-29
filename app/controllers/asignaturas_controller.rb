@@ -1,7 +1,6 @@
 class AsignaturasController < ApplicationController
   before_action :authenticate_user!
   before_action :set_asignatura, only: [:show, :edit, :update, :destroy]
-  respond_to :json
   
   # def index
   #   respond_with Post.all
@@ -25,18 +24,13 @@ class AsignaturasController < ApplicationController
   # GET /asignaturas
   # GET /asignaturas.json
   def index
-    #@asignaturas = Asignatura.all
     @asignaturas = Asignatura.where(user_id: current_user.id).order("semestre DESC")
-    #respond_with Asignatura.all
   end
 
   # GET /asignaturas/1
   # GET /asignaturas/1.json
   def show
-    if current_user.id != @asignatura.user_id
-      redirect_to error_no_permiso_path
-      return true
-    end
+    control_access
     @qcd = Qcd.where(asignatura_id: @asignatura.id)
   end
 
@@ -48,6 +42,7 @@ class AsignaturasController < ApplicationController
 
   # GET /asignaturas/1/edit
   def edit
+    control_access
     @date = listyear
   end
 
@@ -100,5 +95,15 @@ class AsignaturasController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def asignatura_params
       params.require(:asignatura).permit(:user_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10)
+    end
+    
+    def control_access
+      if !current_user
+        return false
+      end
+      if current_user.id != @asignatura.user_id
+        redirect_to error_no_permiso_path
+        return false
+      end
     end
 end

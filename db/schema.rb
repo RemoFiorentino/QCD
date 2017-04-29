@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121025228) do
+ActiveRecord::Schema.define(version: 20170429174636) do
 
   create_table "answergroups", force: :cascade do |t|
     t.integer  "qcd_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20161121025228) do
     t.string   "objetivo10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "num_estud"
   end
 
   add_index "asignaturas", ["user_id"], name: "index_asignaturas_on_user_id"
