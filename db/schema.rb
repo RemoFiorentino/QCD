@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429174636) do
+ActiveRecord::Schema.define(version: 20170501052342) do
 
   create_table "answergroups", force: :cascade do |t|
     t.integer  "qcd_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "answer"
+    t.boolean  "group"
   end
 
   add_index "answergroups", ["qcd_id"], name: "index_answergroups_on_qcd_id"

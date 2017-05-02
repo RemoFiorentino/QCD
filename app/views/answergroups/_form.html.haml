@@ -2,147 +2,61 @@
   = f.error_notification
   .form-inputs
     = f.association :qcd, :as => :hidden
+    = f.input :group, :as => :hidden, input_html: {value: 'true'}
     .row
-      .col-xs-12.col-sm-10.col-md-8.col-sm-offset-1.col-md-offset-2
+      .col-xs-12.col-md-10.col-md-offset-1
         .panel.panel-info
           .panel-heading
             ACTIVIDAD 1: NIVEL GENERAL DE SATISFACCIÓN...
           .panel-body
-            = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-              = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-              = answer.input :order, :as => :hidden, :input_html => { :value => "1" }
-              
-              = answer.input :answer, :label => "Escribe una frase que describa tu nivel general de satisfacción en esta asignatura… ",:as => :text
-            = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-              = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-              = answer.input :order, :as => :hidden, :input_html => { :value => "2" }
-              
-              %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:
-              %p Selecciona un número del 1 al 5 (1 = indica el nivel más bajo… 5 = indica el nivel más alto)
-              %table.table.table-responsive
-                %thead
-                  %tr
-                    %th.hidden-xs
-                    %th.hidden-xs
-                    %th.text-center 1
-                    %th.hidden-xs
-                    %th.text-center 2
-                    %th.hidden-xs
-                    %th.text-center 3
-                    %th.hidden-xs
-                    %th.text-center 4
-                    %th.hidden-xs
-                    %th.text-center 5
-                    %th.hidden-xs
-                    %th.hidden-xs
-                %tbody
-                  %tr.active 
-                    %td.hidden-xs.text-right.ver_allign
-                      Muy poco satisfecho
-                    %td.text-center.hidden-xs
-                    %td.text-center
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.hidden-xs
-                    %td.text-center
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.hidden-xs
-                    %td.text-center
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.hidden-xs
-                    %td.text-center
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.hidden-xs
-                    %td.text-center
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false
-                    %td.text-center.hidden-xs
-                    %td.hidden-xs.ver_allign
-                      Muy satisfecho
+            %p Escribe una frase que describa tu nivel general de satisfacción en esta asignatura… 
+            %textarea.form-control{:type => "text", :name => 'answers[1]'}
+            %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:
+            %p Selecciona un número del 1 al 5 (1 = indica el nivel más bajo… 5 = indica el nivel más alto)
+            %table.table.table-responsive
+              %thead
+                %tr
+                  %th.hidden-xs
+                  %th.hidden-xs
+                  %th.text-center 1
+                  %th.hidden-xs
+                  %th.text-center 2
+                  %th.hidden-xs
+                  %th.text-center 3
+                  %th.hidden-xs
+                  %th.text-center 4
+                  %th.hidden-xs
+                  %th.text-center 5
+                  %th.hidden-xs
+                  %th.hidden-xs
+              %tbody
+                %tr.active 
+                  %td.hidden-xs.text-right.ver_allign
+                    Muy poco satisfecho
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[2]", :type => "radio", :value => "1"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[2]", :type => "radio", :value => "2"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[2]", :type => "radio", :value => "3"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[2]", :type => "radio", :value => "4"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[2]", :type => "radio", :value => "5"}
+                  %td.text-center.hidden-xs
+                  %td.hidden-xs.ver_allign
+                    Muy satisfecho
         .panel.panel-info
           .panel-heading
             ACTIVIDAD 2: LOGRO DE LOS OBJETIVOS DE APRENDIZAJE
           .panel-body
             %h4 Indica en que medida consideras se han logrado los objetivos de aprendizaje propuestos en la asignatura
             %p Responde tomando en consideración los objetivos que se encuentran descritos en la diapositiva. (Mario creo que esto no aplica por favor verificar con el CEDU)
-            // .visible-xs
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "3" }
-                
-            //     %b 
-            //       = @qcd.asignatura.objetivo1
-            //     = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo2 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "4" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo2
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo3 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "5" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo3
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo4 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "6" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo4
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo5 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "7" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo5
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo6 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "8" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo6
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo7 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "9" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo7
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo8 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "10" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo8
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo9 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "11" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo9
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
-            //   - if @qcd.asignatura.objetivo10 != ""
-            //     = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //       = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //       = answer.input :order, :as => :hidden, :input_html => { :value => "12" }
-                  
-            //       %b 
-            //         = @qcd.asignatura.objetivo10
-            //       = answer.input :answer,:collection => [['Se ha logrado completamente', "3"], ['Se ha logrado parcialmente', "2"], ['No se ha logrado', "1"]], :label => false
             %table.table.table-responsive.table-striped.table-hover
               %thead
                 %tr
@@ -155,236 +69,133 @@
                 %tr
                   %td
                     = @qcd.asignatura.objetivo1
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "3" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[3]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[3]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[3]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[3]", :type => "radio", :value => "0"}
                   -if @qcd.asignatura.objetivo2 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo2
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "4" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[4]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[4]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[4]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[4]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo3 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo3
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "5" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[5]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[5]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[5]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[5]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo4 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo4
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "6" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[6]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[6]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[6]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[6]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo5 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo5
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "7" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[7]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[7]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[7]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[7]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo6 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo6
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "8" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[8]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[8]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[8]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[8]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo7 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo7
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "9" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[9]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[9]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[9]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[9]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo8 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo8
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "10" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[10]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[10]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[10]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[10]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo9 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo9
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "11" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[11]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[11]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[11]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[11]", :type => "radio", :value => "0"}
                   - if @qcd.asignatura.objetivo10 != ""
                     %tr
                       %td
                         = @qcd.asignatura.objetivo10
-                      = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                        = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                        = answer.input :order, :as => :hidden, :input_html => { :value => "12" }
-                        
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                        %td.text-center.ver_allign
-                          = answer.input :answer, :collection => [['', "0"]], :as => :radio_buttons, :label => false
-            = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-              = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-              = answer.input :order, :as => :hidden, :input_html => { :value => "13" }
-              
-              %b ¿Cuál es tu promedio académico?
-              = answer.input :answer, :label => false,:collection => [['Entre 2,95 y 3,24', "Entre 2,95 y 3,24"], ['Entre 3,25 y 3,94', "Entre 3,25 y 3,94"], ['Entre 3,95 y 5,00', "Entre 3,95 y 5,00"], ['Soy de primer semestre', "Soy de primer semestre"]]
-            = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-              = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-              = answer.input :order, :as => :hidden, :input_html => { :value => "14" }
-              
-              %b ¿Eres becario?
-              = answer.input :answer,:label => false, :collection => [['Si', "Si"], ['No', "No"]]
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[12]", :type => "radio", :value => "3"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[12]", :type => "radio", :value => "2"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[12]", :type => "radio", :value => "1"}
+                      %td.text-center.ver_allign
+                        %input{:name => "answers[12]", :type => "radio", :value => "0"}
+            %b ¿Cuál es tu promedio académico?
+            %select.form-control{:name => 'answers[13]'}
+              %option{:value => "Entre 2,95 y 3,24"} Entre 2,95 y 3,24
+              %option{:value => "Entre 3,25 y 3,94"} Entre 3,25 y 3,94
+              %option{:value => "Entre 3,95 y 5,00"} 'Entre 3,95 y 5,00
+              %option{:value => "Soy de primer semestre"} Soy de primer semestre
+            %b ¿Eres becario?
+            %select.form-control{:name => 'answers[14]'}
+              %option{:value => "Si"} Si
+              %option{:value => "No"} No
             %h4 En esta asignatura....
-            // .visible-xs
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "15" }
-                
-            //     %b Me considero lo suficientemente capacitado para enfrentarme con éxito a cualquier tarea académica (De este curso).
-            //     = answer.input :answer, :label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "16" }
-                
-            //     %b Pienso que tengo bastante capacidad para comprender bien y con rapidez esta asignatura.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "17" }
-                
-            //     %b Me siento con confianza para abordar situaciones que ponen a prueba mi capacidad académica (Abordaje de caso clínico y construcción de historia clínica).
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "18" }
-                
-            //     %b Tengo la convicción de que puedo hacer exámenes excelentes.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "19" }
-                
-            //     %b Me da lo mismo que la profesora sea exigente y dura, pues confío mucho en mi propia capacidad académica.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "20" }
-                
-            //     %b Creo que soy una persona bastante capacitada y competente en mi vida académica.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "21" }
-                
-            //     %b Si me lo propongo, creo que tengo la suficiente capacidad para obtener un buen resultado académico en esta asignatura.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "22" }
-                
-            //     %b Pienso que puedo pasar este curso con bastante facilidad, e incluso, sacar buenas notas.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "23" }
-                
-            //     %b Soy de esas personas que no necesita estudiar para aprobar esta Asignatura.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "24" }
-                
-            //     %b Creo que estoy preparado/a y bastante capacitado/a para conseguir muchos éxitos académicos durante el desarrollo de este curso.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "5"], ['Muchas veces.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
             %table.table.table-responsive.table-striped.table-hover
               %thead
                 %tr
@@ -392,251 +203,53 @@
                   %th.text-center Nunca
                   %th.text-center Algunas veces
                   %th.text-center Bastantes veces
-                  %th.text-center Muchas veces
                   %th.text-center Siempre
               %tbody
                 %tr
                   %td
-                    Me considero lo suficientemente capacitado para enfrentarme con éxito a cualquier tarea académica (De este curso).
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "15" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false
+                    Me considero lo suficientemente capacitado para enfrentarme con éxito a cualquier tarea o trabajo en esta asignatura.
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[15]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[15]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[15]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[15]", :type => "radio", :value => "4"}
                 %tr
                   %td
-                    Pienso que tengo bastante capacidad para comprender bien y con rapidez esta asignatura.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "16" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false
+                    Pienso que tengo bastante capacidad para comprender bien y con rapidez los temas que se tratan en esta asignatura
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[16]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[16]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[16]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[16]", :type => "radio", :value => "4"}
                 %tr
                   %td
-                    Me siento con confianza para abordar situaciones que ponen a prueba mi capacidad académica (Abordaje de caso clínico y construcción de historia clínica).
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "17" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false    
+                    Tengo la convicción de que puedo obtener resultados excelentes en las evaluaciones, quices o exámenes en esta asignatura.
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[17]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[17]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[17]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[17]", :type => "radio", :value => "4"}
                 %tr
                   %td
-                    Tengo la convicción de que puedo hacer exámenes excelentes.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "18" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false
-                %tr
-                  %td
-                    Tengo la convicción de que puedo hacer exámenes excelentes.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "19" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false      
-                  %tr
-                    %td
-                      Creo que soy una persona bastante capacitada y competente en mi vida académica.
-                    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                      = answer.input :order, :as => :hidden, :input_html => { :value => "20" }
-                      
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false     
-                %tr
-                  %td
-                    Tengo la convicción de que puedo hacer exámenes excelentes.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "19" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false      
-                %tr
-                  %td
-                    Creo que soy una persona bastante capacitada y competente en mi vida académica.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "20" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false           
-                %tr
-                  %td
-                    Si me lo propongo, creo que tengo la suficiente capacidad para obtener un buen resultado académico en esta asignatura.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "21" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false         
-                %tr
-                  %td
-                    Pienso que puedo pasar este curso con bastante facilidad, e incluso, sacar buenas notas.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "22" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false               
-                %tr
-                  %td
-                    Soy de esas personas que no necesita estudiar para aprobar esta Asignatura.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "23" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false                     
-                %tr
-                  %td
-                    Creo que estoy preparado/a y bastante capacitado/a para conseguir muchos éxitos académicos durante el desarrollo de este curso.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "24" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "5"]], :as => :radio_buttons, :label => false                     
+                    Si me lo propongo, creo que tengo la suficiente capacidad para obtener un buen desempeño académico en esta asignatura.
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[18]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[18]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[18]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[18]", :type => "radio", :value => "4"}
             %h4 Piensa en esta asignatura y responde sinceramente a cada una de las siguientes preguntas...
-            // .visible-xs
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "25" }
-                
-            //     %b Durante el desarrollo de las clases el profesor (a) ajusta la forma y velocidad de la enseñanza e interacción para equipararlo con las capacidades y ritmos de aprendizaje de todos los estudiantes.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "26" }
-                
-            //     %b Durante el desarrollo de las clases el profesor (a) escucha, es flexible y permite que cada estudiante trabaje a su propio paso.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "27" }
-                
-            //     %b Durante el desarrollo de las clases el profesor (a) expresa afecto (agrado, aprecio) hacia los estudiantes.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "28" }
-                
-            //     %b Durante el desarrollo de las clases el profesor (a) proporciona a los estudiantes posibilidades de elección y opciones de trabajo en clase o fuera de ella.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "29" }
-                
-            //     %b Durante el desarrollo de las clases el profesor (a) realiza actividades (talleres, ejercicios, tareas, etc.) que están acordes con el nivel de conocimiento y experticia de sus estudiantes (No son ni muy difíciles ni muy fáciles).
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
-            //   = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-            //     = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-            //     = answer.input :order, :as => :hidden, :input_html => { :value => "30" }
-                
-            //     %b Durante el desarrollo de las clases es posible apreciar que en verdad el profesor (a) disfruta estar con sus estudiantes e interactuar con ellos.
-            //     = answer.input :answer,:label => false, :collection => [['Siempre.', "4"], ['Bastantes veces.', "3"], ['Algunas veces.', "2"], [' Nunca.', "1"]]
             %table.table.table-responsive.table-striped.table-hover
               %thead
                 %tr
@@ -649,99 +262,75 @@
                 %tr
                   %td
                     Durante el desarrollo de las clases el profesor(a) ajusta la forma y velocidad de la enseñanza e interacción para equipararlo con las capacidades y ritmos de aprendizaje de todos los estudiantes.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "25" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[19]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[19]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[19]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[19]", :type => "radio", :value => "4"}
                 %tr
                   %td
                     Durante el desarrollo de las clases el profesor(a) escucha, es flexible y permite que cada estudiante trabaje a su propio paso.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "26" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[20]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[20]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[20]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[20]", :type => "radio", :value => "4"}
                 %tr
                   %td
                     Durante el desarrollo de las clases el profesor(a) expresa afecto (agrado, aprecio) hacia los estudiantes.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "27" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false    
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[21]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[21]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[21]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[21]", :type => "radio", :value => "4"}
                 %tr
                   %td
-                    Durante el desarrollo de las clases el profesor(a) proporciona a los estudiantes posibilidades de elección y opciones de trabajo en clase o fuera de ella.
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "28" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
+                    Durante el desarrollo de las clases el profesor (a) proporciona a los estudiantes posibilidades de elección y opciones de trabajo en clase o fuera de ella.
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[22]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[22]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[22]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[22]", :type => "radio", :value => "4"}
                 %tr
                   %td
-                    Durante el desarrollo de las clases el profesor(a) realiza actividades (talleres, ejercicios, tareas, etc.) que están acordes con el nivel de conocimiento y experticia de sus estudiantes (No son ni muy difíciles ni muy fáciles).
-                  = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                    = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                    = answer.input :order, :as => :hidden, :input_html => { :value => "29" }
-                    
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                    %td.text-center.ver_allign
-                      = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false      
-                  %tr
-                    %td
-                      Durante el desarrollo de las clases es posible apreciar que en verdad el profesor(a) disfruta estar con sus estudiantes e interactuar con ellos.
-                    = f.simple_fields_for :answers, @answergroup.answer_for_form do |answer|
-                      = answer.input :answergroup_id, :as => :hidden, :input_html => { :value => @answergroup.id }
-                      = answer.input :order, :as => :hidden, :input_html => { :value => "30" }
-                      
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "1"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "2"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "3"]], :as => :radio_buttons, :label => false
-                      %td.text-center.ver_allign
-                        = answer.input :answer, :collection => [['', "4"]], :as => :radio_buttons, :label => false
+                    Durante el desarrollo de las clases el profesor (a) realiza actividades (talleres, ejercicios, tareas, etc.) que están acordes con el nivel de conocimiento y experticia de sus estudiantes (No son ni muy difíciles ni muy fáciles).
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[23]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[23]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[23]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[23]", :type => "radio", :value => "4"}
+                %tr
+                  %td
+                    Durante el desarrollo de las clases es posible apreciar que en verdad el profesor(a) disfruta estar con sus estudiantes e interactuar con ellos.
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[24]", :type => "radio", :value => "1"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[24]", :type => "radio", :value => "2"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[24]", :type => "radio", :value => "3"}
+                  %td.text-center.ver_allign
+                    %input{:name => "answers[24]", :type => "radio", :value => "4"}
   .form-actions.text-center
     = f.button :submit, value: "Enviar", :class => 'btn btn-info btn-lg' 
 :javascript
   $(document).ready(function(){
     $(".footer").css("min-width","530px");
-    $(".container").css("min-width","530px");
+    $(".body_container").css("min-width","530px");
   });
   
   

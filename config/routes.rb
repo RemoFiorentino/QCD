@@ -14,9 +14,7 @@ Rails.application.routes.draw do
   resources :asignaturas, :except => [:destroy] do
     resources :qcds do
       get '/answergroups/grupal' => 'answergroups#grupal' 
-      resources :answergroups, :only => [:new, :create] do
-        resources :answers, :only => [:new, :create]
-      end
+      resources :answergroups, :only => [:new, :create]
     end
   end
   root to: 'static#home'

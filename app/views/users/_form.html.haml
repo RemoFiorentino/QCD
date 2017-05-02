@@ -1,10 +1,9 @@
-.container
-  %h2 Editar Cuenta
-  = simple_form_for(@user) do |f|
-    = f.error_notification
-    .form-inputs
-    = f.input :email,label: 'Correo Electronico', required: true, autofocus: true, disabled: true, hint: 'Se necesita solicitar el cambio a un administrador'
-    = f.input :name,label: 'Nombre', autocomplete: "off", required: true, disabled: true, hint: 'Se necesita solicitar el cambio a un administrador'
-    = f.input :ubicacion,label: 'Ubicación del profesor (Oficina)', autocomplete: "off", required: true
-    .form-actions
-    = f.button :submit, "Actualizar"
+%h2 Editar Cuenta
+= simple_form_for(@user) do |f|
+  = f.error_notification
+  .form-inputs
+  = f.input :email,label: 'Correo Electronico', required: true, autofocus: true, disabled: true, hint: 'Se necesita solicitar el cambio a un administrador'
+  = f.input :name,label: 'Nombre', autocomplete: "off", required: true, disabled: true, hint: 'Se necesita solicitar el cambio a un administrador'
+  = f.input :ubicacion,label: 'Ubicación del profesor (Oficina)', autocomplete: "off", required: true
+  .form-actions
+  = f.button :submit, "Actualizar"

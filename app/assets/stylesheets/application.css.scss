@@ -205,6 +205,18 @@ textarea{
 
 // Tables =====================================================================
 
+.bg-green-informe{
+  background: #92D050;
+}
+
+.bg-blue-informe{
+  background: #92CDDC;
+}
+
+.bg-purple-informe{
+  background: #CCC0DA;
+}
+
 // Forms ======================================================================
 
 // Navs =======================================================================
@@ -228,6 +240,9 @@ textarea{
 }
 .informe-panel-blue{
   background: #B7DEE8;
+}
+.informe-panel-green{
+  background: #C4D79B;
 } 
 
 .body_container{
@@ -235,13 +250,52 @@ textarea{
   padding-top: 20px;
   padding-bottom: 50px;
   margin-bottom: 80px;
-  border: 1px solid black;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
+  margin-top: 40px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 body{
   background: lightgray;
+}
+
+.paper {
+  background-color: #fff;
+  /* Need position to allow stacking of pseudo-elements */
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  margin-bottom: 80px;
+  margin-top: 40px;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  /* Add shadow to distinguish sheets from one another */
+  box-shadow: 2px 1px 1px rgba(0,0,0,0.15);
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+}
+
+/* Second sheet of paper */
+.paper::before {
+  left: 7px;
+  top: 5px;
+  z-index: -1;
+}
+
+/* Third sheet of paper */
+.paper::after {
+  left: 12px;
+  top: 10px;
+  z-index: -2;
 }
 
 // Footer =====================================================================

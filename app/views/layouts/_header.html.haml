@@ -12,6 +12,6 @@
         - if current_user
           %li= link_to "Cuenta", main_app.edit_user_path(current_user.id)
           %li= link_to "Cursos", main_app.asignaturas_path
-          %li= link_to "Cerrar Sesion", main_app.destroy_user_session_path, method: :delete
+          %li= link_to "Cerrar Sesion", main_app.destroy_user_session_path, method: :destroy
         - else
           %li= link_to "Iniciar Sesion", user_google_oauth2_omniauth_authorize_path

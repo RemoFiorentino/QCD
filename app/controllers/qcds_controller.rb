@@ -10,13 +10,14 @@ class QcdsController < ApplicationController
   # GET /qcds/1
   # GET /qcds/1.json
   def show
-    @answergroup = Answergroup.where(qcd_id: @qcd.id)
-    #@informeJson = informeToJson(@answergroup)
-    @nivelsatis = nivelsatis(@answergroup)
-    @autoeficacia = autoeficacia(@qcd.id)
-    @engament = engament(@qcd.id)
-    @estadoAcad = estadoAcad(@qcd.id)
-    @resultados = resultados(@qcd.id)
+    @answers = getanswerInd
+    @answersGrupal = getanswerGru
+    @nivelsatis = nivelsatis(@answers)
+    @autoeficacia = autoeficacia(@answers)
+    @engament = engament(@answers)
+    @estadoAcad = estadoAcad(@answers)
+    @resultados = resultados(@answers)
+    @fortalezas = fortalezas(@answersGrupal)
   end
 
   # GET /qcds/new
@@ -32,9 +33,6 @@ class QcdsController < ApplicationController
   # POST /qcds
   # POST /qcds.json
   def create
-    logger.debug("#{params[:asignatura_id]}")
-    logger.debug("#{params[:salon]}")
-    logger.debug("#{params[:fecha]}")
     asignatura = Asignatura.find(params[:asignatura_id])
     @qcd = asignatura.qcds.create(qcd_params)
     @qcd.estados = 0
@@ -88,280 +86,238 @@ class QcdsController < ApplicationController
       params.permit(:asignatura_id, :salon, :fecha, :grupo)
     end
     def nivelsatis(answergroup)
-        n1 = 0.0
-        n2 = 0.0
-        n3 = 0.0
-        n4 = 0.0
-        n5 = 0.0
-        @answers = Answer.where(answergroup_id: answergroup.ids, order: "2")
-        @answers = @answers.compact
-        @answers.each do |ans|
-            if ans.answer == "1"
-               n1 = n1 + 1
+        n = Array.new(5, 0)
+        nl = 0.0
+        answergroup.each do |ans|
+            if ans["2"] == "1"
+               n[0] = n[0] + 1
+               nl = nl + 1
             end
-            if ans.answer == "2"
-               n2 = n2 + 1
+            if ans["2"] == "2"
+               n[1] = n[1] + 1
+               nl = nl + 1
             end
-            if ans.answer == "3"
-               n3 = n3 + 1
+            if ans["2"] == "3"
+               n[2] = n[2] + 1
+               nl = nl + 1
             end
-            if ans.answer == "4"
-               n4 = n4 + 1
+            if ans["2"] == "4"
+               n[3] = n[3] + 1
+               nl = nl + 1
             end
-            if ans.answer == "5"
-               n5 = n5 + 1
-            end
-            if ans.answer == nil
-              @answers.delete(ans)
+            if ans["2"] == "5"
+               n[4] = n[4] + 1
+               nl = nl + 1
             end
         end
-        n1 = n1*100/(@answers.length.nonzero? || 1)
-        n2 = n2*100/(@answers.length.nonzero? || 1)
-        n3 = n3*100/(@answers.length.nonzero? || 1)
-        n4 = n4*100/(@answers.length.nonzero? || 1)
-        n5 = n5*100/(@answers.length.nonzero? || 1)
+        n[0] = (n[0]*100/(nl.nonzero? || 1)).round
+        n[1] = (n[1]*100/(nl.nonzero? || 1)).round
+        n[2] = (n[2]*100/(nl.nonzero? || 1)).round
+        n[3] = (n[3]*100/(nl.nonzero? || 1)).round
+        n[4] = (n[4]*100/(nl.nonzero? || 1)).round
         data = {
           labels: ["N1 Muy Bajo", "N2 Bajo", "N3 Medio", "N4 Alto", "N5 Muy Alto"],
           datasets: [{
             backgroundColor: 'rgba(54, 112, 181,0.2)',
             borderColor: 'rgba(38, 79, 128,1)',
             borderWidth: 1,
-            data: [n1.round,n2.round,n3.round,n4.round,n5.round]
+            data: n
           }
           ]
         };
         return data
     end
-    def autoeficacia(qcdid)
-        answer = ["","",""]
-        n1 = 0
-        n2 = 0
-        n3 = 0
-        n4 = 0
-        n5 = 0
-        n6 = 0
-        n7 = 0
-        n8 = 0
-        n9 = 0
-        @answergroups = Answergroup.where(qcd_id: qcdid)
-        @answergroups.each do |ag|
-            answer15 = Answer.find_by_answergroup_id_and_order(ag.id,"15")
-            answer16 = Answer.find_by_answergroup_id_and_order(ag.id,"16")
-            answer17 = Answer.find_by_answergroup_id_and_order(ag.id,"17")
-            answer18 = Answer.find_by_answergroup_id_and_order(ag.id,"18")
-            answer21 = Answer.find_by_answergroup_id_and_order(ag.id,"21")
-            answer22 = Answer.find_by_answergroup_id_and_order(ag.id,"22")
-            answer24 = Answer.find_by_answergroup_id_and_order(ag.id,"24")
-            if answer15 != nil && answer16 != nil && answer17 != nil && answer18 != nil && answer21 != nil && answer22 != nil && answer24 != nil
-                t1 = ((answer15.answer.to_i + answer16.answer.to_i + answer17.answer.to_i)/3)
-                t2 = ((answer18.answer.to_i + answer21.answer.to_i + answer22.answer.to_i + answer24.answer.to_i)/4)
-                t3 = ((answer15.answer.to_i + answer16.answer.to_i + answer17.answer.to_i + answer18.answer.to_i + answer21.answer.to_i + answer22.answer.to_i + answer24.answer.to_i)/7)
-                t1 = t1*100/4
-                if t1 < 51
-                    n1 = n1 + 1
-                else 
-                    if t1 < 71
-                        n2 = n2 + 1
-                    else
-                        n3 = n3 + 1
-                    end
-                end
-                t2= t2*100/4
-                if t2 < 51
-                    n4 = n4 + 1
-                else 
-                    if t2 < 71
-                        n5 = n5 + 1
-                    else
-                        n6 = n6 + 1
-                    end
-                end
-                t3 = t3*100/4
-                if t3 < 51
-                    n7 = n7 + 1
-                else 
-                    if t3 < 71
-                        n8 = n8 + 1
-                    else
-                        n9 = n9 + 1
-                    end
-                end
+    def autoeficacia(answergroup)
+      answer = Array.new(3, "")
+      n = Array.new(9, 0.0)
+      temp = Array.new(3, 0.0)
+      answergroup.each do |ans|
+        temp[0] = (((ans["15"].to_f || 0) + (ans["16"].to_f || 0))/2)
+        temp[1] = (((ans["17"].to_f || 0) + (ans["18"].to_f || 0))/2)
+        temp[2] = (((ans["15"].to_f || 0) + (ans["16"].to_f || 0) + (ans["17"].to_f || 0) + (ans["18"].to_f || 0) )/4)
+        temp[0] = temp[0]*100/4
+        if temp[0] < 51
+          n[0] = n[0] + 1
+        else
+          if temp[0] < 71
+            n[1] = n[1] + 1
+          else
+            n[2] = n[2] + 1
+          end
+        end
+        temp[1] = temp[1]*100/4  
+        if temp[1] < 51
+          n[3] = n[3] + 1
+        else
+          if temp[1] < 71
+            n[4] = n[4] + 1
+          else
+            n[5] = n[5] + 1
+          end
+        end
+        temp[2] = temp[2]*100/4
+        if temp[2] < 51
+          n[6] = n[6] + 1
+        else
+          if temp[2] < 71
+            n[7] = n[7] + 1
+          else
+            n[8] = n[8] + 1
+          end
+        end
+      end 
+      temp[0] = n[0] + n[1] + n[2]
+      temp[1] = n[3] + n[4] + n[5]
+      temp[2] = n[6] + n[7] + n[8]
+      n[0] = (n[0]*100/(temp[0].nonzero? || 1)).round
+      n[1] = (n[1]*100/(temp[0].nonzero? || 1)).round
+      n[2] = (n[2]*100/(temp[0].nonzero? || 1)).round
+      n[3] = (n[3]*100/(temp[1].nonzero? || 1)).round
+      n[4] = (n[4]*100/(temp[1].nonzero? || 1)).round
+      n[5] = (n[5]*100/(temp[1].nonzero? || 1)).round
+      n[6] = (n[6]*100/(temp[2].nonzero? || 1)).round
+      n[7] = (n[7]*100/(temp[2].nonzero? || 1)).round
+      n[8] = (n[8]*100/(temp[2].nonzero? || 1)).round
+      data = {labels: ["Baja", "Media", "Alta"],
+      datasets: [
+      {
+          backgroundColor: [
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
+          ],
+          borderColor: [
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
+          ],
+          borderWidth: 1,
+          data: [n[0],n[1],n[2]],
+      }
+      ]
+      };
+      answer[0] = data
+      data = {labels: ["Baja", "Media", "Alta"],
+      datasets: [
+      {
+          backgroundColor: [
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
+          ],
+          borderColor: [
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
+          ],
+          borderWidth: 1,
+          data: [n[3],n[4],n[5]],
+      }
+      ]
+      };
+      answer[1] = data;
+      data = {labels: ["Baja", "Media", "Alta"],
+      datasets: [
+      {
+          backgroundColor: [
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
+          ],
+          borderColor: [
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
+          ],
+          borderWidth: 1,
+          data: [n[6],n[7],n[8]],
+      }
+      ]
+      };
+      answer[2] = data;
+      return answer
+    end
+    def engament(answergroup)
+      answer = Array.new(4, "")
+      n = Array.new(12, 0.0)
+      answergroup.each do |ans|
+        if ans["19"] != nil && ans["20"] != nil && ans["21"] != nil && ans["22"] != nil && ans["23"] != nil && ans["24"] != nil
+        inclusion = ((ans["22"].to_f + ans["24"].to_f)/2)
+        desafio = ((ans["19"].to_f + ans["21"].to_f)/2)
+        apoyo = ((ans["20"].to_f + ans["23"].to_f)/2)
+        inclusion = inclusion*100/4
+        desafio = desafio*100/4
+        apoyo = apoyo*100/4
+        engatotal = (inclusion + desafio + apoyo)/3
+        if inclusion < 51
+            n[0] = n[0] + 1
+        else 
+            if inclusion < 71
+                n[1] = n[1] + 1
+            else
+                n[2] = n[2] + 1
             end
         end
-        t1 = n1 + n2 + n3
-        t2 = n4 + n5 + n6
-        t3 = n7 + n8 + n9
-        n1 = n1*100/(t1.nonzero? || 1)
-        n2 = n2*100/(t1.nonzero? || 1)
-        n3 = n3*100/(t1.nonzero? || 1)
-        n4 = n4*100/(t2.nonzero? || 1)
-        n5 = n5*100/(t2.nonzero? || 1)
-        n6 = n6*100/(t2.nonzero? || 1)
-        n7 = n7*100/(t3.nonzero? || 1)
-        n8 = n8*100/(t3.nonzero? || 1)
-        n9 = n9*100/(t3.nonzero? || 1)
-        data = {labels: ["Baja", "Media", "Alta"],
-        datasets: [
-        {
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1,
-            data: [n1,n2,n3],
-        }
-        ]
-        };
-        answer[0] = data
-        data = {labels: ["Baja", "Media", "Alta"],
-        datasets: [
-        {
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1,
-            data: [n4,n5,n6],
-        }
-        ]
-        };
-        answer[1] = data;
-        data = {labels: ["Baja", "Media", "Alta"],
-        datasets: [
-        {
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1,
-            data: [n7,n8,n9],
-        }
-        ]
-        };
-        answer[2] = data;
-        return answer
-    end
-    def engament(qcdid)
-      answer = ["","","",""]
-      n1 = 0
-      n2 = 0
-      n3 = 0
-      n4 = 0
-      n5 = 0
-      n6 = 0
-      n7 = 0
-      n8 = 0
-      n9 = 0
-      n10 = 0
-      n11 = 0
-      n12 = 0
-      @answergroups = Answergroup.where(qcd_id: qcdid)
-      @answergroups.each do |ag|
-        answer25 = Answer.find_by_answergroup_id_and_order(ag.id,"25")
-        answer26 = Answer.find_by_answergroup_id_and_order(ag.id,"26")
-        answer27 = Answer.find_by_answergroup_id_and_order(ag.id,"27")
-        answer28 = Answer.find_by_answergroup_id_and_order(ag.id,"28")
-        answer29 = Answer.find_by_answergroup_id_and_order(ag.id,"29")
-        answer30 = Answer.find_by_answergroup_id_and_order(ag.id,"30")
-        if answer25 != nil && answer26 != nil && answer27 != nil && answer28 != nil && answer29 != nil && answer30 != nil
-            inclusion = ((answer28.answer.to_i + answer30.answer.to_i)/2)
-            desafio = ((answer25.answer.to_i + answer27.answer.to_i)/2)
-            apoyo = ((answer26.answer.to_i + answer29.answer.to_i)/2)
-            inclusion = inclusion*100/4
-            desafio = desafio*100/4
-            apoyo = apoyo*100/4
-            engatotal = (inclusion + desafio + apoyo)/3
-            if inclusion < 51
-                n1 = n1 + 1
-            else 
-                if inclusion < 71
-                    n2 = n2 + 1
-                else
-                    n3 = n3 + 1
-                end
+        if desafio < 51
+            n[3] = n[3] + 1
+        else 
+            if desafio < 71
+                n[4] = n[4] + 1
+            else
+                n[5] = n[5] + 1
             end
-            if desafio < 51
-                n4 = n4 + 1
-            else 
-                if desafio < 71
-                    n5 = n5 + 1
-                else
-                    n6 = n6 + 1
-                end
+        end
+        if apoyo < 51
+            n[6] = n[6] + 1
+        else 
+            if apoyo < 71
+                n[7] = n[7] + 1
+            else
+                n[8] = n[8] + 1
             end
-            if apoyo < 51
-                n7 = n7 + 1
-            else 
-                if apoyo < 71
-                    n8 = n8 + 1
-                else
-                    n9 = n9 + 1
-                end
+        end
+        if engatotal < 51
+            n[9] = n[9] + 1
+        else 
+            if engatotal < 71
+                n[10] = n[10] + 1
+            else
+                n[11] = n[11] + 1
             end
-            if engatotal < 51
-                n10 = n10 + 1
-            else 
-                if engatotal < 71
-                    n11 = n11 + 1
-                else
-                    n12 = n12 + 1
-                end
-            end
+        end
         end
       end
-      inclusion = n1 + n2 + n3
-      desafio = n4 + n5 + n6
-      apoyo = n7 + n8 + n9
-      engatotal = n10 + n11 + n12
-      n1 = n1*100/(inclusion.nonzero? || 1)
-      n2 = n2*100/(inclusion.nonzero? || 1)
-      n3 = n3*100/(inclusion.nonzero? || 1)
-      n4 = n4*100/(desafio.nonzero? || 1)
-      n5 = n5*100/(desafio.nonzero? || 1)
-      n6 = n6*100/(desafio.nonzero? || 1)
-      n7 = n7*100/(apoyo.nonzero? || 1)
-      n8 = n8*100/(apoyo.nonzero? || 1)
-      n9 = n9*100/(apoyo.nonzero? || 1)
-      n10 = n10*100/(engatotal.nonzero? || 1)
-      n11 = n11*100/(engatotal.nonzero? || 1)
-      n12 = n12*100/(engatotal.nonzero? || 1)
+      inclusion = n[0] + n[1] + n[2]
+      desafio = n[3] + n[4] + n[5]
+      apoyo = n[6] + n[7] + n[8]
+      engatotal = n[9] + n[10] + n[11]
+      n[0] = (n[0]*100/(inclusion.nonzero? || 1)).round
+      n[1] = (n[1]*100/(inclusion.nonzero? || 1)).round
+      n[2] = (n[2]*100/(inclusion.nonzero? || 1)).round
+      n[3] = (n[3]*100/(desafio.nonzero? || 1)).round
+      n[4] = (n[4]*100/(desafio.nonzero? || 1)).round
+      n[5] = (n[5]*100/(desafio.nonzero? || 1)).round
+      n[6] = (n[6]*100/(apoyo.nonzero? || 1)).round
+      n[7] = (n[7]*100/(apoyo.nonzero? || 1)).round
+      n[8] = (n[8]*100/(apoyo.nonzero? || 1)).round
+      n[9] = (n[9]*100/(engatotal.nonzero? || 1)).round
+      n[10] = (n[10]*100/(engatotal.nonzero? || 1)).round
+      n[11] = (n[11]*100/(engatotal.nonzero? || 1)).round
       data = {labels: ["Bajo", "Moderado", "Alto"],
       datasets: [
       {
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
           ],
           borderWidth: 1,
-          data: [n1,n2,n3],
+          data: [n[0],n[1],n[2]],
       }
       ]
       };
@@ -370,18 +326,17 @@ class QcdsController < ApplicationController
       datasets: [
       {
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
           ],
           borderWidth: 1,
-          data: [n4,n5,n6],
+          data: [n[3],n[4],n[5]],
       }
       ]
       };
@@ -390,18 +345,17 @@ class QcdsController < ApplicationController
       datasets: [
       {
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
           ],
           borderWidth: 1,
-          data: [n7,n8,n9],
+          data: [n[6],n[7],n[8]],
       }
       ]
       };
@@ -410,116 +364,100 @@ class QcdsController < ApplicationController
       datasets: [
       {
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
+              'rgba(54, 112, 182, 0.2)',
+              'rgba(202, 61, 58, 0.2)',
+              'rgba(150, 189, 70, 0.2)'
           ],
           borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
+              'rgba(45, 94, 154,1)',
+              'rgba(156, 45, 42, 1)',
+              'rgba(92, 116, 42, 1)'
           ],
           borderWidth: 1,
-          data: [n10,n11,n12],
+          data: [n[9],n[10],n[11]],
       }
       ]
       };
       answer[3] = data;
       return answer
     end
-    def estadoAcad(qcdid)
-      n1 = 0
-      n2 = 0
-      n3 = 0
-      n4 = 0
-      n5 = 0
-      n6 = 0
-      n7 = 0
-      n8 = 0
-      @answergroups = Answergroup.where(qcd_id: qcdid)
-      @answergroups.each do |ag|
-        answer13 = Answer.find_by_answergroup_id_and_order(ag.id,"13")
-        answer14 = Answer.find_by_answergroup_id_and_order(ag.id,"14")
-        if answer13 != nil && answer14 != nil
-            case answer13.answer
+    def estadoAcad(answergroup)
+      n = Array.new(8,0.0)
+      answergroup.each do |ag|
+        if ag["13"] != nil && ag["14"] != nil
+            case ag["13"]   
             when "Entre 2,95 y 3,24"
-              case answer14.answer
-              when "Si"
-                n1 = n1 + 1
-              when "No"
-                n5 = n5 + 1
+              case ag["14"].downcase 
+              when "si"
+                n[0] = n[0] + 1
+              when "no"
+                n[4] = n[4] + 1
               end
             when "Entre 3,25 y 3,94"
-              case answer14.answer
-              when "Si"
-                n2 = n2 + 1
-              when "No"
-                n6 = n6 + 1
+              case ag["14"].downcase 
+              when "si"
+                n[1] = n[1] + 1
+              when "no"
+                n[5] = n[5] + 1
               end
             when "Entre 3,95 y 5,00"
-              case answer14.answer
-              when "Si"
-                n3 = n3 + 1
-              when "No"
-                n7 = n7 + 1
+              case ag["14"].downcase 
+              when "si"
+                n[2] = n[2] + 1
+              when "no"
+                n[6] = n[6] + 1
               end
             when "Soy de primer semestre"
-              case answer14.answer
-              when "Si"
-                n4 = n4 + 1
-              when "No"
-                n8 = n8 + 1
+              case ag["14"].downcase 
+              when "si"
+                n[3] = n[3] + 1
+              when "no"
+                n[7] = n[7] + 1
               end
             end
         end
       end
-      total = n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8
-      n1 = n1 * 100 / (total.nonzero? || 1)
-      n2 = n2 * 100 / (total.nonzero? || 1)
-      n3 = n3 * 100 / (total.nonzero? || 1)
-      n4 = n4 * 100 / (total.nonzero? || 1)
-      n5 = n5 * 100 / (total.nonzero? || 1)
-      n6 = n6 * 100 / (total.nonzero? || 1)
-      n7 = n7 * 100 / (total.nonzero? || 1)
-      n8 = n8 * 100 / (total.nonzero? || 1)
-      data = {labels: ["Entre 2,95 y 3,24", "Entre 3,25 y 3,94", "Entre 3,95 y 5,00", "Soy de primer semestre"],
+      total = n[0] + n[1] + n[2] + n[3] + n[4] + n[5] + n[6] + n[7]
+      n[0] = (n[0] * 100 / (total.nonzero? || 1)).round
+      n[1] = (n[1] * 100 / (total.nonzero? || 1)).round
+      n[2] = (n[2] * 100 / (total.nonzero? || 1)).round
+      n[3] = (n[3] * 100 / (total.nonzero? || 1)).round
+      n[4] = (n[4] * 100 / (total.nonzero? || 1)).round
+      n[5] = (n[5] * 100 / (total.nonzero? || 1)).round
+      n[6] = (n[6] * 100 / (total.nonzero? || 1)).round
+      n[7] = (n[7] * 100 / (total.nonzero? || 1)).round
+      answer = []
+      answer[0] = {labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
       datasets: [
-      {
-          label:"Becario",
-          data: [n1,n2,n3,n4],
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          borderWidth: 1,
-      },{
-          label:"No Becario",
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-          data: [n5,n6,n7,n8]
-      }
-      ]
+        {
+            label:"Becario",
+            data: [n[0],n[1],n[2],n[3]],
+            backgroundColor: 'rgba(54, 112, 182, 0.2)',
+            borderColor: 'rgba(45, 94, 154,1)',
+            borderWidth: 1,
+        }
+        ]
       };
-      return data
+      answer[1] = {labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
+      datasets: [
+        {
+            label:"No Becario",
+          backgroundColor: 'rgba(202, 61, 58, 0.2)',
+          borderColor: 'rgba(156, 45, 42, 1)',
+          borderWidth: 1,
+          data: [n[4],n[5],n[6],n[7]]
+        }
+        ]
+      };
+      return answer
     end
-    def resultados(qcdid)
+    def resultados(answergroup)
       require 'matrix'
       matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
       count = 0
-      @answergroups = Answergroup.where(qcd_id: qcdid)
-      @answergroups.each do |ag|
-        answer3 = Answer.find_by_answergroup_id_and_order(ag.id,"3")
-        answer4 = Answer.find_by_answergroup_id_and_order(ag.id,"4")
-        answer5 = Answer.find_by_answergroup_id_and_order(ag.id,"5")
-        answer6 = Answer.find_by_answergroup_id_and_order(ag.id,"6")
-        answer7 = Answer.find_by_answergroup_id_and_order(ag.id,"7")
-        answer8 = Answer.find_by_answergroup_id_and_order(ag.id,"8")
-        answer9 = Answer.find_by_answergroup_id_and_order(ag.id,"9")
-        answer10 = Answer.find_by_answergroup_id_and_order(ag.id,"10")
-        answer11 = Answer.find_by_answergroup_id_and_order(ag.id,"11")
-        answer12 = Answer.find_by_answergroup_id_and_order(ag.id,"12")
-        if answer3 != nil
-          case answer3.answer.to_i
+      answergroup.each do |ag|
+        if ag["3"] != nil
+          case ag["3"].to_i
           when 1
             matrix[0][0] = matrix[0][0] + 1
           when 2
@@ -529,8 +467,8 @@ class QcdsController < ApplicationController
           end
           count = count + 1
         end 
-        if answer4 != nil
-          case answer4.answer.to_i
+        if ag["4"] != nil
+          case ag["4"].to_i
           when 1
             matrix[1][0] = matrix[1][0] + 1
           when 2
@@ -539,8 +477,8 @@ class QcdsController < ApplicationController
             matrix[1][2] = matrix[1][2] + 1
           end
         end
-        if answer5 != nil
-          case answer5.answer.to_i
+        if ag["5"] != nil
+          case ag["5"].to_i
           when 1
             matrix[2][0] = matrix[2][0] + 1
           when 2
@@ -549,8 +487,8 @@ class QcdsController < ApplicationController
             matrix[2][2] = matrix[2][2] + 1
           end
         end
-        if answer6 != nil
-          case answer6.answer.to_i
+        if ag["6"] != nil
+          case ag["6"].to_i
           when 1
             matrix[3][0] = matrix[3][0] + 1
           when 2
@@ -559,8 +497,8 @@ class QcdsController < ApplicationController
             matrix[3][2] = matrix[3][2] + 1
           end
         end
-        if answer7 != nil
-          case answer7.answer.to_i
+        if ag["7"] != nil
+          case ag["7"].to_i
           when 1
             matrix[4][0] = matrix[4][0] + 1
           when 2
@@ -569,8 +507,8 @@ class QcdsController < ApplicationController
             matrix[4][2] = matrix[4][2] + 1
           end
         end
-        if answer8 != nil
-          case answer8.answer.to_i
+        if ag["8"] != nil
+          case ag["8"].to_i
           when 1
             matrix[5][0] = matrix[5][0] + 1
           when 2
@@ -579,8 +517,8 @@ class QcdsController < ApplicationController
             matrix[5][2] = matrix[5][2] + 1
           end
         end
-        if answer9 != nil
-          case answer9.answer.to_i
+        if ag["9"] != nil
+          case ag["9"].to_i
           when 1
             matrix[6][0] = matrix[6][0] + 1
           when 2
@@ -589,8 +527,8 @@ class QcdsController < ApplicationController
             matrix[6][2] = matrix[6][2] + 1
           end
         end
-        if answer10 != nil
-          case answer10.answer.to_i
+        if ag["10"] != nil
+          case ag["10"].to_i
           when 1
             matrix[7][0] = matrix[7][0] + 1
           when 2
@@ -599,8 +537,8 @@ class QcdsController < ApplicationController
             matrix[7][2] = matrix[7][2] + 1
           end
         end
-        if answer11 != nil
-          case answer11.answer.to_i
+        if ag["11"] != nil
+          case ag["11"].to_i
           when 1
             matrix[8][0] = matrix[8][0] + 1
           when 2
@@ -609,8 +547,8 @@ class QcdsController < ApplicationController
             matrix[8][2] = matrix[8][2] + 1
           end
         end
-        if answer12 != nil
-          case answer12.answer.to_i
+        if ag["12"] != nil
+          case ag["12"].to_i
           when 1
             matrix[9][0] = matrix[9][0] + 1
           when 2
@@ -622,7 +560,7 @@ class QcdsController < ApplicationController
       end
       for i in 0..9
         for j in 0..2
-          matrix[i][j] = matrix[i][j]*100/count
+          matrix[i][j] = matrix[i][j]*100/(count.nonzero? || 1)
         end
       end
       data = {labels: ["Res1", "Res2", "Res3", "Res4", "Res5", "Res6", "Res7", "Res8", "Res9", "Res10"],
@@ -630,19 +568,19 @@ class QcdsController < ApplicationController
       {
           label:"Se ha logrado completamente",
           data: [matrix[0][2],matrix[1][2],matrix[2][2],matrix[3][2],matrix[4][2],matrix[5][2],matrix[6][2],matrix[7][2],matrix[8][2],matrix[9][2]],
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255,99,132,1)',
+          backgroundColor: 'rgba(54, 112, 182, 0.2)',
+          borderColor: 'rgba(45, 94, 154,1)',
           borderWidth: 1,
       },{
           label:"Se ha logrado parcialmente",
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: 'rgba(202, 61, 58, 0.2)',
+          borderColor: 'rgba(156, 45, 42, 1)',
           borderWidth: 1,
           data: [matrix[0][1],matrix[1][1],matrix[2][1],matrix[3][1],matrix[4][1],matrix[5][1],matrix[6][1],matrix[7][1],matrix[8][1],matrix[9][1]]
       },{
           label:"No se ha logrado",
-          backgroundColor: 'rgba(255, 206, 86, 0.2)',
-          borderColor: 'rgba(255, 206, 86, 1)',
+          backgroundColor: 'rgba(150, 189, 70, 0.2)',
+          borderColor: 'rgba(92, 116, 42, 1)',
           borderWidth: 1,
           data: [matrix[0][0],matrix[1][0],matrix[2][0],matrix[3][0],matrix[4][0],matrix[5][0],matrix[6][0],matrix[7][0],matrix[8][0],matrix[9][0]]
       }
@@ -650,88 +588,151 @@ class QcdsController < ApplicationController
       };
       return data
     end
-    def informeToJson(answergroup)
-      answer = Answer.where(answergroup_id: answergroup.ids, order: [1..35])
-      answerjson = [{}]
-      answergroup.each do |group|
-        temp = nil
-        temp = {id: group.id}
-        answer.answergroup_id(group.id).each do |ans|
-          case ans.order
-          when 1
-            temp << {col1: ans.answer}
-          when 2
-            temp << {col2: ans.answer}
-          when 3
-            temp << {col3: ans.answer}
-          when 4
-            temp << {col4: ans.answer}
-          when 5
-            temp << {col5: ans.answer}
-          when 6
-            temp << {col6: ans.answer}
-          when 7
-            temp << {col7: ans.answer}
-          when 8
-            temp << {col8: ans.answer}
-          when 9
-            temp << {col9: ans.answer}
-          when 10
-            temp << {col10: ans.answer}
-          when 11
-            temp << {col11: ans.answer}
-          when 12
-            temp << {col12: ans.answer}
-          when 13
-            temp << {col13: ans.answer}
-          when 14
-            temp << {col14: ans.answer}
-          when 15
-            temp << {col15: ans.answer}
-          when 16
-            temp << {col16: ans.answer}
-          when 17
-            temp << {col17: ans.answer}
-          when 18
-            temp << {col18: ans.answer}
-          when 19
-            temp << {col19: ans.answer}
-          when 20
-            temp << {col20: ans.answer}
-          when 21
-            temp << {col21: ans.answer}
-          when 22
-            temp << {col22: ans.answer}
-          when 23
-            temp << {col23: ans.answer}
-          when 24
-            temp << {col24: ans.answer}
-          when 25
-            temp << {col25: ans.answer}
-          when 26
-            temp << {col26: ans.answer}
-          when 27
-            temp << {col27: ans.answer}
-          when 28
-            temp << {col28: ans.answer}
-          when 29
-            temp << {col29: ans.answer}
-          when 30
-            temp << {col30: ans.answer}
-          when 31
-            temp << {col31: ans.answer}
-          when 32
-            temp << {col32: ans.answer}
-          when 33
-            temp << {col33: ans.answer}
-          when 34
-            temp << {col34: ans.answer}
-          when 35
-            temp << {col35: ans.answer}
+    def fortalezas(answergroup)
+      n = Array.new(18, 0.0)
+      nl = 0.0
+      nl2 = 0.0
+      answergroup.each do |ans|
+        if ans["33"] == "1"
+           n[0] = n[0] + 1
+           nl = nl + 1
+        else
+          if ans["33"] == "2"
+             n[1] = n[1] + 1
+             nl = nl + 1
+          else
+            if ans["33"] == "3"
+               n[2] = n[2] + 1
+               nl = nl + 1
+            else
+              if ans["33"] == "4"
+                 n[3] = n[3] + 1
+                 nl = nl + 1
+              else
+                if ans["33"] == "5"
+                   n[4] = n[4] + 1
+                   nl = nl + 1
+                else
+                  if ans["33"] == "6"
+                     n[5] = n[5] + 1
+                     nl = nl + 1
+                  else
+                    if ans["33"] == "7"
+                       n[6] = n[6] + 1
+                       nl = nl + 1
+                    else
+                      if ans["33"] == "8"
+                         n[7] = n[7] + 1
+                         nl = nl + 1
+                      else
+                        if ans["33"] == "9"
+                           n[8] = n[8] + 1
+                           nl = nl + 1
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
         end
-        answerjson << temp
+        if ans["34"] == "1"
+           n[9] = n[9] + 1
+           nl2 = nl2 + 1
+        else
+          if ans["34"] == "2"
+             n[10] = n[10] + 1
+             nl2 = nl2 + 1
+          else
+            if ans["34"] == "3"
+               n[11] = n[11] + 1
+               nl2 = nl2 + 1
+            else
+              if ans["34"] == "4"
+                 n[12] = n[12] + 1
+                 nl2 = nl2 + 1
+              else
+                if ans["34"] == "5"
+                   n[13] = n[13] + 1
+                   nl2 = nl2 + 1
+                else
+                  if ans["34"] == "6"
+                     n[14] = n[14] + 1
+                     nl2 = nl2 + 1
+                  else
+                    if ans["34"] == "7"
+                       n[15] = n[15] + 1
+                       nl2 = nl2 + 1
+                    else
+                      if ans["34"] == "8"
+                         n[16] = n[16] + 1
+                         nl2 = nl2 + 1
+                      else
+                        if ans["34"] == "9"
+                           n[17] = n[17] + 1
+                           nl2 = nl2 + 1
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
       end
-      return answerjson
+      n[0] = (n[0]*100/(nl.nonzero? || 1)).round
+      n[1] = (n[1]*100/(nl.nonzero? || 1)).round
+      n[2] = (n[2]*100/(nl.nonzero? || 1)).round
+      n[3] = (n[3]*100/(nl.nonzero? || 1)).round
+      n[4] = (n[4]*100/(nl.nonzero? || 1)).round
+      n[5] = (n[5]*100/(nl.nonzero? || 1)).round
+      n[6] = (n[6]*100/(nl.nonzero? || 1)).round
+      n[7] = (n[7]*100/(nl.nonzero? || 1)).round
+      n[8] = (n[8]*100/(nl.nonzero? || 1)).round
+      n[9] = (n[9]*100/(nl2.nonzero? || 1)).round
+      n[10] = (n[10]*100/(nl2.nonzero? || 1)).round
+      n[11] = (n[11]*100/(nl2.nonzero? || 1)).round
+      n[12] = (n[12]*100/(nl2.nonzero? || 1)).round
+      n[13] = (n[13]*100/(nl2.nonzero? || 1)).round
+      n[14] = (n[14]*100/(nl2.nonzero? || 1)).round
+      n[15] = (n[15]*100/(nl2.nonzero? || 1)).round
+      n[16] = (n[16]*100/(nl2.nonzero? || 1)).round
+      n[17] = (n[17]*100/(nl2.nonzero? || 1)).round
+      data = {
+        labels: ["1", "2", "3", "4", "5","6", "7", "8", "9"],
+        datasets: [{
+          label:"Fortalezas",
+          backgroundColor: 'rgba(54, 112, 181,0.2)',
+          borderColor: 'rgba(38, 79, 128,1)',
+          borderWidth: 1,
+          data: [n[0],n[1],n[2],n[3],n[4],n[5],n[6],n[7],n[8]]
+        },{
+          label:"Debilidades",
+          backgroundColor: 'rgba(202, 61, 58, 0.2)',
+          borderColor: 'rgba(156, 45, 42, 1)',
+          borderWidth: 1,
+          data: [n[9],n[10],n[11],n[12],n[13],n[14],n[15],n[16],n[17]]
+        }
+        ]
+      };
+      return data
+    end
+    def getanswerInd
+      answergroup = Answergroup.where(qcd_id: @qcd.id, group: true)
+      answers = []
+      answergroup.each do |a|
+        answers << (JSON.parse a.answer)
+      end
+      return answers
+    end
+    def getanswerGru
+      answergroup = Answergroup.where(qcd_id: @qcd.id, group: false)
+      answers = []
+      answergroup.each do |a|
+        answers << (JSON.parse a.answer)
+      end
+      return answers
     end
 end

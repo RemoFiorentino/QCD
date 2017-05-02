@@ -16,114 +16,108 @@
             %p
                 %b Numero de Estudiantes:
                 = @asignatura.num_estud
-%div{"ng-app" => "qcdApp"}                
-    %div{"ng-controller" => "qcdIndexController"}
-        %br
-        %button.btn.btn-primary{"data-target" => "#qcdForm", "data-toggle" => "modal", :type => "button"}
-            Agregar QCD
-        #qcdForm.modal.fade{"aria-labelledby" => "qcdFormLabel", :role => "dialog", :tabindex => "-1"}
-            .modal-dialog{:role => "document"}
-                .modal-content
-                    .modal-header
-                        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                            %span{"aria-hidden" => "true"} ×
-                        %h4#qcdFormLabel.modal-title Agregar QCD al Curso
-                    .modal-body
-                        %h5 Recuerde ingresar información real de la asignatura, el QCD se aplica en una hora de la clase 
-                        %p Ingrese la Fecha tentativa en la que esperaria realizar el QCD. 
-                        %b Fecha y Hora Tentativa:
-                        #datetimepicker1.input-group.date
-                            %input.form-control{:type => "text", :name => "fecha", :id => "fecha"}/
-                            %span.input-group-addon
-                                %span.glyphicon.glyphicon-calendar
-                        :javascript
-                            $(function () {
-                                var minDateVal = new Date();
-                                minDateVal.setDate(minDateVal.getDate() + 2);
-                                var maxDateVal = new Date();
-                                maxDateVal.setDate(maxDateVal.getDate() + 30);
-                                $('#datetimepicker1').datetimepicker({
-                                    sideBySide: true,
-                                    minDate: minDateVal,
-                                    maxDate: maxDateVal
-                                });
-                            });
-        
-                        %p 
-                            %b Salon de Clase:
-                            %input.form-control{:type => "text", :name => "salon", :id => "salon",:placeholder => "Numero - Bloque"}
-                    .modal-footer
-                        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar
-                        %button.btn.btn-primary{:type => "button", :id  => "btn1"} Agregar
-                        :javascript
-                              $("#btn1").click(function(){
-                                $.ajax({
-                                  type: "POST",
-                                  url: "/asignaturas/#{@asignatura.id}/qcds",
-                                  data: { estado: 0, fecha: $('#fecha').val(), salon: $('#salon').val() } ,
-                                  success: function(data) {
-                                    alert("Successful");
-                                  },
-                                  failure: function() {
-                                    alert("Unsuccessful");
-                                  }
-                                })})
-        %br
-        %ul
-            %li{"ng-repeat" => "qcd in qcds"}
-                {{qcd.name}}
-        %br
-        .list-group
-            - @qcd.each do |qcd|
-                .list-group-item  
-                    -if qcd != nil
-                        -if qcd.estados == "En Espera de Aprobacion" or qcd.estados == "No Aprobado" or qcd.estados == "Revision"
-                            .row
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Fecha:
-                                        = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Salon:
-                                        = qcd.salon != nil ? qcd.salon : "Error"
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Estado:
-                                        = qcd.estados
-                        -if qcd.estados == "Aprobado" 
-                            .row
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Fecha:
-                                        = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
-                                .col-xs-12.col-sm-6.col-lg-8
-                                    %p
-                                        %b Salon:
-                                        = qcd.salon != nil ? qcd.salon : "Error"
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Estado:
-                                        = qcd.estados
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    .btn-group.btn-group-justified
-                                        =link_to 'Formulario Individual', new_asignatura_qcd_answergroup_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
-                                        =link_to 'Formulario Individual', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
-                        -if qcd.estados == "Terminado"
-                            .row
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Fecha:
-                                        = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
-                                .col-xs-12.col-sm-6.col-lg-8
-                                    %p
-                                        %b Salon:
-                                        = qcd.salon != nil ? qcd.salon : "Error"
-                                .col-xs-12.col-sm-6.col-lg-4
-                                    %p
-                                        %b Estado:
-                                        = qcd.estados
-                                .col-xs-12.col-sm-6.col-lg-8
-                                    %p
-                                        %b Informe:
-                                        = link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
+%br
+%button.btn.btn-primary{"data-target" => "#qcdForm", "data-toggle" => "modal", :type => "button"}
+    Agregar QCD
+#qcdForm.modal.fade{"aria-labelledby" => "qcdFormLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+        .modal-content
+            .modal-header
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                    %span{"aria-hidden" => "true"} ×
+                %h4#qcdFormLabel.modal-title Agregar QCD al Curso
+            .modal-body
+                %h5 Recuerde ingresar información real de la asignatura, el QCD se aplica en una hora de la clase 
+                %p Ingrese la Fecha tentativa en la que esperaria realizar el QCD. 
+                %b Fecha y Hora Tentativa:
+                #datetimepicker1.input-group.date
+                    %input.form-control{:type => "text", :name => "fecha", :id => "fecha"}/
+                    %span.input-group-addon
+                        %span.glyphicon.glyphicon-calendar
+                :javascript
+                    $(function () {
+                        var minDateVal = new Date();
+                        minDateVal.setDate(minDateVal.getDate() + 2);
+                        var maxDateVal = new Date();
+                        maxDateVal.setDate(maxDateVal.getDate() + 30);
+                        $('#datetimepicker1').datetimepicker({
+                            sideBySide: true,
+                            minDate: minDateVal,
+                            maxDate: maxDateVal
+                        });
+                    });
+                %p 
+                    %b Salon de Clase:
+                    %input.form-control{:type => "text", :name => "salon", :id => "salon",:placeholder => "Numero - Bloque"}
+            .modal-footer
+                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar
+                %button.btn.btn-primary{:type => "button", :id  => "btn1"} Agregar
+                :javascript
+                      $("#btn1").click(function(){
+                        $.ajax({
+                          type: "POST",
+                          url: "/asignaturas/#{@asignatura.id}/qcds",
+                          data: { estado: 0, fecha: $('#fecha').val(), salon: $('#salon').val() } ,
+                          success: function(data) {
+                            alert("Successful");
+                          },
+                          failure: function() {
+                            alert("Unsuccessful");
+                          }
+                        })})
+%br
+%br
+.list-group
+    - @qcd.each do |qcd|
+        .list-group-item  
+            -if qcd != nil
+                -if qcd.estados == "En Espera de Aprobacion" or qcd.estados == "No Aprobado" or qcd.estados == "Revision"
+                    .row
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Fecha:
+                                = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Salon:
+                                = qcd.salon != nil ? qcd.salon : "Error"
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Estado:
+                                = qcd.estados
+                -if qcd.estados == "Aprobado" 
+                    .row
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Fecha:
+                                = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
+                        .col-xs-12.col-sm-6.col-lg-8
+                            %p
+                                %b Salon:
+                                = qcd.salon != nil ? qcd.salon : "Error"
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Estado:
+                                = qcd.estados
+                        .col-xs-12.col-sm-6.col-lg-4
+                            .btn-group.btn-group-justified
+                                =link_to 'Formulario Individual', new_asignatura_qcd_answergroup_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
+                                =link_to 'Formulario Grupal', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
+                -if qcd.estados == "Terminado"
+                    .row
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Fecha:
+                                = qcd.fecha != nil ? qcd.fecha.strftime("%F %I:%M %P") : "Error"
+                        .col-xs-12.col-sm-6.col-lg-8
+                            %p
+                                %b Salon:
+                                = qcd.salon != nil ? qcd.salon : "Error"
+                        .col-xs-12.col-sm-6.col-lg-4
+                            %p
+                                %b Estado:
+                                = qcd.estados
+                        .col-xs-12.col-sm-6.col-lg-8
+                            %p
+                                %b Informe:
+                                = link_to 'Resultados', asignatura_qcd_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}

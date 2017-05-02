@@ -9,13 +9,15 @@ class AnswergroupsController < ApplicationController
       return true
     end
     @answergroup = @qcd.answergroups.build
-    @answer = @answergroup.answers.build
   end
   
   def grupal
     @qcd = Qcd.find(params[:qcd_id])
+    if @qcd.estados != "Aprobado"
+      redirect_to error_no_disponible_path
+      return true
+    end
     @answergroup = @qcd.answergroups.build
-    @answer = @answergroup.answers.build
   end
 
 
@@ -24,7 +26,7 @@ class AnswergroupsController < ApplicationController
   def create
     asignatura = Asignatura.find(params[:asignatura_id])
     @answergroup = Answergroup.new(answergroup_params)
-
+    @answergroup.answer = params[:answers].to_json
     respond_to do |format|
       if @answergroup.save
         format.html { redirect_to asignatura_path(asignatura), notice: 'Answergroup was successfully created.' }

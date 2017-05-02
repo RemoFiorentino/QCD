@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  faker:
+    name:
+        Promedioqcd: ["Entre 2,95 y 3,24", "Entre 3,25 y 3,94", "Entre 3,95 y 5,00", "Soy de primer semestre"]
+        SiONo: ["si","no"]

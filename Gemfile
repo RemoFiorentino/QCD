@@ -1,14 +1,6 @@
 source 'https://rubygems.org'
 
-#Angular Pack
-gem 'angularjs-rails'
-source "https://rails-assets.org" do
-  gem "rails-assets-angular-devise"
-end
-gem 'angular-rails-templates'
-
 #assets
-gem 'bower-rails'
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 gem 'bootstrap-sass', '~> 3.3.5.1'
@@ -26,6 +18,7 @@ gem "omniauth-google-oauth2"
 #to make task execute time to time
 gem 'whenever', :require => false
 gem 'rails_admin', '~> 1.0'
+gem 'faker', github: 'stympy/faker'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
