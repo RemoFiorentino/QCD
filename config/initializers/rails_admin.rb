@@ -1,6 +1,8 @@
 RailsAdmin.config do |config|
   config.authorize_with do
-    redirect_to main_app.root_path unless current_user.admin?
+    if current_user != nil
+      redirect_to main_app.root_path unless current_user.admin?
+    end
   end
   config.included_models = ["User", "Qcd", "Asignatura"]
   
@@ -113,7 +115,7 @@ RailsAdmin.config do |config|
     show
     edit
     delete
-
+    
     ## With an audit adapter, you can add:
     # history_index
     # history_show

@@ -6,6 +6,7 @@
       %p Universidad del Norte
     .text-center.text-bold.font-size-large
       %p INFORME DE LA ASIGNATURA VALORADA MEDIANTE “QCD”
+      // = link_to "Get PDF", asignatura_qcd_path(@qcd.asignatura,@qcd,format: :pdf)
     .font-size-small
       %p El QCD (Quick Course Diagnosis), desarrollado por Barbara Millis  recoge la percepción u opinión que los estudiantes tienen sobre una clase en tres aspectos centrales: El nivel de satisfacción con el curso, el cumplimiento de los objetivos de aprendizaje y las fortalezas y debilidades de la misma, con la finalidad de que el profesor obtenga una retroalimentación oportuna de sus clases y pueda hacer cambios o mejoras en el proceso de enseñanza-aprendizaje.
     .text-red.text-bold.informe-panel-blue
@@ -66,77 +67,79 @@
     .text-bold
       %b Nivel de satisfacción con la experiencia de aprendizaje en la asignatura (actividad individual). 
     %p La gráfica que se muestra a continuación refleja la percepción de cada estudiante sobre el nivel de satisfacción con la experiencia de aprendizaje que ha vivido en las diferentes clases en esta asignatura.
-    %h5.text-center
-      %b
-        Nivel de satisfacción con la experiencia de aprendizaje en la asignatura
-    %canvas#nivel_satisfaccion
-    :javascript
-      var ctx = document.getElementById("nivel_satisfaccion");
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: #{@nivelsatis.to_json},
-        options: {
-          legend:{ display: false
-          },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      min: 0,
-                      max: 100,
-                      callback: function(value) {
-                        return value + "%"
+    .row
+      .col-md-8.col-md-offset-2
+        %h5.text-center
+          %b
+            Nivel de satisfacción con la experiencia de aprendizaje en la asignatura
+        %canvas#nivel_satisfaccion
+        :javascript
+          var ctx = document.getElementById("nivel_satisfaccion");
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: #{@nivelsatis.to_json},
+            options: {
+              legend:{ display: false
+              },
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                      },
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Porcentaje de estudiantes',
+                        fontColor: '#3670b5',
+                        fontSize: 12
                       }
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: 'Porcentaje de estudiantes',
-                    fontColor: '#3670b5',
-                    fontSize: 12
-                  }
-              }],
-              xAxes: [{
-                  stacked: true,
-                  gridLines: {display: false},
-                  ticks: {
-                    maxRotation:0,
-                    padding: 20
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: 'Niveles de satisfacción',
-                    fontColor: '#3670b5',
-                    fontSize: 12
-                  }
-              }]
-          },
-          events: false,
-          tooltips: {
-              enabled: false
-          },
-          hover: {
-              animationDuration: 0
-          },
-          animation:{
-            onComplete: function () {
-              var ctx = this.chart.ctx;              
-              ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'bottom';
-              this.data.datasets.forEach(function (dataset) {
-                for (var i = 0; i < dataset.data.length; i++) {
-                  var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
-                      scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
-                  ctx.fillStyle = '#444';
-                  var y_pos = model.y - 5;
-                  if ((scale_max - model.y) / scale_max >= 0.5)
-                      y_pos = model.y + 20;
-                  ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                  }],
+                  xAxes: [{
+                      stacked: true,
+                      gridLines: {display: false},
+                      ticks: {
+                        maxRotation:0,
+                        padding: 20
+                      },
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Niveles de satisfacción',
+                        fontColor: '#3670b5',
+                        fontSize: 12
+                      }
+                  }]
+              },
+              events: false,
+              tooltips: {
+                  enabled: false
+              },
+              hover: {
+                  animationDuration: 0
+              },
+              animation:{
+                onComplete: function () {
+                  var ctx = this.chart.ctx;              
+                  ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'bottom';
+                  this.data.datasets.forEach(function (dataset) {
+                    for (var i = 0; i < dataset.data.length; i++) {
+                      var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                          scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                      ctx.fillStyle = '#444';
+                      var y_pos = model.y - 5;
+                      if ((scale_max - model.y) / scale_max >= 0.5)
+                          y_pos = model.y + 20;
+                      ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                    }
+                  });              
                 }
-              });              
+              }
             }
-          }
-        }
-      });
+          });
     %br
     %br
     %b Comentarios de los estudiantes sobre el nivel de satisfacción							
@@ -146,16 +149,112 @@
           %th Nivel de satisfacción 
           %th Comentario
       %tbody
-        - @answers.group_by{|h| h["2"]}.sort.each do |a|
+        - @satisfaccion.each do |a|
           %tr
             %td.text-center
               %b
                 = a[0]
             %td
               -a[1].each do |temp|
-                %p
-                  %span.glyphicon.glyphicon-minus{"aria-hidden" => "true"}
-                  =temp["1"]
+                -if temp[0] != ""
+                  %p
+                    %span.glyphicon.glyphicon-minus{"aria-hidden" => "true"}
+                    =temp[0]
+    %br
+    %p La gráfica que se muestra a continuación refleja la percepción de cada estudiante sobre el nivel de pertinencia en esta asignatura.
+    .row
+      .col-md-8.col-md-offset-2
+        %h5.text-center
+          %b
+            Nivel de pertinencia percibida por los estudiantes en la asignatura
+        %canvas#nivel_pertinencia
+        :javascript
+          var ctx = document.getElementById("nivel_pertinencia");
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: #{@nivelperti.to_json},
+            options: {
+              legend:{ display: false
+              },
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                      },
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Porcentaje de estudiantes',
+                        fontColor: '#3670b5',
+                        fontSize: 12
+                      }
+                  }],
+                  xAxes: [{
+                      stacked: true,
+                      gridLines: {display: false},
+                      ticks: {
+                        maxRotation:0,
+                        padding: 20
+                      },
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Niveles de satisfacción',
+                        fontColor: '#3670b5',
+                        fontSize: 12
+                      }
+                  }]
+              },
+              events: false,
+              tooltips: {
+                  enabled: false
+              },
+              hover: {
+                  animationDuration: 0
+              },
+              animation:{
+                onComplete: function () {
+                  var ctx = this.chart.ctx;              
+                  ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'bottom';
+                  this.data.datasets.forEach(function (dataset) {
+                    for (var i = 0; i < dataset.data.length; i++) {
+                      var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                          scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                      ctx.fillStyle = '#444';
+                      var y_pos = model.y - 5;
+                      if ((scale_max - model.y) / scale_max >= 0.5)
+                          y_pos = model.y + 20;
+                      ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                    }
+                  });              
+                }
+              }
+            }
+          });
+    %br
+    %br
+    %b Comentarios de los estudiantes sobre el nivel de pertinencia							
+    %table.table.table-bordered.table-responsive
+      %thead
+        %tr
+          %th Nivel de pertinencia 
+          %th Comentario
+      %tbody
+        - @pertinencia.each do |a|
+          %tr
+            %td.text-center
+              %b
+                = a[0]
+            %td
+              -a[1].each do |temp|
+                -if temp[0] != ""
+                  %p
+                    %span.glyphicon.glyphicon-minus{"aria-hidden" => "true"}
+                    =temp[0]
     .text-bold.informe-panel-green
       Autoeficacia percibida para las situaciones académicas de la asignatura
     %p A continuación se presentan los resultados del test de autoeficacia percibida para alcanzar los retos de la asignatura. La autoeficacia es el juicio de una persona acerca de sus capacidades para completar una tarea específica con las habilidades que él / ella posee. Wang (2013) citando a Bandura (1997).
@@ -931,7 +1030,7 @@
           %tr
             %td.text-center
               %b
-                = index
+                = index+1
             %td
               = a["31"]
             %td
@@ -1048,7 +1147,7 @@
               Otros
     %br
     .text-bold.informe-panel-green
-      Sugerencias al docente y a los compañeros  para mejorar el desarrollo de las clases en esta asignatura
+      Sugerencias al docente para mejorar el desarrollo de las clases en esta asignatura
     %br
     %table.table.table-bordered.table-responsive
       %thead
@@ -1064,9 +1163,31 @@
           %tr
             %td.text-center
               %b
-                = index
+                = index+1
             %td
               = a["35"]
+    %br
+    .text-bold.informe-panel-green
+      Sugerencias a los compañeros para mejorar el desarrollo de las clases en esta asignatura
+    %br
+    %table.table.table-bordered.table-responsive
+      %thead
+        %tr
+          %th.text-center.bg-blue-informe
+            %b
+              GRUPOS
+          %th.text-center.bg-blue-informe
+            %b
+              COMENTARIOS DE LOS INTEGRANTES DE LOS GRUPOS
+      %tbody
+        - @answersGrupal.each_with_index do |a,index|
+          -if !a["36"].nil? 
+            %tr
+              %td.text-center
+                %b
+                  = index+1
+              %td
+                = a["36"]
     %br
     .text-red.text-bold.informe-panel-blue
       Referencias

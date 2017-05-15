@@ -4,7 +4,7 @@ class QcdsController < ApplicationController
   # GET /qcds
   # GET /qcds.json
   def index
-    @qcds = Qcd.all
+    # @qcds = Qcd.all
   end
 
   # GET /qcds/1
@@ -12,7 +12,10 @@ class QcdsController < ApplicationController
   def show
     @answers = getanswerInd
     @answersGrupal = getanswerGru
-    @nivelsatis = nivelsatis(@answers)
+    @satisfaccion = getcomments(@answers,"1","2")
+    @pertinencia = getcomments(@answers,"26","25")
+    @nivelperti = nivel(@answers, "25")
+    @nivelsatis = nivel(@answers,"2")
     @autoeficacia = autoeficacia(@answers)
     @engament = engament(@answers)
     @estadoAcad = estadoAcad(@answers)
@@ -22,8 +25,8 @@ class QcdsController < ApplicationController
 
   # GET /qcds/new
   def new
-    asignatura = Asignatura.find(params[:asignatura_id])
-    @newQcd = Qcd.new
+    # asignatura = Asignatura.find(params[:asignatura_id])
+    # @newQcd = Qcd.new
   end
 
   # GET /qcds/1/edit
@@ -34,11 +37,13 @@ class QcdsController < ApplicationController
   # POST /qcds.json
   def create
     asignatura = Asignatura.find(params[:asignatura_id])
-    @qcd = asignatura.qcds.create(qcd_params)
+    @qcd = asignatura.qcds.new(qcd_params)
     @qcd.estados = 0
+    @qcd.fecha =  DateTime::strptime("#{params[:fecha]} -0500", "%m/%d/%Y %I:%M %p %z")
+    #logger.debug("QCD estado #{@qcd.estados}")
     respond_to do |format|
       if @qcd.save
-        #Mailer.cedu_email().deliver
+        Mailer.cedu_email(@qcd).deliver
         format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente creado' }
         format.json { render :show, status: :created, location: @qcd }
       else
@@ -51,18 +56,18 @@ class QcdsController < ApplicationController
   # PATCH/PUT /qcds/1
   # PATCH/PUT /qcds/1.json
   def update
-    asignatura = Asignatura.find(params[:asignatura_id])
-    @qcd = asignatura.qcds.find(params[:id])
-    respond_to do |format|
-      if @qcd.update(qcd_params)
-        Mailer.profe_email(qcd.asignatura.user.email).deliver
-        format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente actualizado.' }
-        format.json { render :show, status: :ok, location: @qcd }
-      else
-        format.html { render :edit }
-        format.json { render json: @qcd.errors, status: :unprocessable_entity }
-      end
-    end
+    # asignatura = Asignatura.find(params[:asignatura_id])
+    # @qcd = asignatura.qcds.find(params[:id])
+    # respond_to do |format|
+    #   if @qcd.update(qcd_params)
+    #     Mailer.profe_email(qcd.asignatura.user.email).deliver
+    #     format.html { redirect_to asignatura_path(asignatura), notice: 'QCD Fue exitosamente actualizado.' }
+    #     format.json { render :show, status: :ok, location: @qcd }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @qcd.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /qcds/1
@@ -83,29 +88,34 @@ class QcdsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def qcd_params
-      params.permit(:asignatura_id, :salon, :fecha, :grupo)
+      params.permit(:asignatura_id, :salon, :fecha, :grupo, :estados)
     end
-    def nivelsatis(answergroup)
+    def getcomments(answergroup, a, b)
+      temp = answergroup.map{ |n| [n["#{a}"], n["#{b}"]]}.reject { |c| c[1].nil?} 
+      temp = temp.group_by{|n| n[1]}.sort
+      return temp
+    end
+    def nivel(answergroup, a)
         n = Array.new(5, 0)
         nl = 0.0
         answergroup.each do |ans|
-            if ans["2"] == "1"
+            if ans["#{a}"] == "1"
                n[0] = n[0] + 1
                nl = nl + 1
             end
-            if ans["2"] == "2"
+            if ans["#{a}"] == "2"
                n[1] = n[1] + 1
                nl = nl + 1
             end
-            if ans["2"] == "3"
+            if ans["#{a}"] == "3"
                n[2] = n[2] + 1
                nl = nl + 1
             end
-            if ans["2"] == "4"
+            if ans["#{a}"] == "4"
                n[3] = n[3] + 1
                nl = nl + 1
             end
-            if ans["2"] == "5"
+            if ans["#{a}"] == "5"
                n[4] = n[4] + 1
                nl = nl + 1
             end

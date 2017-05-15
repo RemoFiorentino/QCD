@@ -96,8 +96,11 @@
                   %option{:value => "8"} Organización y cumplimiento de los compromisos académicos
                   %option{:value => "9"} Otros
                 %br
-                %b ¿Qué pueden hacer ustedes y qué sugieren al docente para mejorar el desarrollo de las clases en esta asignatura?
+                %b ¿Qué sugieren al docente para mejorar el desarrollo de las clases en esta asignatura?
                 %textarea.form-control{:type => "text", :name => 'answers[35]'}
+                %br
+                %b ¿Qué sugieren a sus compañeros para mejorar el desarrollo de las clases en esta asignatura?
+                %textarea.form-control{:type => "text", :name => 'answers[36]'}
                 %br
           .form-actions.text-center
             = f.button :submit, value: "Enviar", :class => 'btn btn-info btn-lg'

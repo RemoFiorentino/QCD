@@ -9,9 +9,9 @@
           .panel-heading
             ACTIVIDAD 1: NIVEL GENERAL DE SATISFACCIÓN...
           .panel-body
+            %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:           
             %p Escribe una frase que describa tu nivel general de satisfacción en esta asignatura… 
             %textarea.form-control{:type => "text", :name => 'answers[1]'}
-            %h4 Indica tu nivel de satisfacción con la experiencia de aprendizaje en esta asignatura:
             %p Selecciona un número del 1 al 5 (1 = indica el nivel más bajo… 5 = indica el nivel más alto)
             %table.table.table-responsive
               %thead
@@ -51,6 +51,49 @@
                   %td.text-center.hidden-xs
                   %td.hidden-xs.ver_allign
                     Muy satisfecho
+            %br
+            %h4 ¿Qué tan pertinente consideras que es esta asignatura para tu formación profesional en la carrera que elegiste?
+            %p Selecciona un número del 1 al 5 (1 = indica No es pertinente… 5 = indica Muy pertinente )
+            %table.table.table-responsive
+              %thead
+                %tr
+                  %th.hidden-xs
+                  %th.hidden-xs
+                  %th.text-center 1
+                  %th.hidden-xs
+                  %th.text-center 2
+                  %th.hidden-xs
+                  %th.text-center 3
+                  %th.hidden-xs
+                  %th.text-center 4
+                  %th.hidden-xs
+                  %th.text-center 5
+                  %th.hidden-xs
+                  %th.hidden-xs
+              %tbody
+                %tr.active 
+                  %td.hidden-xs.text-right.ver_allign
+                    No es pertinente
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[25]", :type => "radio", :value => "1"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[25]", :type => "radio", :value => "2"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[25]", :type => "radio", :value => "3"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[25]", :type => "radio", :value => "4"}
+                  %td.text-center.hidden-xs
+                  %td.text-center
+                    %input{:name => "answers[25]", :type => "radio", :value => "5"}
+                  %td.text-center.hidden-xs
+                  %td.hidden-xs.ver_allign
+                    Muy pertinente
+            %p De acuerdo a la respuesta anterior, expresa en una frase por qué consideras que esta asignatura es pertinente para tu formación profesional en la carrera que elegiste.
+            %textarea.form-control{:type => "text", :name => 'answers[26]'}
         .panel.panel-info
           .panel-heading
             ACTIVIDAD 2: LOGRO DE LOS OBJETIVOS DE APRENDIZAJE
@@ -195,6 +238,7 @@
             %select.form-control{:name => 'answers[14]'}
               %option{:value => "Si"} Si
               %option{:value => "No"} No
+            %br
             %h4 En esta asignatura....
             %table.table.table-responsive.table-striped.table-hover
               %thead
@@ -249,6 +293,7 @@
                     %input{:name => "answers[18]", :type => "radio", :value => "3"}
                   %td.text-center.ver_allign
                     %input{:name => "answers[18]", :type => "radio", :value => "4"}
+            %br
             %h4 Piensa en esta asignatura y responde sinceramente a cada una de las siguientes preguntas...
             %table.table.table-responsive.table-striped.table-hover
               %thead
@@ -330,7 +375,7 @@
 :javascript
   $(document).ready(function(){
     $(".footer").css("min-width","530px");
-    $(".body_container").css("min-width","530px");
+    $(".paper").css("min-width","530px");
   });
   
   

@@ -1,0 +1,1088 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    = wicked_pdf_stylesheet_link_tag "application", :media => "all"
+    = wicked_pdf_javascript_include_tag "application"
+  %body
+    #header
+      .row
+        .col-xs-12.col-sm-10.col-md-10.col-sm-offset-1.col-md-offset-1
+          .text-red.text-center.text-bold
+            CENTRO PARA LA EXCELENCIA DOCENTE - CEDU
+          .text-center.text-bold
+            %p Universidad del Norte
+    #content
+      .row
+        .col-xs-12.col-sm-10.col-md-10.col-sm-offset-1.col-md-offset-1
+          .text-center.text-bold.font-size-large
+            %p INFORME DE LA ASIGNATURA VALORADA MEDIANTE “QCD”
+          .font-size-small
+            %p El QCD (Quick Course Diagnosis), desarrollado por Barbara Millis  recoge la percepción u opinión que los estudiantes tienen sobre una clase en tres aspectos centrales: El nivel de satisfacción con el curso, el cumplimiento de los objetivos de aprendizaje y las fortalezas y debilidades de la misma, con la finalidad de que el profesor obtenga una retroalimentación oportuna de sus clases y pueda hacer cambios o mejoras en el proceso de enseñanza-aprendizaje.
+          .text-red.text-bold.informe-panel-blue
+            Identificación
+          %br
+          .table-responsive
+            %table.table.table-bordered.table-hover
+              %thead
+                %tr
+              %tbody
+                %tr
+                  %td.text-bold.font-size-small
+                    División	
+                  %td.font-size-small
+                    = @qcd.asignatura.division
+                %tr
+                  %td.text-bold.font-size-small
+                    Programa	
+                  %td.font-size-small
+                    = @qcd.asignatura.programa      
+                %tr
+                  %td.text-bold.font-size-small
+                    Departamento	
+                  %td.font-size-small
+                    = @qcd.asignatura.dpto
+                %tr
+                  %td.text-bold.font-size-small
+                    Nombre de la asignatura	
+                  %td.font-size-small
+                    = @qcd.asignatura.nombre
+                %tr
+                  %td.text-bold.font-size-small
+                    NRC	
+                  %td.font-size-small
+                    = @qcd.asignatura.nrc
+                %tr
+                  %td.text-bold.font-size-small
+                    Semestre	
+                  %td.font-size-small
+                    = @qcd.asignatura.semestre
+                %tr
+                  %td.text-bold.font-size-small
+                    Número de créditos	
+                  %td.font-size-small
+                    = @qcd.asignatura.creditos
+                %tr
+                  %td.text-bold.font-size-small
+                    Nombre del profesor	
+                  %td.font-size-small
+                    = @qcd.asignatura.user.name
+                %tr
+                  %td.text-bold.font-size-small
+                    Ubicación del profesor 	
+                  %td.font-size-small
+                    = @qcd.asignatura.user.ubicacion
+          .text-red.text-bold.informe-panel-blue
+            Resultados de las actividades realizadas en forma individual durante la aplicación del QCD
+          .text-bold
+            %b Nivel de satisfacción con la experiencia de aprendizaje en la asignatura (actividad individual). 
+          %p La gráfica que se muestra a continuación refleja la percepción de cada estudiante sobre el nivel de satisfacción con la experiencia de aprendizaje que ha vivido en las diferentes clases en esta asignatura.
+          %h5.text-center
+            %b
+              Nivel de satisfacción con la experiencia de aprendizaje en la asignatura
+          %canvas#nivel_satisfaccion{:height => "818", :style => "width: 818px; height: 409px;", :width => "1636"}
+          :javascript
+            var ctx = document.getElementById("nivel_satisfaccion");
+            var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: #{@nivelsatis.to_json},
+              options: {
+                responsive: false 
+                legend:{ display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 100,
+                            callback: function(value) {
+                              return value + "%"
+                            }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                    }],
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {display: false},
+                        ticks: {
+                          maxRotation:0,
+                          padding: 20
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Niveles de satisfacción',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                    }]
+                },
+                events: false,
+                tooltips: {
+                    enabled: false
+                },
+                hover: {
+                    animationDuration: 0
+                },
+                animation:{
+                  onComplete: function () {
+                    var ctx = this.chart.ctx;              
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    this.data.datasets.forEach(function (dataset) {
+                      for (var i = 0; i < dataset.data.length; i++) {
+                        var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                            scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                        ctx.fillStyle = '#444';
+                        var y_pos = model.y - 5;
+                        if ((scale_max - model.y) / scale_max >= 0.5)
+                            y_pos = model.y + 20;
+                        ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                      }
+                    });              
+                  }
+                }
+              }
+            });
+          %br
+          %br
+          %b Comentarios de los estudiantes sobre el nivel de satisfacción							
+          %table.table.table-bordered.table-responsive
+            %thead
+              %tr
+                %th Nivel de satisfacción 
+                %th Comentario
+            %tbody
+              - @answers.group_by{|h| h["2"]}.sort.each do |a|
+                %tr
+                  %td.text-center
+                    %b
+                      = a[0]
+                  %td
+                    -a[1].each do |temp|
+                      %p
+                        %span.glyphicon.glyphicon-minus{"aria-hidden" => "true"}
+                        =temp["1"]
+          .text-bold.informe-panel-green
+            Autoeficacia percibida para las situaciones académicas de la asignatura
+          %p A continuación se presentan los resultados del test de autoeficacia percibida para alcanzar los retos de la asignatura. La autoeficacia es el juicio de una persona acerca de sus capacidades para completar una tarea específica con las habilidades que él / ella posee. Wang (2013) citando a Bandura (1997).
+          .row
+            .col-md-6
+              %h5.text-center
+                %b
+                  Capacidad percibida para comprender los temas y tareas de la asignatura
+              %canvas#autoeficacia1
+              :javascript
+                var ctx = document.getElementById("autoeficacia1");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@autoeficacia[0].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos de la autoeficacia',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+            .col-md-6
+              %h5.text-center
+                %b
+                  Capacidad percibida para obtener buenos resultados académicos en la asignatura
+              %canvas#autoeficacia2
+              :javascript
+                var ctx = document.getElementById("autoeficacia2");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@autoeficacia[1].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos de la autoeficacia',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+            .col-md-6.col-md-offset-3
+              %h5.text-center
+                %b
+                  Capacidad percibida global para desempeñarse en las exigencias académicas de la asignatura
+              %canvas#autoeficacia3
+              :javascript
+                var ctx = document.getElementById("autoeficacia3");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@autoeficacia[2].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos de la autoeficacia',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+          %br
+          .text-bold.informe-panel-green
+            Nivel de compromiso (engagement) percibido por los estudiantes con la asignaturanatura
+          %p En la gráfica se muestran los resultados del test de compromiso estudiantil. De acuerdo con Reeve (2003), cuando uno se involucra en actividades que ofrecen oportunidades de elección e iniciativa Apoyo a la autonomía), un desafío cognitivo óptimo (Desafio optimo) y una interacción social frecuente (inclusión), la gente tiende a sentirse interesada y comprometida en lo que hace. 
+          .row
+            .col-md-6
+              %h5.text-center
+                %b
+                  Inclusión (Aspectos socio-emocionales)
+              %canvas#inclusion
+              :javascript
+                var ctx = document.getElementById("inclusion");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@engament[0].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos del compromiso con las clases (engagement)',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+            .col-md-6
+              %h5.text-center
+                %b
+                  Desafío óptimo (Retos planteados en clase)
+              %canvas#desafio
+              :javascript
+                var ctx = document.getElementById("desafio");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@engament[1].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos del compromiso con las clases (engagement)',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+          .row
+            .col-md-6
+              %h5.text-center
+                %b
+                  Apoyo a la autonomía (Toma de decisiones en el aprendizaje)
+              %canvas#apoyo
+              :javascript
+                var ctx = document.getElementById("apoyo");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@engament[2].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos del compromiso con las clases (engagement)',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+            .col-md-6
+              %h5.text-center
+                %b
+                  Compromiso con la clase (engagement)
+              %canvas#engament
+              :javascript
+                var ctx = document.getElementById("engament");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@engament[3].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Aspectos del compromiso con las clases (engagement)',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+          %br
+          .text-bold.informe-panel-green
+            Estado académico de los estudiantes
+          La siguiente gráfica muestra el estado académico actual reportado por cada estudiante y su ditribución en cuanto a su condición de becario o no.
+          .row
+            .col-md-6
+              %h5.text-center
+                %b
+                  No Becario
+              %canvas#estado1
+              :javascript
+                var ctx = document.getElementById("estado1");
+                var myChart = new Chart(ctx, {
+                  labelLength: 4,
+                  type: 'bar',
+                  data: #{@estadoAcad[0].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        stacked: true,
+                        gridLines: {display: false},
+                        ticks: {
+                          maxRotation:0,
+                          padding: 20
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Estado académico',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+            .col-md-6
+              %h5.text-center
+                %b
+                  Becario
+              %canvas#estado2
+              :javascript
+                var ctx = document.getElementById("estado2");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@estadoAcad[1].to_json},
+                  options: {
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        stacked: true,
+                        gridLines: {display: false},
+                        ticks: {
+                          maxRotation:0,
+                          padding: 20
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Estado académico',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+          %br
+          .text-bold.informe-panel-green
+            Cumplimiento de los resultados de aprendizaje de la asignatura (actividad individual). 
+          %h5.text-center
+            %b
+              Cumplimiento de los objetivos de aprendizaje de la asignatura
+          %canvas#resultados
+          :javascript
+                var ctx = document.getElementById("resultados");
+                var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: #{@resultados.to_json},
+                  options: {
+                    legend: {
+                      display: true
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          min: 0,
+                          max: 100,
+                          callback: function(value) {
+                            return value + "%"
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Porcentaje de estudiantes',
+                          fontColor: '#3670b5',
+                          fontSize: 12
+                        }
+                      }],
+                      xAxes: [{
+                        gridLines: {display: false},
+                        ticks: {
+                          maxRotation:0,
+                          padding: 20
+                        }
+                      }]
+                    },
+                    events: false,
+                    tooltips: {
+                        enabled: false
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation:{
+                      onComplete: function () {
+                        var ctx = this.chart.ctx;              
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        this.data.datasets.forEach(function (dataset) {
+                          for (var i = 0; i < dataset.data.length; i++) {
+                            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                            ctx.fillStyle = '#444';
+                            var y_pos = model.y - 5;
+                            if ((scale_max - model.y) / scale_max >= 0.5)
+                                y_pos = model.y + 20;
+                            ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                          }
+                        });              
+                      }
+                    }
+                  }
+                });
+          %br
+          %br
+          .text-bold
+            %p Objetivos de aprendizaje revisados en el diagnóstico:
+          .table-responsive
+            %table.table.table-bordered.table-hover
+              %thead
+                %tr
+              %tbody
+                %tr
+                  %td= 1
+                  %td= @qcd.asignatura.objetivo1
+                -if @qcd.asignatura.objetivo2 != ""
+                  %tr
+                    %td= 2
+                    %td= @qcd.asignatura.objetivo2
+                -if @qcd.asignatura.objetivo3 != ""
+                  %tr
+                    %td= 3
+                    %td= @qcd.asignatura.objetivo3
+                -if @qcd.asignatura.objetivo4 != ""
+                  %tr
+                    %td= 4
+                    %td= @qcd.asignatura.objetivo4
+                -if @qcd.asignatura.objetivo5 != ""
+                  %tr
+                    %td= 5
+                    %td= @qcd.asignatura.objetivo5
+                -if @qcd.asignatura.objetivo6 != ""
+                  %tr
+                    %td= 6
+                    %td= @qcd.asignatura.objetivo6
+                -if @qcd.asignatura.objetivo7 != ""
+                  %tr
+                    %td= 7
+                    %td= @qcd.asignatura.objetivo7
+                -if @qcd.asignatura.objetivo8 != ""
+                  %tr
+                    %td= 8
+                    %td= @qcd.asignatura.objetivo8
+                -if @qcd.asignatura.objetivo9 != ""
+                  %tr
+                    %td= 9
+                    %td= @qcd.asignatura.objetivo9
+                -if @qcd.asignatura.objetivo10 != ""
+                  %tr
+                    %td= 10
+                    %td= @qcd.asignatura.objetivo10
+          %br
+          .text-red.text-bold.informe-panel-blue
+            Resultados de las actividades realizadas en forma grupal durante la aplicación del QCD
+          %br
+          .text-bold.informe-panel-green
+            Fortalezas y debilidades o aspectos a mejorar de la asignatura
+          %p
+            A continuación se presenta una tabla con los comentarios realizados por cada grupo de estudiante sobre las fortalezas y debilidades percibidas en el desarrollo de las clases en esta asignatura:
+          %h5.text-center
+            %b
+              COMENTARIOS DE LOS INTEGRANTES DE LOS GRUPOS
+          %table.table.table-bordered.table-responsive
+            %thead
+              %tr
+                %th.text-center.bg-green-informe
+                  %b
+                    GRUPOS
+                %th.text-center.bg-blue-informe
+                  %b
+                    FORTALEZAS
+                %th.text-center.bg-purple-informe
+                  %b
+                    DEBILIDADES
+            %tbody
+              - @answersGrupal.each_with_index do |a,index|
+                %tr
+                  %td.text-center
+                    %b
+                      = index+1
+                  %td
+                    = a["31"]
+                  %td
+                    = a["32"]
+          .text-bold.informe-panel-green
+            Clasificación y priorización de las fortalezas y debilidades identificadas en la asignatura
+          .row
+            .col-md-9
+              %canvas#fortalezas
+              :javascript
+                    var ctx = document.getElementById("fortalezas");
+                    var myChart = new Chart(ctx, {
+                      type: 'bar',
+                      data: #{@fortalezas.to_json},
+                      options: {
+                        legend: {
+                          display: true
+                        },
+                        scales: {
+                          yAxes: [{
+                            ticks: {
+                              min: 0,
+                              max: 100,
+                              callback: function(value) {
+                                return value + "%"
+                              }
+                            },
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Porcentaje de estudiantes',
+                              fontColor: '#3670b5',
+                              fontSize: 12
+                            }
+                          }],
+                          xAxes: [{
+                            gridLines: {display: false},
+                            ticks: {
+                              maxRotation:0,
+                              padding: 20
+                            }
+                          }]
+                        },
+                        events: false,
+                        tooltips: {
+                            enabled: false
+                        },
+                        hover: {
+                            animationDuration: 0
+                        },
+                        animation:{
+                          onComplete: function () {
+                            var ctx = this.chart.ctx;              
+                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            this.data.datasets.forEach(function (dataset) {
+                              for (var i = 0; i < dataset.data.length; i++) {
+                                var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                                    scale_max = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+                                ctx.fillStyle = '#444';
+                                var y_pos = model.y - 5;
+                                if ((scale_max - model.y) / scale_max >= 0.5)
+                                    y_pos = model.y + 20;
+                                ctx.fillText(dataset.data[i] + "%", model.x, y_pos);    
+                              }
+                            });              
+                          }
+                        }
+                      }
+                    });
+            .col-md-3
+              %br
+              .panel.panel-default
+                .panel-heading Leyenda
+                .panel-body
+                  %h5
+                    %b
+                      Aspectos a priorizar
+                  %p
+                    %b
+                      1
+                    Estrategias de enseñanza utilizadas en las clases
+                  %p
+                    %b
+                      2
+                    Organización y claridad de los contenidos
+                  %p
+                    %b
+                      3
+                    Actividades de aprendizaje en el aula
+                  %p
+                    %b
+                      4
+                    Interacción con los estudiantes
+                  %p
+                    %b
+                      5
+                    Evaluación
+                  %p
+                    %b
+                      6
+                    Uso de TIC como mediación pedagógica
+                  %p
+                    %b
+                      7
+                    Materiales de estudio y de consulta empleados
+                  %p
+                    %b
+                      8
+                    Organización y cumplimiento de los compromisos académicos
+                  %p
+                    %b
+                      9
+                    Otros
+          %br
+          .text-bold.informe-panel-green
+            Sugerencias al docente y a los compañeros  para mejorar el desarrollo de las clases en esta asignatura
+          %br
+          %table.table.table-bordered.table-responsive
+            %thead
+              %tr
+                %th.text-center.bg-blue-informe
+                  %b
+                    GRUPOS
+                %th.text-center.bg-blue-informe
+                  %b
+                    COMENTARIOS DE LOS INTEGRANTES DE LOS GRUPOS
+            %tbody
+              - @answersGrupal.each_with_index do |a,index|
+                %tr
+                  %td.text-center
+                    %b
+                      = index+1
+                  %td
+                    = a["35"]
+          %br
+          .text-red.text-bold.informe-panel-blue
+            Referencias
+          %br
+          %p Reeve, J. (2003). Motivación y emoción. Mexico: Mc Graw Hill. Pág. 119-122.
+          %p Wang, C., Schwab, G., Fenn, P., & Chang, M. (2013). Self-efficacy and self-regulated learning strategies for english language learners: comparison between chinese and german college students. Journal of Educational and Developmental Psychology, 3 (1), 173-191. 

@@ -8,8 +8,10 @@
 %br
 - @asignaturas.group_by{|h| h[:semestre]}.each_with_index do |asignatura,index|
   .panel.panel-default
-    .panel-heading{"data-target" => "#item_#{index}", "data-toggle" => "collapse"} 
-      =asignatura[0]
+    .panel-heading
+      %a
+        =asignatura[0]
+        <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
     %ul.list-group.collapse{:id => "item_#{index}"}
       -asignatura[1].each do |temp|
         %li.list-group-item
@@ -26,6 +28,20 @@
               .btn-group-vertical.btn-group-justified
                 =link_to 'Editar', edit_asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
                 =link_to 'Ver QCD', asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
+:javascript
+  $(document).on('click touchstart', '.panel-heading', function(e){
+      var $this = $(this);
+      console.log($this.parents('.panel').find('.list-group'));
+  	if(!$this.parents('.panel').find('.list-group').hasClass('collapse')) {
+  		$this.parents('.panel').find('.list-group').slideUp();
+  		$this.parents('.panel').find('.list-group').addClass('collapse');
+  		$this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+  	} else {
+  		$this.parents('.panel').find('.list-group').slideDown();
+  		$this.parents('.panel').find('.list-group').removeClass('collapse');
+  		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+  	}
+  })
 
 
 

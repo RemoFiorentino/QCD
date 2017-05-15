@@ -1,0 +1,83 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h5
+      Estimado Profesor #{@user.name}
+    - if @qcd.estados == "En Espera de Aprobacion"
+      %p Se ha Creado una nueva solicitud de QCD:
+      %p
+        %b Asignatura:
+        = @qcd.asignatura.nombre
+      %p
+        %b NRC:
+        = @qcd.asignatura.nrc
+      %p
+        %b Salon:
+        = @qcd.salon
+      %p
+        %b Fecha:
+        = @qcd.fecha.strftime("%F %I:%M %P")
+    - if @qcd.estados == "No Aprobado"
+      %h4 NO APROVADO
+      %p Lastimosamente no se ha aprovado su solicitud de QCD:
+      %p
+        %b Asignatura:
+        = @qcd.asignatura.nombre
+      %p
+        %b NRC:
+        = @qcd.asignatura.nrc
+      %p
+        %b Salon:
+        = @qcd.salon
+      %p
+        %b Fecha:
+        = @qcd.fecha.strftime("%F %I:%M %P")
+    - if @qcd.estados == "Aprobado" 
+      %h4 APROVADO
+      %p Se ha aprovado su solicitud de QCD:
+      %p
+        %b Asignatura:
+        = @qcd.asignatura.nombre
+      %p
+        %b NRC:
+        = @qcd.asignatura.nrc
+      %p
+        %b Salon:
+        = @qcd.salon
+      %p
+        %b Fecha:
+        = @qcd.fecha.strftime("%F %I:%M %P")
+    - if @qcd.estados == "Terminado"
+      %p Ha finalizado con exito la siguiente solicitud de QCD:
+      %p
+        %b Asignatura:
+        = @qcd.asignatura.nombre
+      %p
+        %b NRC:
+        = @qcd.asignatura.nrc
+      %p
+        %b Salon:
+        = @qcd.salon
+      %p
+        %b Fecha:
+        = @qcd.fecha.strftime("%F %I:%M %P")
+      %p
+        %b Informe:
+        = link_to 'enlace',  asignatura_qcd_path(@qcd.asignatura, @qcd)
+    - if @qcd.estados == "Revision"
+      %p Se ha realizado con exito el QCD, ahora un miembro del CEDU esta revisando todo este en orden para poder generar el informe:
+      %p
+        %b Asignatura:
+        = @qcd.asignatura.nombre
+      %p
+        %b NRC:
+        = @qcd.asignatura.nrc
+      %p
+        %b Salon:
+        = @qcd.salon
+      %p
+        %b Fecha:
+        = @qcd.fecha.strftime("%F %I:%M %P")
+    %p Signos de puntuacion fueron omitidos intencionalmente

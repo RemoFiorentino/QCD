@@ -27,9 +27,10 @@ class AnswergroupsController < ApplicationController
     asignatura = Asignatura.find(params[:asignatura_id])
     @answergroup = Answergroup.new(answergroup_params)
     @answergroup.answer = params[:answers].to_json
+    logger.debug("Remo mira aqui #{params[:answergroup][:grupo]}")
     respond_to do |format|
       if @answergroup.save
-        format.html { redirect_to asignatura_path(asignatura), notice: 'Answergroup was successfully created.' }
+        format.html { redirect_to :controller => 'estudiante', :action => 'index', nrc: asignatura.nrc, semestre: asignatura.semestre, notice: 'Formulario enviado con exito!' }
         format.json { render :show, status: :created, location: @answergroup }
       else
         format.html { render :new }
@@ -46,6 +47,6 @@ class AnswergroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def answergroup_params
-      params.require(:answergroup).permit(:qcd_id, :answers_attributes => [:answergroup_id, :qcd_id, :order, :answer])
+      params.require(:answergroup).permit(:qcd_id, :answer, :group)
     end
 end

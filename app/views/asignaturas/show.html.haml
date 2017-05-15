@@ -54,15 +54,17 @@
                 %button.btn.btn-primary{:type => "button", :id  => "btn1"} Agregar
                 :javascript
                       $("#btn1").click(function(){
+                        $('#btn1').prop('disabled', true);
                         $.ajax({
                           type: "POST",
                           url: "/asignaturas/#{@asignatura.id}/qcds",
-                          data: { estado: 0, fecha: $('#fecha').val(), salon: $('#salon').val() } ,
+                          data: {fecha: new $("#fecha").val(), salon: $('#salon').val() } ,
                           success: function(data) {
-                            alert("Successful");
+                            location.reload();
                           },
                           failure: function() {
-                            alert("Unsuccessful");
+                            alert("Ha ocurrido un error por favor vuelva a intentarlo mas tarde.");
+                            $('#roommate_but').prop('disabled', false);
                           }
                         })})
 %br
