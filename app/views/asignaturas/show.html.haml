@@ -103,8 +103,8 @@
                                 = qcd.estados
                         .col-xs-12.col-sm-6.col-lg-4
                             .btn-group.btn-group-justified
-                                =link_to 'Formulario Individual', new_asignatura_qcd_answergroup_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
-                                =link_to 'Formulario Grupal', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
+                                =link_to 'Actividad Individual', new_asignatura_qcd_answergroup_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
+                                =link_to 'Actividad Grupal', asignatura_qcd_answergroups_grupal_path(@asignatura, qcd), html_options = {class: "btn  btn-sm btn-default"}
                 -if qcd.estados == "Terminado"
                     .row
                         .col-xs-12.col-sm-6.col-lg-4

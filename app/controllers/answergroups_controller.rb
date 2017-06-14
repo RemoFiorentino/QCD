@@ -27,10 +27,9 @@ class AnswergroupsController < ApplicationController
     asignatura = Asignatura.find(params[:asignatura_id])
     @answergroup = Answergroup.new(answergroup_params)
     @answergroup.answer = params[:answers].to_json
-    logger.debug("Remo mira aqui #{params[:answergroup][:grupo]}")
     respond_to do |format|
       if @answergroup.save
-        format.html { redirect_to :controller => 'estudiante', :action => 'index', nrc: asignatura.nrc, semestre: asignatura.semestre, notice: 'Formulario enviado con exito!' }
+        format.html { redirect_to :controller => 'estudiante', :action => 'index', nrc: asignatura.nrc, semestre: asignatura.semestre, notice: 'Actividad enviada con exito!' }
         format.json { render :show, status: :created, location: @answergroup }
       else
         format.html { render :new }

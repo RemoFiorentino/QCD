@@ -729,7 +729,7 @@ class QcdsController < ApplicationController
       };
       return data
     end
-    def getanswerInd
+    def getanswerInd()
       answergroup = Answergroup.where(qcd_id: @qcd.id, group: true)
       answers = []
       answergroup.each do |a|
@@ -737,7 +737,7 @@ class QcdsController < ApplicationController
       end
       return answers
     end
-    def getanswerGru
+    def getanswerGru()
       answergroup = Answergroup.where(qcd_id: @qcd.id, group: false)
       answers = []
       answergroup.each do |a|
@@ -745,4 +745,4 @@ class QcdsController < ApplicationController
       end
       return answers
     end
-end
+  end
