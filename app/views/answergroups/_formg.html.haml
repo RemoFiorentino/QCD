@@ -58,7 +58,7 @@
                 %p Como grupo deben elegir a una persona encargada de redactar las respuestas a las actividades que se plantean a continuación.
                 %b Escriban en este espacio la fortaleza mencionada por cada integrante del grupo:
                 %p Cada integrante del grupo debe expresar UNA fortaleza que considere es la más relevante de la asignatura. Es importante que redacten de manera clara y precisa.
-                %textarea.form-control{:type => "text", :name => 'answers[31]'}
+                %textarea.form-control{:type => "text", :name => 'answers[31]', :required => true}
             .panel.panel-info
               .panel-heading
                 ACTIVIDAD 3B: IDENTIFICACIÓN DE DEBILIDADES DE LA ASIGNATURA
@@ -66,14 +66,14 @@
                 %p Como grupo deben elegir a una persona encargada de redactar las respuestas a las actividades que se plantean a continuación.
                 %b Escriban en este espacio la debilidad mencionada por cada integrante del grupo:
                 %p Cada integrante del grupo debe expresar UNA debilidad que considere es la más relevante de la asignatura. Es importante que redacten de manera clara y precisa.
-                %textarea.form-control{:type => "text", :name => 'answers[32]'}
+                %textarea.form-control{:type => "text", :name => 'answers[32]', :required => true}
             .panel.panel-info
               .panel-heading
                 ACTIVIDAD 3C: PRIORIZACIÓN DE FORTALEZAS Y DEBILIDADES
               .panel-body
                 %p Trabajando en equipo, identifiquen la FORTALEZA número 1 y la DEBILIDAD número 1 de esta asignatura de acuerdo a los aspectos planteados en las actividades anteriores. 
                 %b Seleccionen solo UNA FORTALEZA de esta asignatura:
-                %select.form-control{:name => 'answers[33]'}
+                %select.form-control{:name => 'answers[33]', :required => true}
                   %option{:value => "1"} Estrategias de enseñanza utilizadas en las clases
                   %option{:value => "2"} Organización y claridad de los contenidos
                   %option{:value => "3"} Actividades de aprendizaje en el aula
@@ -85,7 +85,7 @@
                   %option{:value => "9"} Otros
                 %br
                 %b Seleccionen solo UNA DEBILIDAD de esta asignatura:
-                %select.form-control{:name => 'answers[34]'}
+                %select.form-control{:name => 'answers[34]', :required => true}
                   %option{:value => "1"} Estrategias de enseñanza utilizadas en las clases
                   %option{:value => "2"} Organización y claridad de los contenidos
                   %option{:value => "3"} Actividades de aprendizaje en el aula
@@ -97,10 +97,10 @@
                   %option{:value => "9"} Otros
                 %br
                 %b ¿Qué sugieren al docente para mejorar el desarrollo de las clases en esta asignatura?
-                %textarea.form-control{:type => "text", :name => 'answers[35]'}
+                %textarea.form-control{:type => "text", :name => 'answers[35]', :required => true}
                 %br
                 %b ¿Qué sugieren a sus compañeros para mejorar el desarrollo de las clases en esta asignatura?
-                %textarea.form-control{:type => "text", :name => 'answers[36]'}
+                %textarea.form-control{:type => "text", :name => 'answers[36]', :required => true}
                 %br
           .form-actions.text-center
             = f.button :submit, value: "Enviar", :class => 'btn btn-info btn-lg'

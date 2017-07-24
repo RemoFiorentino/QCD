@@ -1,7 +1,7 @@
 class Answergroup < ActiveRecord::Base
   belongs_to :qcd
-  has_many :answers
-  accepts_nested_attributes_for :answers
+  attr_accessor :answer[1]
+  validates :group,:answer[1], presence: true
   
   def answer_for_form
     collection = answers.where(answergroup: id)

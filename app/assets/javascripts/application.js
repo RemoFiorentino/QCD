@@ -17,3 +17,5 @@
 //= require Chart.min
 //= require moment
 //= require bootstrap-datetimepicker
+//= require rails.validations
+//= require rails.validations.simple_form

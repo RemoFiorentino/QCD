@@ -18,15 +18,18 @@ gem "omniauth-google-oauth2"
 #to make task execute time to time
 gem 'whenever', :require => false
 gem 'rails_admin', '~> 1.0'
-gem 'faker', github: 'stympy/faker'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
+gem "figaro"
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg', '0.18.1', group: :production
+gem 'rails_12factor', group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -62,5 +65,8 @@ group :development, :test do
   gem "better_errors"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'faker', github: 'stympy/faker'
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
 end
 

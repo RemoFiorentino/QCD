@@ -53,7 +53,7 @@ class AsignaturasController < ApplicationController
 
     respond_to do |format|
       if @asignatura.save
-        format.html { redirect_to asignaturas_path, notice: 'Asignatura was successfully created.' }
+        format.html { redirect_to asignaturas_path, notice: 'Asignatura creada satisfactoriamente' }
         format.json { render :show, status: :created, location: @asignatura }
       else
         format.html { render :new }

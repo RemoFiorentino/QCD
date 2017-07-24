@@ -17,8 +17,8 @@ Rails.application.configure do
     config.action_mailer.smtp_settings = {
      :address              => "smtp.gmail.com",
      :port                 => 587,
-     :user_name            => "qcd.mailer.no.reply@gmail.com",
-     :password             => "Remo2907", #figaro aqui remo no lo olvides
+     :user_name            => ENV["mailer-email"],
+     :password             => ENV["mailer-email-password"],
      :authentication       => "plain",
     :enable_starttls_auto => true
     }
