@@ -23,6 +23,7 @@ gem 'wkhtmltopdf-binary'
 gem "figaro"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
+gem 'active_model_serializers', '~> 0.10.6'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
