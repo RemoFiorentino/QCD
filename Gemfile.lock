@@ -170,6 +170,7 @@ GEM
     pdfkit (0.8.2)
     pg (0.18.1)
     pkg-config (1.1.7)
+    puma (3.9.1)
     rack (1.6.4)
     rack-pjax (1.0.0)
       nokogiri (~> 1.5)
@@ -299,6 +300,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   pdfkit
   pg (= 0.18.1)
+  puma
   rails (= 4.2.5)
   rails_12factor
   rails_admin (~> 1.0)

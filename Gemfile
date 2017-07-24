@@ -30,6 +30,7 @@ gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
 gem 'pg', '0.18.1', group: :production
 gem 'rails_12factor', group: :production
+gem 'puma', group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -51,8 +52,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-gem 'unicorn'
-gem "unicorn-rails"
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -68,5 +68,7 @@ group :development, :test do
   gem 'faker', github: 'stympy/faker'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  gem 'unicorn'
+  gem "unicorn-rails"
 end
 
