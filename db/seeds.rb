@@ -55,3 +55,15 @@ User.create!([{
     password: "123456"
 }])
 
+User.create!([{
+    name: "Remo Jose Fiorentino Casadiego",
+    admin: true,
+    created_at: "2017-01-12 21:53:03",
+    updated_at: "2017-05-20 00:48:01",
+    email: "remojose29@gmail.com",
+    provider: "google_oauth2",
+    uid: "118268689822501171019",
+    ubicacion: "Laboratorio de Aprendizaje Docente - LAD",
+    password: "123456"
+}])
+
