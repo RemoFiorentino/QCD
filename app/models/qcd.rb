@@ -6,7 +6,7 @@ class Qcd < ActiveRecord::Base
     link_to informe,  asignatura_qcd_path(qcd.id)
   end
   
-  after_update :send_mail
+  # after_update :send_mail #
   def send_mail
     if( self.estados != 0)
       Mailer.profe_email(self.asignatura.user,self).deliver
