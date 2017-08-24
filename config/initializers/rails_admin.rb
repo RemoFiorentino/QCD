@@ -51,6 +51,11 @@ RailsAdmin.config do |config|
     edit do
       include_all_fields
       exclude_fields :id, :created_at, :updated_at, :grupo
+      field :fecha do
+        strftime_format do
+          '%d-%m-%Y %H:%M:%S'
+        end
+      end
     end
     show do
       include_all_fields
