@@ -8,7 +8,7 @@ class AnswergroupsController < ApplicationController
       redirect_to error_no_disponible_path
       return true
     end
-    @answergroup = @qcd.answergroups.build
+    @answergroups = @qcd.answergroups.build
   end
   
   def grupal
@@ -25,6 +25,7 @@ class AnswergroupsController < ApplicationController
   # POST /answergroups.json
   def create
     asignatura = Asignatura.find(params[:asignatura_id])
+    @qcd = Qcd.find(params[:qcd_id])
     @answergroup = Answergroup.new(answergroup_params)
     @answergroup.answer = params[:answers].to_json
     respond_to do |format|
@@ -32,7 +33,7 @@ class AnswergroupsController < ApplicationController
         format.html { redirect_to :controller => 'estudiante', :action => 'index', nrc: asignatura.nrc, semestre: asignatura.semestre, notice: 'Actividad enviada con exito!' }
         format.json { render :show, status: :created, location: @answergroup }
       else
-        format.html { render :new }
+        format.html { redirect_to :controller => 'error', :action => 'show' }
         format.json { render json: @answergroup.errors, status: :unprocessable_entity }
       end
     end
