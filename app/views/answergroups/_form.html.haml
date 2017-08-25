@@ -1,4 +1,4 @@
-= simple_form_for [@qcd.asignatura, @qcd, @answergroup], validates: true do |f|
+= simple_form_for [@qcd.asignatura, @qcd, @answergroups], validates: true do |f|
   = f.error_notification
   .form-inputs
     = f.association :qcd, :as => :hidden
