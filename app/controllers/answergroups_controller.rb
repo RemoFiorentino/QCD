@@ -17,7 +17,7 @@ class AnswergroupsController < ApplicationController
       redirect_to error_no_disponible_path
       return true
     end
-    @answergroup = @qcd.answergroups.build
+    @answergroups = @qcd.answergroups.build
   end
 
 
