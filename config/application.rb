@@ -27,8 +27,13 @@ module Workspace
     config.to_prepare do
       DeviseController.respond_to :html, :json
     end
-    config.action_controller.asset_host = "https://qcd-remofiorentino.c9users.io"
     require 'pdfkit'
     config.middleware.use PDFKit::Middleware
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end
