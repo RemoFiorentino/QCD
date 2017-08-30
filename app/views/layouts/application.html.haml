@@ -2,10 +2,10 @@
 %html
   %head
     %title QCD-Demo
-    = javascript_include_tag "application"
     / BOOTSTRAP
-    %link{:href => "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", :rel => "stylesheet"}/
-    %script{:src => "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"} :cdata
+    = javascript_include_tag "application"
+    /%link{:href => "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", :rel => "stylesheet"}/
+    /%script{:src => "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"} :cdata
     = stylesheet_link_tag    "application", :media => "all"
     = csrf_meta_tags
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
