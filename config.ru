@@ -4,7 +4,7 @@ require ::File.expand_path('../config/environment', __FILE__)
 run Rails.application
 
 require 'rack/cors'
-config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
+use Rack::Cors do
 
   # allow all origins in development
   allow do
