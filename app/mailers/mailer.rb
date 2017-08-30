@@ -6,6 +6,8 @@ class Mailer < ApplicationMailer
     end
     def cedu_email(qcd) 
         @qcd = qcd
-        mail(to: "kricaurte@uninorte.edu.co, remojose29@gmail.com", subject: 'Nueva Solicitud QCD')
+        mail(to: "remojose29@gmail.com", subject: 'Nueva Solicitud QCD')
     end
 end
+
+# kricaurte@uninorte.edu.co, 
