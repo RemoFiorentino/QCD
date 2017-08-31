@@ -84,6 +84,6 @@ Rails.application.configure do
      :user_name            => ENV["mailer-email"],
      :password             => ENV["mailer-email-password"],
      :authentication       => "plain",
-    :enable_starttls_auto => true
+     :enable_starttls_auto => true
     }
 end
