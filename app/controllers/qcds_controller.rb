@@ -21,12 +21,41 @@ class QcdsController < ApplicationController
     @estadoAcad = estadoAcad(@answers)
     @resultados = resultados(@answers)
     @fortalezas = fortalezas(@answersGrupal)
+    respond_to do |format|
+      format.html
+      format.pdf do
+        html = render_to_string(layout: true , action: "show.html.haml")
+        kit = PDFKit.new(html, page_size: 'A4', orientation: 'Landscape')
+        kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/application.css.scss"
+        pdf = kit.to_pdf
+        send_data pdf, filename: 'qcd.pdf', type: 'application/pdf', :disposition  => "inline"
+      end
+    end
   end
 
   # GET /qcds/new
   def new
     # asignatura = Asignatura.find(params[:asignatura_id])
     # @newQcd = Qcd.new
+  end
+
+  def generate_pdf
+    @booklet = Booklet.find params[:id]
+    @cover = Image.last
+    @images = @booklet.images.sort_by(&:uploaded_at)
+    respond_to do |format|
+      format.html
+      format.pdf do
+        html = render_to_string(layout: true , action: "generate_pdf.html.haml")
+        kit = PDFKit.new(html, page_size: 'A4', orientation: 'Landscape')
+        `sass vendor/assets/stylesheets/bootstrap.scss tmp/bootstrap.css`
+        `sass vendor/assets/stylesheets/custom.scss tmp/custom.css`
+        kit.stylesheets << "#{Rails.root}/tmp/bootstrap.css"
+        kit.stylesheets << "#{Rails.root}/tmp/custom.css"
+        pdf = kit.to_pdf
+        send_data pdf, filename: 'booklet.pdf', type: 'application/pdf'
+      end
+    end
   end
 
   # GET /qcds/1/edit

@@ -24,7 +24,6 @@ gem "figaro"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem 'active_model_serializers', '~> 0.10.6'
-gem 'rack-cors', :require => 'rack/cors'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

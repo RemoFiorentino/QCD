@@ -28,12 +28,6 @@ module Workspace
       DeviseController.respond_to :html, :json
     end
     require 'pdfkit'
-    config.middleware.use PDFKit::Middleware
-    config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
-      end
-    end
+    #config.middleware.use PDFKit::Middleware
   end
 end
