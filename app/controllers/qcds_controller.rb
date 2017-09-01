@@ -24,11 +24,16 @@ class QcdsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        html = render_to_string(layout: true , action: "show.html.haml")
-        kit = PDFKit.new(html, page_size: 'A4', orientation: 'Landscape')
-        kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/application.css.scss"
-        pdf = kit.to_pdf
-        send_data pdf, filename: 'qcd.pdf', type: 'application/pdf', :disposition  => "inline"
+        pdf = WickedPdf.new.pdf_from_string(
+        render_to_string('qcds/show.pdf.haml',
+          layout: "pdf_layout.html.haml",
+          image_quality:100,
+          lowquality: false,
+          :javascript_delay => 5000),
+        )
+        send_data pdf, filename: "prueba.pdf",
+              type: 'application/pdf',
+              disposition: 'inline'
       end
     end
   end

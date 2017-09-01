@@ -29,6 +29,13 @@ span{
     margin: 0;
 }
 
+table thead tr {
+    page-break-inside: avoid;
+}
+table tbody tr {
+    page-break-inside: avoid;
+}
+
 // General Classes ============================================================
 .text_align_center{
   text-align: center;

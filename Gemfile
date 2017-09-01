@@ -18,7 +18,7 @@ gem "omniauth-google-oauth2"
 #to make task execute time to time
 gem 'whenever', :require => false
 gem 'rails_admin', '~> 1.0'
-gem 'pdfkit'
+gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem "figaro"
 gem 'client_side_validations'

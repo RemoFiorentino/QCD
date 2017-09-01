@@ -4,4 +4,4 @@ else
   worker_processes 3
 end
 
-timeout 30
+timeout 2000

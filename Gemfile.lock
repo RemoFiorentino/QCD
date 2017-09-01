@@ -175,7 +175,6 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
-    pdfkit (0.8.2)
     pg (0.18.1)
     pkg-config (1.1.7)
     puma (3.9.1)
@@ -282,6 +281,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
     whenever (0.9.7)
       chronic (>= 0.6.3)
+    wicked_pdf (1.1.0)
     wkhtmltopdf-binary (0.12.3.1)
 
 PLATFORMS
@@ -307,7 +307,6 @@ DEPENDENCIES
   jquery-rails
   momentjs-rails (>= 2.9.0)
   omniauth-google-oauth2
-  pdfkit
   pg (= 0.18.1)
   puma
   rails (= 4.2.5)
@@ -323,6 +322,7 @@ DEPENDENCIES
   unicorn-rails
   web-console (~> 2.0)
   whenever
+  wicked_pdf
   wkhtmltopdf-binary
 
 RUBY VERSION
