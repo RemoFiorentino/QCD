@@ -120,7 +120,7 @@
                   %td.text-center.ver_allign
                     %input{:name => "answers[3]", :type => "radio", :value => "1", :required => true}
                   %td.text-center.ver_allign
-                    %input{:name => "answers[3]", :type => "radio", :value => "0", :required => true}
+                    %input{:name => "answers[3]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   -if @qcd.asignatura.objetivo2 != ""
                     %tr
                       %td
