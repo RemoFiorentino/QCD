@@ -4,7 +4,7 @@ RailsAdmin.config do |config|
       redirect_to main_app.root_path unless current_user.admin?
     end
   end
-  config.included_models = ["User", "Qcd", "Asignatura", "Answergroup"]
+  config.included_models = ["User", "Qcd", "Asignatura"]
   
   config.model 'User' do
     label "Usuario" 
@@ -31,22 +31,22 @@ RailsAdmin.config do |config|
       exclude_fields :id, :created_at, :updated_at, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :provider, :uid, :password, :password_confirmation, :asignaturas
     end
   end
-  config.model 'Answergroup' do
-    label "Formulario" 
-    label_plural "Formularios"
-    list do
-      include_all_fields
-      exclude_fields :id, :created_at, :updated_at
-    end
-    edit do
-      include_all_fields
-      exclude_fields :id, :created_at, :updated_at
-    end
-    show do
-      include_all_fields
-      exclude_fields :id, :created_at, :updated_at
-    end
-  end
+  #config.model 'Answergroup' do
+  #   label "Formulario" 
+  #   label_plural "Formularios"
+  #   list do
+  #     include_all_fields
+  #     exclude_fields :id, :created_at, :updated_at
+  #   end
+  #   edit do
+  #     include_all_fields
+  #     exclude_fields :id, :created_at, :updated_at
+  #   end
+  #   show do
+  #     include_all_fields
+  #     exclude_fields :id, :created_at, :updated_at
+  #   end
+  # end
   config.model 'Qcd' do
     configure :informe do
       formatted_value do
