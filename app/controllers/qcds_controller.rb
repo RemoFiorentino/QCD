@@ -10,6 +10,7 @@ class QcdsController < ApplicationController
   # GET /qcds/1
   # GET /qcds/1.json
   def show
+    @qcd = Qcd.find(params[:id])
     @answers = getanswerInd
     @answersGrupal = getanswerGru
     @satisfaccion = getcomments(@answers,"1","2")
@@ -35,6 +36,9 @@ class QcdsController < ApplicationController
               type: 'application/pdf',
               disposition: 'inline'
       end
+      format.csv do
+        
+      end
     end
   end
 
@@ -42,25 +46,6 @@ class QcdsController < ApplicationController
   def new
     # asignatura = Asignatura.find(params[:asignatura_id])
     # @newQcd = Qcd.new
-  end
-
-  def generate_pdf
-    @booklet = Booklet.find params[:id]
-    @cover = Image.last
-    @images = @booklet.images.sort_by(&:uploaded_at)
-    respond_to do |format|
-      format.html
-      format.pdf do
-        html = render_to_string(layout: true , action: "generate_pdf.html.haml")
-        kit = PDFKit.new(html, page_size: 'A4', orientation: 'Landscape')
-        `sass vendor/assets/stylesheets/bootstrap.scss tmp/bootstrap.css`
-        `sass vendor/assets/stylesheets/custom.scss tmp/custom.css`
-        kit.stylesheets << "#{Rails.root}/tmp/bootstrap.css"
-        kit.stylesheets << "#{Rails.root}/tmp/custom.css"
-        pdf = kit.to_pdf
-        send_data pdf, filename: 'booklet.pdf', type: 'application/pdf'
-      end
-    end
   end
 
   # GET /qcds/1/edit
@@ -159,17 +144,7 @@ class QcdsController < ApplicationController
         n[2] = (n[2]*100/(nl.nonzero? || 1)).round
         n[3] = (n[3]*100/(nl.nonzero? || 1)).round
         n[4] = (n[4]*100/(nl.nonzero? || 1)).round
-        data = {
-          labels: ["N1 Muy Bajo", "N2 Bajo", "N3 Medio", "N4 Alto", "N5 Muy Alto"],
-          datasets: [{
-            backgroundColor: 'rgba(54, 112, 181,0.2)',
-            borderColor: 'rgba(38, 79, 128,1)',
-            borderWidth: 1,
-            data: n
-          }
-          ]
-        };
-        return data
+        return n
     end
     def autoeficacia(answergroup)
       answer = Array.new(3, "")
@@ -222,67 +197,9 @@ class QcdsController < ApplicationController
       n[6] = (n[6]*100/(temp[2].nonzero? || 1)).round
       n[7] = (n[7]*100/(temp[2].nonzero? || 1)).round
       n[8] = (n[8]*100/(temp[2].nonzero? || 1)).round
-      data = {labels: ["Baja", "Media", "Alta"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[0],n[1],n[2]],
-      }
-      ]
-      };
-      answer[0] = data
-      data = {labels: ["Baja", "Media", "Alta"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[3],n[4],n[5]],
-      }
-      ]
-      };
-      answer[1] = data;
-      data = {labels: ["Baja", "Media", "Alta"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[6],n[7],n[8]],
-      }
-      ]
-      };
-      answer[2] = data;
-      return answer
+      return n
     end
     def engament(answergroup)
-      answer = Array.new(4, "")
       n = Array.new(12, 0.0)
       answergroup.each do |ans|
         if ans["19"] != nil && ans["20"] != nil && ans["21"] != nil && ans["22"] != nil && ans["23"] != nil && ans["24"] != nil
@@ -347,83 +264,7 @@ class QcdsController < ApplicationController
       n[9] = (n[9]*100/(engatotal.nonzero? || 1)).round
       n[10] = (n[10]*100/(engatotal.nonzero? || 1)).round
       n[11] = (n[11]*100/(engatotal.nonzero? || 1)).round
-      data = {labels: ["Bajo", "Moderado", "Alto"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[0],n[1],n[2]],
-      }
-      ]
-      };
-      answer[0] = data
-      data = {labels: ["Bajo", "Moderado", "Alto"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[3],n[4],n[5]],
-      }
-      ]
-      };
-      answer[1] = data;
-      data = {labels: ["Bajo", "Moderado", "Alto"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[6],n[7],n[8]],
-      }
-      ]
-      };
-      answer[2] = data;
-      data = {labels: ["Bajo", "Moderado", "Alto"],
-      datasets: [
-      {
-          backgroundColor: [
-              'rgba(54, 112, 182, 0.2)',
-              'rgba(202, 61, 58, 0.2)',
-              'rgba(150, 189, 70, 0.2)'
-          ],
-          borderColor: [
-              'rgba(45, 94, 154,1)',
-              'rgba(156, 45, 42, 1)',
-              'rgba(92, 116, 42, 1)'
-          ],
-          borderWidth: 1,
-          data: [n[9],n[10],n[11]],
-      }
-      ]
-      };
-      answer[3] = data;
-      return answer
+      return n
     end
     def estadoAcad(answergroup)
       n = Array.new(8,0.0)
@@ -470,30 +311,7 @@ class QcdsController < ApplicationController
       n[5] = (n[5] * 100 / (total.nonzero? || 1)).round
       n[6] = (n[6] * 100 / (total.nonzero? || 1)).round
       n[7] = (n[7] * 100 / (total.nonzero? || 1)).round
-      answer = []
-      answer[0] = {labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
-      datasets: [
-        {
-            label:"Becario",
-            data: [n[0],n[1],n[2],n[3]],
-            backgroundColor: 'rgba(54, 112, 182, 0.2)',
-            borderColor: 'rgba(45, 94, 154,1)',
-            borderWidth: 1,
-        }
-        ]
-      };
-      answer[1] = {labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
-      datasets: [
-        {
-            label:"No Becario",
-          backgroundColor: 'rgba(202, 61, 58, 0.2)',
-          borderColor: 'rgba(156, 45, 42, 1)',
-          borderWidth: 1,
-          data: [n[4],n[5],n[6],n[7]]
-        }
-        ]
-      };
-      return answer
+      return n
     end
     def resultados(answergroup)
       require 'matrix'
@@ -607,30 +425,7 @@ class QcdsController < ApplicationController
           matrix[i][j] = matrix[i][j]*100/(count.nonzero? || 1)
         end
       end
-      data = {labels: ["Res1", "Res2", "Res3", "Res4", "Res5", "Res6", "Res7", "Res8", "Res9", "Res10"],
-      datasets: [
-      {
-          label:"Se ha logrado completamente",
-          data: [matrix[0][2],matrix[1][2],matrix[2][2],matrix[3][2],matrix[4][2],matrix[5][2],matrix[6][2],matrix[7][2],matrix[8][2],matrix[9][2]],
-          backgroundColor: 'rgba(54, 112, 182, 0.2)',
-          borderColor: 'rgba(45, 94, 154,1)',
-          borderWidth: 1,
-      },{
-          label:"Se ha logrado parcialmente",
-          backgroundColor: 'rgba(202, 61, 58, 0.2)',
-          borderColor: 'rgba(156, 45, 42, 1)',
-          borderWidth: 1,
-          data: [matrix[0][1],matrix[1][1],matrix[2][1],matrix[3][1],matrix[4][1],matrix[5][1],matrix[6][1],matrix[7][1],matrix[8][1],matrix[9][1]]
-      },{
-          label:"No se ha logrado",
-          backgroundColor: 'rgba(150, 189, 70, 0.2)',
-          borderColor: 'rgba(92, 116, 42, 1)',
-          borderWidth: 1,
-          data: [matrix[0][0],matrix[1][0],matrix[2][0],matrix[3][0],matrix[4][0],matrix[5][0],matrix[6][0],matrix[7][0],matrix[8][0],matrix[9][0]]
-      }
-      ]
-      };
-      return data
+      return matrix
     end
     def fortalezas(answergroup)
       n = Array.new(18, 0.0)
@@ -744,24 +539,7 @@ class QcdsController < ApplicationController
       n[15] = (n[15]*100/(nl2.nonzero? || 1)).round
       n[16] = (n[16]*100/(nl2.nonzero? || 1)).round
       n[17] = (n[17]*100/(nl2.nonzero? || 1)).round
-      data = {
-        labels: ["1", "2", "3", "4", "5","6", "7", "8", "9"],
-        datasets: [{
-          label:"Fortalezas",
-          backgroundColor: 'rgba(54, 112, 181,0.2)',
-          borderColor: 'rgba(38, 79, 128,1)',
-          borderWidth: 1,
-          data: [n[0],n[1],n[2],n[3],n[4],n[5],n[6],n[7],n[8]]
-        },{
-          label:"Debilidades",
-          backgroundColor: 'rgba(202, 61, 58, 0.2)',
-          borderColor: 'rgba(156, 45, 42, 1)',
-          borderWidth: 1,
-          data: [n[9],n[10],n[11],n[12],n[13],n[14],n[15],n[16],n[17]]
-        }
-        ]
-      };
-      return data
+      return n
     end
     def getanswerInd()
       answergroup = Answergroup.where(qcd_id: @qcd.id, group: true)

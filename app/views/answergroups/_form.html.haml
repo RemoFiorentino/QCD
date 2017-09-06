@@ -108,7 +108,6 @@
                   %th.text-center Se ha logrado completamente
                   %th.text-center Se ha logrado parcialmente
                   %th.text-center No se ha logrado
-                  %th.text-center No aplica
               %tbody
                 %tr
                   %td
@@ -119,8 +118,8 @@
                     %input{:name => "answers[3]", :type => "radio", :value => "2", :required => true}
                   %td.text-center.ver_allign
                     %input{:name => "answers[3]", :type => "radio", :value => "1", :required => true}
-                  %td.text-center.ver_allign
-                    %input{:name => "answers[3]", :type => "radio", :value => "0", :required => true, :hidden => true}
+                  // %td.text-center.ver_allign
+                  //   %input{:name => "answers[3]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   -if @qcd.asignatura.objetivo2 != ""
                     %tr
                       %td
@@ -131,8 +130,8 @@
                         %input{:name => "answers[4]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[4]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[4]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[4]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo3 != ""
                     %tr
                       %td
@@ -143,8 +142,8 @@
                         %input{:name => "answers[5]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[5]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[5]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[5]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo4 != ""
                     %tr
                       %td
@@ -155,8 +154,8 @@
                         %input{:name => "answers[6]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[6]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[6]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[6]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo5 != ""
                     %tr
                       %td
@@ -167,8 +166,8 @@
                         %input{:name => "answers[7]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[7]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[7]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[7]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo6 != ""
                     %tr
                       %td
@@ -179,8 +178,8 @@
                         %input{:name => "answers[8]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[8]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[8]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[8]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo7 != ""
                     %tr
                       %td
@@ -191,8 +190,8 @@
                         %input{:name => "answers[9]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[9]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[9]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[9]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo8 != ""
                     %tr
                       %td
@@ -203,8 +202,8 @@
                         %input{:name => "answers[10]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[10]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[10]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[10]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo9 != ""
                     %tr
                       %td
@@ -215,8 +214,8 @@
                         %input{:name => "answers[11]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[11]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[11]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[11]", :type => "radio", :value => "0", :required => true, :hidden => true}
                   - if @qcd.asignatura.objetivo10 != ""
                     %tr
                       %td
@@ -227,8 +226,8 @@
                         %input{:name => "answers[12]", :type => "radio", :value => "2", :required => true}
                       %td.text-center.ver_allign
                         %input{:name => "answers[12]", :type => "radio", :value => "1", :required => true}
-                      %td.text-center.ver_allign
-                        %input{:name => "answers[12]", :type => "radio", :value => "0", :required => true}
+                      // %td.text-center.ver_allign
+                      //   %input{:name => "answers[12]", :type => "radio", :value => "0", :required => true, :hidden => true}
             %b ¿Cuál es tu promedio académico?
             %select.form-control{:name => 'answers[13]', :required => true}
               %option{:value => "Entre 2,95 y 3,24"} Entre 2,95 y 3,24

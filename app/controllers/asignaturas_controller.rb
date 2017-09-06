@@ -67,7 +67,7 @@ class AsignaturasController < ApplicationController
   def update
     respond_to do |format|
       if @asignatura.update(asignatura_params)
-        format.html { redirect_to asignaturas_path, notice: 'Asignatura was successfully updated.' }
+        format.html { redirect_to asignaturas_path, notice: 'Asignatura actualizada satisfactoriamente.' }
         format.json { render :show, status: :ok, location: @asignatura }
       else
         format.html { render :edit }
@@ -94,7 +94,7 @@ class AsignaturasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def asignatura_params
-      params.require(:asignatura).permit(:user_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10)
+      params.require(:asignatura).permit(:user_id, :division, :dpto, :programa, :nombre, :nrc, :semestre, :creditos, :num_estud, :objetivo1, :objetivo2, :objetivo3, :objetivo4, :objetivo5, :objetivo6, :objetivo7, :objetivo8, :objetivo9, :objetivo10)
     end
     
     def control_access

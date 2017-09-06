@@ -6,7 +6,6 @@
       %p Universidad del Norte
     .text-center.text-bold.font-size-large
       %p INFORME DE LA ASIGNATURA VALORADA MEDIANTE “QCD”
-      // = link_to "Get PDF", asignatura_qcd_path(@qcd.asignatura,@qcd,format: :pdf)
     .font-size-small
       %p El QCD (Quick Course Diagnosis), desarrollado por Barbara Millis  recoge la percepción u opinión que los estudiantes tienen sobre una clase en tres aspectos centrales: El nivel de satisfacción con el curso, el cumplimiento de los objetivos de aprendizaje y las fortalezas y debilidades de la misma, con la finalidad de que el profesor obtenga una retroalimentación oportuna de sus clases y pueda hacer cambios o mejoras en el proceso de enseñanza-aprendizaje.
     .text-red.text-bold.informe-panel-blue
@@ -62,6 +61,16 @@
               Ubicación del profesor 	
             %td.font-size-small
               = @qcd.asignatura.user.ubicacion
+          %tr
+            %td.text-bold.font-size-small
+              Numero de Respuestas Individuales
+            %td.font-size-small
+              = @answers.length
+          %tr
+            %td.text-bold.font-size-small
+              Numero de Respuestas Grupales
+            %td.font-size-small
+              = @answersGrupal.length
     .text-red.text-bold.informe-panel-blue
       Resultados de las actividades realizadas en forma individual durante la aplicación del QCD
     .text-bold
@@ -73,14 +82,21 @@
           %b
             Nivel de satisfacción con la experiencia de aprendizaje en la asignatura
         %div.canvas-holder 
-          %canvas#nivel_satisfaccion.text-center{:height => "300", :width => "700"}
+          %canvas#nivel_satisfaccion
           :javascript
             var ctx = document.getElementById("nivel_satisfaccion");
             var myChart = new Chart(ctx, {
               type: 'bar',
-              data: #{@nivelsatis.to_json},
+              data: {
+                labels: ["N1 Muy Bajo", "N2 Bajo", "N3 Medio", "N4 Alto", "N5 Muy Alto"],
+                datasets: [{
+                  backgroundColor: 'rgba(54, 112, 181,0.2)',
+                  borderColor: 'rgba(38, 79, 128,1)',
+                  borderWidth: 1,
+                  data: #{@nivelsatis.to_json},
+                }]
+              },
               options: {
-                responsive: false,
                 legend:{ display: false
                 },
                 scales: {
@@ -169,14 +185,21 @@
         %h5.text-center
           %b
             Nivel de pertinencia percibida por los estudiantes en la asignatura
-        %canvas#nivel_pertinencia{:height => "300", :width => "700"}
+        %canvas#nivel_pertinencia
         :javascript
           var ctx = document.getElementById("nivel_pertinencia");
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@nivelperti.to_json},
+            data: {
+              labels: ["N1 Muy Bajo", "N2 Bajo", "N3 Medio", "N4 Alto", "N5 Muy Alto"],
+              datasets: [{
+                backgroundColor: 'rgba(54, 112, 181,0.2)',
+                borderColor: 'rgba(38, 79, 128,1)',
+                borderWidth: 1,
+                data: #{@nivelperti.to_json},
+              }]
+            },
             options: {
-              responsive: false,
               legend:{ display: false
               },
               scales: {
@@ -267,14 +290,31 @@
         %h5.text-center
           %b
             Capacidad percibida para comprender los temas y tareas de la asignatura
-        %canvas#autoeficacia1{:height => "300", :width => "700"}
+        %canvas#autoeficacia1
         :javascript
           var ctx = document.getElementById("autoeficacia1");
+          var n = #{@autoeficacia.to_json}
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@autoeficacia[0].to_json},
+            data: {
+              labels: ["Baja", "Media", "Alta"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[0],n[1],n[2]],
+              }]
+            },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -335,14 +375,30 @@
         %h5.text-center
           %b
             Capacidad percibida para obtener buenos resultados académicos en la asignatura
-        %canvas#autoeficacia2{:height => "300", :width => "700"}
+        %canvas#autoeficacia2
         :javascript
           var ctx = document.getElementById("autoeficacia2");
+          var n = #{@autoeficacia.to_json}
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@autoeficacia[1].to_json},
+            data: {labels: ["Baja", "Media", "Alta"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[3],n[4],n[5]],
+              }]
+            },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -403,14 +459,32 @@
         %h5.text-center
           %b
             Capacidad percibida global para desempeñarse en las exigencias académicas de la asignatura
-        %canvas#autoeficacia3{:height => "300", :width => "700"}
+        %canvas#autoeficacia3
         :javascript
           var ctx = document.getElementById("autoeficacia3");
+          var n = #{@autoeficacia.to_json}
           var myChart = new Chart(ctx, {
             type: 'bar',
             data: #{@autoeficacia[2].to_json},
+            data: {
+              labels: ["Baja", "Media", "Alta"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[6],n[7],n[8]],
+              }]
+            },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -476,14 +550,30 @@
         %h5.text-center
           %b
             Inclusión (Aspectos socio-emocionales)
-        %canvas#inclusion{:height => "300", :width => "700"}
+        %canvas#inclusion
         :javascript
           var ctx = document.getElementById("inclusion");
+          var n = #{@engament.to_json};
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@engament[0].to_json},
+            data: {labels: ["Bajo", "Moderado", "Alto"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[0],n[1],n[2]],
+              }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -544,14 +634,30 @@
         %h5.text-center
           %b
             Desafío óptimo (Retos planteados en clase)
-        %canvas#desafio{:height => "300", :width => "700"}
+        %canvas#desafio
         :javascript
           var ctx = document.getElementById("desafio");
+          var n = #{@engament.to_json};
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@engament[1].to_json},
+            data: {labels: ["Bajo", "Moderado", "Alto"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[3],n[4],n[5]],
+              }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -613,14 +719,30 @@
         %h5.text-center
           %b
             Apoyo a la autonomía (Toma de decisiones en el aprendizaje)
-        %canvas#apoyo{:height => "300", :width => "700"}
+        %canvas#apoyo
         :javascript
           var ctx = document.getElementById("apoyo");
+          var n = #{@engament.to_json};
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@engament[2].to_json},
+            data: {labels: ["Bajo", "Moderado", "Alto"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[6],n[7],n[8]],
+              }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -681,14 +803,30 @@
         %h5.text-center
           %b
             Compromiso con la clase (engagement)
-        %canvas#engament{:height => "300", :width => "700"}
+        %canvas#engament
         :javascript
           var ctx = document.getElementById("engament");
+          var n = #{@engament.to_json};
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@engament[3].to_json},
+            data: {labels: ["Bajo", "Moderado", "Alto"],
+              datasets: [
+              {
+                  backgroundColor: [
+                      'rgba(54, 112, 182, 0.2)',
+                      'rgba(202, 61, 58, 0.2)',
+                      'rgba(150, 189, 70, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(45, 94, 154,1)',
+                      'rgba(156, 45, 42, 1)',
+                      'rgba(92, 116, 42, 1)'
+                  ],
+                  borderWidth: 1,
+                  data: [n[9],n[10],n[11]],
+              }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -754,15 +892,25 @@
         %h5.text-center
           %b
             No Becario
-        %canvas#estado1{:height => "300", :width => "700"}
+        %canvas#estado1
         :javascript
           var ctx = document.getElementById("estado1");
+          var n = #{@estadoAcad.to_json}
           var myChart = new Chart(ctx, {
             labelLength: 4,
             type: 'bar',
-            data: #{@estadoAcad[0].to_json},
+            data: {
+              labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
+              datasets: [
+                {
+                    label:"Becario",
+                    data: [n[0],n[1],n[2],n[3]],
+                    backgroundColor: 'rgba(54, 112, 182, 0.2)',
+                    borderColor: 'rgba(45, 94, 154,1)',
+                    borderWidth: 1,
+                }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -829,14 +977,23 @@
         %h5.text-center
           %b
             Becario
-        %canvas#estado2{:height => "300", :width => "700"}
+        %canvas#estado2
         :javascript
           var ctx = document.getElementById("estado2");
+          var n = #{@estadoAcad.to_json}
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@estadoAcad[1].to_json},
+            data: {labels: ["2,95 y 3,24", "3,25 y 3,94", "3,95 y 5,00", ["Primer", "semestre"]],
+              datasets: [
+                {
+                    label:"No Becario",
+                  backgroundColor: 'rgba(202, 61, 58, 0.2)',
+                  borderColor: 'rgba(156, 45, 42, 1)',
+                  borderWidth: 1,
+                  data: [n[4],n[5],n[6],n[7]]
+                }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: false
               },
@@ -905,14 +1062,35 @@
     %h5.text-center
       %b
         Cumplimiento de los objetivos de aprendizaje de la asignatura
-    %canvas#resultados{:height => "300", :width => "700"}
+    %canvas#resultados
     :javascript
           var ctx = document.getElementById("resultados");
+          var matrix = #{@resultados.to_json}
           var myChart = new Chart(ctx, {
             type: 'bar',
-            data: #{@resultados.to_json},
+            data: {labels: ["Res1", "Res2", "Res3", "Res4", "Res5", "Res6", "Res7", "Res8", "Res9", "Res10"],
+              datasets: [
+              {
+                  label:"Se ha logrado completamente",
+                  data: [matrix[0][2],matrix[1][2],matrix[2][2],matrix[3][2],matrix[4][2],matrix[5][2],matrix[6][2],matrix[7][2],matrix[8][2],matrix[9][2]],
+                  backgroundColor: 'rgba(54, 112, 182, 0.2)',
+                  borderColor: 'rgba(45, 94, 154,1)',
+                  borderWidth: 1,
+              },{
+                  label:"Se ha logrado parcialmente",
+                  backgroundColor: 'rgba(202, 61, 58, 0.2)',
+                  borderColor: 'rgba(156, 45, 42, 1)',
+                  borderWidth: 1,
+                  data: [matrix[0][1],matrix[1][1],matrix[2][1],matrix[3][1],matrix[4][1],matrix[5][1],matrix[6][1],matrix[7][1],matrix[8][1],matrix[9][1]]
+              },{
+                  label:"No se ha logrado",
+                  backgroundColor: 'rgba(150, 189, 70, 0.2)',
+                  borderColor: 'rgba(92, 116, 42, 1)',
+                  borderWidth: 1,
+                  data: [matrix[0][0],matrix[1][0],matrix[2][0],matrix[3][0],matrix[4][0],matrix[5][0],matrix[6][0],matrix[7][0],matrix[8][0],matrix[9][0]]
+              }]
+              },
             options: {
-              responsive: false,
               legend: {
                 display: true
               },
@@ -1053,14 +1231,30 @@
       Clasificación y priorización de las fortalezas y debilidades identificadas en la asignatura
     .row
       .col-md-9
-        %canvas#fortalezas{:height => "300", :width => "700"}
+        %canvas#fortalezas
         :javascript
               var ctx = document.getElementById("fortalezas");
+              var n = #{@fortalezas.to_json}
               var myChart = new Chart(ctx, {
                 type: 'bar',
-                data: #{@fortalezas.to_json},
+                data : {
+                  labels: ["1", "2", "3", "4", "5","6", "7", "8", "9"],
+                  datasets: [{
+                    label:"Fortalezas",
+                    backgroundColor: 'rgba(54, 112, 181,0.2)',
+                    borderColor: 'rgba(38, 79, 128,1)',
+                    borderWidth: 1,
+                    data: [n[0],n[1],n[2],n[3],n[4],n[5],n[6],n[7],n[8]]
+                  },{
+                    label:"Debilidades",
+                    backgroundColor: 'rgba(202, 61, 58, 0.2)',
+                    borderColor: 'rgba(156, 45, 42, 1)',
+                    borderWidth: 1,
+                    data: [n[9],n[10],n[11],n[12],n[13],n[14],n[15],n[16],n[17]]
+                  }
+                  ]
+                },
                 options: {
-                  responsive: false,
                   legend: {
                     display: true
                   },
