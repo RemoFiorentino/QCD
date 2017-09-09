@@ -4,7 +4,6 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Este correo es un prueba de la apliacion qcd</h1>
     <h1>Se ha producido una nueva solicitud de qcd</h1>
     <p><b>El profesor: </b> <%= @qcd.asignatura.user.name %> </p>
     <p>Ha creado una solicitud:</p>
@@ -12,6 +11,7 @@
     <p><b>NRC: </b><%= @qcd.asignatura.nrc %></p>
     <p><b>Salon: </b><%= @qcd.salon %></p>
     <p><b>Fecha: </b><%= @qcd.fecha.strftime("%F %I:%M %P") %></p>
+    <p><b>Numero de estudiantes:<%= @qcd.asignatura.num_estud %> </b></p>
     <p>Signos de puntuacion fueron omitidos intencionalmente</p>
   </body>
 </html>
