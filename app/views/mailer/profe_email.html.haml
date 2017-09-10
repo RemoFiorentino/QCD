@@ -21,7 +21,7 @@
         = @qcd.fecha.strftime("%F %I:%M %P")
     - if @qcd.estados == "No Aprobado"
       %h4 NO APROBADO
-      %p Lastimosamente no se ha aprovado su solicitud de QCD:
+      %p Lastimosamente no se ha aprobado su solicitud de QCD:
       %p
         %b Asignatura:
         = @qcd.asignatura.nombre
@@ -36,7 +36,7 @@
         = @qcd.fecha.strftime("%F %I:%M %P")
     - if @qcd.estados == "Aprobado" 
       %h4 APROBADO
-      %p Se ha aprovado su solicitud de QCD:
+      %p Se ha aprobado su solicitud de QCD:
       %p
         %b Asignatura:
         = @qcd.asignatura.nombre
