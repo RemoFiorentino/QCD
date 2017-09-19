@@ -12,66 +12,65 @@
     .text-red.text-bold.informe-panel-blue
       Identificación
     %br
-    .table-responsive
-      %table.table.table-bordered.table-hover
-        %thead
-          %tr
-        %tbody
-          %tr
-            %td.text-bold.font-size-small
-              División	
-            %td.font-size-small
-              = @qcd.asignatura.division
-          %tr
-            %td.text-bold.font-size-small
-              Programa	
-            %td.font-size-small
-              = @qcd.asignatura.programa      
-          %tr
-            %td.text-bold.font-size-small
-              Departamento	
-            %td.font-size-small
-              = @qcd.asignatura.dpto
-          %tr
-            %td.text-bold.font-size-small
-              Nombre de la asignatura	
-            %td.font-size-small
-              = @qcd.asignatura.nombre
-          %tr
-            %td.text-bold.font-size-small
-              NRC	
-            %td.font-size-small
-              = @qcd.asignatura.nrc
-          %tr
-            %td.text-bold.font-size-small
-              Semestre	
-            %td.font-size-small
-              = @qcd.asignatura.semestre
-          %tr
-            %td.text-bold.font-size-small
-              Número de créditos	
-            %td.font-size-small
-              = @qcd.asignatura.creditos
-          %tr
-            %td.text-bold.font-size-small
-              Nombre del profesor	
-            %td.font-size-small
-              = @qcd.asignatura.user.name
-          %tr
-            %td.text-bold.font-size-small
-              Ubicación del profesor 	
-            %td.font-size-small
-              = @qcd.asignatura.user.ubicacion
-          %tr
-            %td.text-bold.font-size-small
-              Numero de Respuestas Individuales
-            %td.font-size-small
-              = @answers.length
-          %tr
-            %td.text-bold.font-size-small
-              Numero de Respuestas Grupales
-            %td.font-size-small
-              = @answersGrupal.length
+    %table.table.table-bordered.table-hover.table-responsive
+      %thead
+        %tr
+      %tbody
+        %tr
+          %td.text-bold.font-size-small
+            División	
+          %td.font-size-small
+            = @qcd.asignatura.division
+        %tr
+          %td.text-bold.font-size-small
+            Programa	
+          %td.font-size-small
+            = @qcd.asignatura.programa      
+        %tr
+          %td.text-bold.font-size-small
+            Departamento	
+          %td.font-size-small
+            = @qcd.asignatura.dpto
+        %tr
+          %td.text-bold.font-size-small
+            Nombre de la asignatura	
+          %td.font-size-small
+            = @qcd.asignatura.nombre
+        %tr
+          %td.text-bold.font-size-small
+            NRC	
+          %td.font-size-small
+            = @qcd.asignatura.nrc
+        %tr
+          %td.text-bold.font-size-small
+            Semestre	
+          %td.font-size-small
+            = @qcd.asignatura.semestre
+        %tr
+          %td.text-bold.font-size-small
+            Número de créditos	
+          %td.font-size-small
+            = @qcd.asignatura.creditos
+        %tr
+          %td.text-bold.font-size-small
+            Nombre del profesor	
+          %td.font-size-small
+            = @qcd.asignatura.user.name
+        %tr
+          %td.text-bold.font-size-small
+            Ubicación del profesor 	
+          %td.font-size-small
+            = @qcd.asignatura.user.ubicacion
+        %tr
+          %td.text-bold.font-size-small
+            Numero de Respuestas Individuales
+          %td.font-size-small
+            = @answers.length
+        %tr
+          %td.text-bold.font-size-small
+            Numero de Respuestas Grupales
+          %td.font-size-small
+            = @answersGrupal.length
     .text-red.text-bold.informe-panel-blue
       Resultados de las actividades realizadas en forma individual durante la aplicación del QCD
     .text-bold
@@ -98,6 +97,7 @@
                 }]
               },
               options: {
+                responsive: true,
                 legend:{ display: false
                 },
                 scales: {
@@ -201,6 +201,7 @@
               }]
             },
             options: {
+              responsive: true,
               legend:{ display: false
               },
               scales: {
@@ -285,7 +286,6 @@
     .text-bold.informe-panel-green
       Autoeficacia percibida para las situaciones académicas de la asignatura
     %p A continuación se presentan los resultados del test de autoeficacia percibida para alcanzar los retos de la asignatura. La autoeficacia es el juicio de una persona acerca de sus capacidades para completar una tarea específica con las habilidades que él / ella posee. Wang (2013) citando a Bandura (1997).
-     
     .row
       .col-md-6
         %h5.text-center
@@ -316,6 +316,7 @@
               }]
             },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -400,6 +401,7 @@
               }]
             },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -575,6 +577,7 @@
               }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -659,6 +662,7 @@
               }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -744,6 +748,7 @@
               }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -828,6 +833,7 @@
               }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -912,6 +918,7 @@
                 }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -995,6 +1002,7 @@
                 }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: false
               },
@@ -1092,6 +1100,7 @@
               }]
               },
             options: {
+              responsive: true,
               legend: {
                 display: true
               },
@@ -1151,50 +1160,49 @@
     %br
     .text-bold
       %p Objetivos de aprendizaje revisados en el diagnóstico:
-    .table-responsive
-      %table.table.table-bordered.table-hover
-        %thead
+    %table.table.table-bordered.table-hover.table-responsive
+      %thead
+        %tr
+      %tbody
+        %tr
+          %td= 1
+          %td= @qcd.asignatura.objetivo1
+        -if @qcd.asignatura.objetivo2 != ""
           %tr
-        %tbody
+            %td= 2
+            %td= @qcd.asignatura.objetivo2
+        -if @qcd.asignatura.objetivo3 != ""
           %tr
-            %td= 1
-            %td= @qcd.asignatura.objetivo1
-          -if @qcd.asignatura.objetivo2 != ""
-            %tr
-              %td= 2
-              %td= @qcd.asignatura.objetivo2
-          -if @qcd.asignatura.objetivo3 != ""
-            %tr
-              %td= 3
-              %td= @qcd.asignatura.objetivo3
-          -if @qcd.asignatura.objetivo4 != ""
-            %tr
-              %td= 4
-              %td= @qcd.asignatura.objetivo4
-          -if @qcd.asignatura.objetivo5 != ""
-            %tr
-              %td= 5
-              %td= @qcd.asignatura.objetivo5
-          -if @qcd.asignatura.objetivo6 != ""
-            %tr
-              %td= 6
-              %td= @qcd.asignatura.objetivo6
-          -if @qcd.asignatura.objetivo7 != ""
-            %tr
-              %td= 7
-              %td= @qcd.asignatura.objetivo7
-          -if @qcd.asignatura.objetivo8 != ""
-            %tr
-              %td= 8
-              %td= @qcd.asignatura.objetivo8
-          -if @qcd.asignatura.objetivo9 != ""
-            %tr
-              %td= 9
-              %td= @qcd.asignatura.objetivo9
-          -if @qcd.asignatura.objetivo10 != ""
-            %tr
-              %td= 10
-              %td= @qcd.asignatura.objetivo10
+            %td= 3
+            %td= @qcd.asignatura.objetivo3
+        -if @qcd.asignatura.objetivo4 != ""
+          %tr
+            %td= 4
+            %td= @qcd.asignatura.objetivo4
+        -if @qcd.asignatura.objetivo5 != ""
+          %tr
+            %td= 5
+            %td= @qcd.asignatura.objetivo5
+        -if @qcd.asignatura.objetivo6 != ""
+          %tr
+            %td= 6
+            %td= @qcd.asignatura.objetivo6
+        -if @qcd.asignatura.objetivo7 != ""
+          %tr
+            %td= 7
+            %td= @qcd.asignatura.objetivo7
+        -if @qcd.asignatura.objetivo8 != ""
+          %tr
+            %td= 8
+            %td= @qcd.asignatura.objetivo8
+        -if @qcd.asignatura.objetivo9 != ""
+          %tr
+            %td= 9
+            %td= @qcd.asignatura.objetivo9
+        -if @qcd.asignatura.objetivo10 != ""
+          %tr
+            %td= 10
+            %td= @qcd.asignatura.objetivo10
     %br
     .text-red.text-bold.informe-panel-blue
       Resultados de las actividades realizadas en forma grupal durante la aplicación del QCD
@@ -1256,6 +1264,7 @@
                   ]
                 },
                 options: {
+                  responsive: true,
                   legend: {
                     display: true
                   },

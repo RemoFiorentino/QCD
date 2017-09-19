@@ -2,25 +2,6 @@ class AsignaturasController < ApplicationController
   before_action :authenticate_user!
   before_action :set_asignatura, only: [:show, :edit, :update, :destroy]
   
-  # def index
-  #   respond_with Post.all
-  # end
-
-  # def create
-  #   respond_with Post.create(post_params)
-  # end
-
-  # def show
-  #   respond_with Post.find(params[:id])
-  # end
-
-  # def upvote
-  #   post = Post.find(params[:id])
-  #   post.increment!(:upvotes)
-
-  #   respond_with post
-  # end
-  
   # GET /asignaturas
   # GET /asignaturas.json
   def index
@@ -39,10 +20,32 @@ class AsignaturasController < ApplicationController
     @asignatura = Asignatura.new
     @date = listyear
   end
+  
+  def copy
+    @origin = Asignatura.find(params[:id])
+    @asignatura = Asignatura.new
+    @asignatura.division = @origin.division
+    @asignatura.dpto = @origin.dpto
+    @asignatura.programa = @origin.programa
+    @asignatura.nombre = @origin.nombre
+    @asignatura.semestre = @origin.semestre
+    @asignatura.creditos = @origin.creditos
+    @asignatura.objetivo1 = @origin.objetivo1
+    @asignatura.objetivo2 = @origin.objetivo2
+    @asignatura.objetivo3 = @origin.objetivo3
+    @asignatura.objetivo4 = @origin.objetivo4
+    @asignatura.objetivo5 = @origin.objetivo5
+    @asignatura.objetivo6 = @origin.objetivo6
+    @asignatura.objetivo7 = @origin.objetivo7
+    @asignatura.objetivo8 = @origin.objetivo8
+    @asignatura.objetivo9 = @origin.objetivo9
+    @asignatura.objetivo10 = @origin.objetivo10
+    @asignatura.num_estud = @origin.num_estud
+    @date = listyear
+  end
 
   # GET /asignaturas/1/edit
   def edit
-    control_access
     @date = listyear
   end
 

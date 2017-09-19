@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post "/users/sign_out" => "devise/sessions#destroy", :as => :destroy_user_session
   end 
   resources :users, :only => [:edit, :update]
+  get 'asignaturas/copy', to: 'asignaturas#copy'
   resources :asignaturas, :except => [:destroy] do
     resources :qcds do
       get '/answergroups/grupal' => 'answergroups#grupal' 

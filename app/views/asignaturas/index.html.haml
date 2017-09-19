@@ -28,6 +28,7 @@
               .btn-group-vertical.btn-group-justified
                 =link_to 'Editar', edit_asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
                 =link_to 'Ver QCD', asignatura_path(temp), html_options = {class: "btn  btn-sm btn-default"}
+                =link_to 'Copiar', asignaturas_copy_path(:id => temp), html_options = {class: "btn  btn-sm btn-default"}
 :javascript
   $(document).on('click touchstart', '.panel-heading', function(e){
       var $this = $(this);

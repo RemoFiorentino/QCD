@@ -2,24 +2,43 @@
   = f.error_notification
   .form-inputs
     = f.hidden_field :user_id, :value => current_user.id
-    = f.input :division, collection: [["Arquitectura, Urbanismo y Diseño", "Arquitectura, Urbanismo y Diseño"],["Ciencias Básicas", "Ciencias Básicas"],["Ciencias de la Salud", "Ciencias de la Salud"],["Derecho", "Ciencia Política y Relaciones Internacionales", "Derecho", "Ciencia Política y Relaciones Internacionales"],["Escuela de Negocios", "Escuela de Negocios"],["Humanidades y Ciencias Sociales", "Humanidades y Ciencias Sociales"],["Ingenierías", "Ingenierías"],["Instituto de Estudios en Educación", "Instituto de Estudios en Educación"],["Instituto de Idiomas", "Instituto de Idiomas"]], required: true, label: 'Division'
-    = f.input :dpto, collection: [["ARQUITECTURA Y URBANISMO", "ARQUITECTURA Y URBANISMO"], ["COMUNICACION SOCIAL", "COMUNICACION SOCIAL"], ["CIENCIA  POLÍTICA Y REL. INTERN.", "CIENCIA  POLÍTICA Y REL. INTERN."], ["DERECHO", "DERECHO"] ,["DISEÑO", "DISEÑO"], ["ECONOMIA", "ECONOMIA"],["EDUCACION" , "EDUCACION"],["ENFERMERIA" , "ENFERMERIA"],["ESPAÑOL" , "ESPAÑOL"],["FINANZAS Y ORGANIZACIONES" , "FINANZAS Y ORGANIZACIONES"],["FISICA" , "FISICA"],["HISTORIA Y CIENCIAS SOCIALES" , "HISTORIA Y CIENCIAS SOCIALES"],["HUMANIDADES Y FILOSOFÍA" , "HUMANIDADES Y FILOSOFÍA"],["INGENIERÍA  CIVIL  Y  AMBIENTAL" , "INGENIERÍA  CIVIL  Y  AMBIENTAL"],["ELECTRICA Y ELECTRONICA" , "ELECTRICA Y ELECTRONICA"],["INGENIERIA INDUSTRIAL" , "INGENIERIA INDUSTRIAL"],["INGENIERIA MECANICA" , "INGENIERIA MECANICA"],["INGENIERIA DE SISTEMAS" , "INGENIERIA DE SISTEMAS"],["LENGUAS EXTRANJERAS" , "LENGUAS EXTRANJERAS"],["MATEMATICAS Y ESTADÍSTICA" , "MATEMATICAS Y ESTADÍSTICA"],["MEDICINA" , "MEDICINA"],["MERCADEO Y NEGOCIOS INTERNACIONALES" , "MERCADEO Y NEGOCIOS INTERNACIONALES"],["MÚSICA" , "MÚSICA"],["ODONTOLOGÍA" , "ODONTOLOGÍA"],["PSICOLOGIA" , "PSICOLOGIA"],["QUIMICA Y BIOLOGIA" , "QUIMICA Y BIOLOGIA"],["SALUD  PÚBLICA" , "SALUD  PÚBLICA"]]  ,required: true, label: 'Departamento', validate: { presence: true}
-    = f.input :programa, collection:[["Administración de empresas","Administración de empresas"],["Arquitectura","Arquitectura"],["Ciencia Política y Gobierno","Ciencia Política y Gobierno"],["Comunicación Social y Periodismo","Comunicación Social y Periodismo"],["Contaduría Púbica","Contaduría Púbica"],["Derecho","Derecho"],["Diseño Gráfico","Diseño Gráfico"],["Diseño Industrial","Diseño Industrial"],["Economía","Economía"],["Enfermería","Enfermería"],["Filosofía y Humanidades","Filosofía y Humanidades"],["Geología","Geología"],["IngenieríaElectrónica","IngenieríaElectrónica"],["Ingeniería Civil","Ingeniería Civil"],["Ingeniería de Sistemas y Computación","Ingeniería de Sistemas y Computación"],["Ingeniería Eléctrica","Ingeniería Eléctrica"],["Ingeniería Industrial","Ingeniería Industrial"],["Ingeniería Mecánica","Ingeniería Mecánica"],["Licenciatura en Filosofía y Humanidades","Licenciatura en Filosofía y Humanidades"],["Licenciatura en Matemáticas","Licenciatura en Matemáticas"],["Licenciatura en Pedagogía Infantil","Licenciatura en Pedagogía Infantil"],["Matemáticas","Matemáticas"],["Medicina","Medicina"],["Música","Música"],["Negocios Internacionales","Negocios Internacionales"],["Odontología","Odontología"],["Psicología","Psicología"],["Relaciones Internacionales","Relaciones Internacionales"]], required: true, label: 'Programa'
-    = f.input :nombre, input_html: { required: true }, label: 'Nombre de la Asignatura'
-    = f.input :nrc, required: true, label: 'NRC', validate: { presence: true}
-    = f.input :semestre, collection: @date, required: true, label: 'Semestre', validate: { presence: true }
-    = f.input :creditos, required: true, label: 'Numero de Creditos'
-    = f.input :num_estud, required: true, label: 'Numero de Estudiantes'
-    = f.input :objetivo1, required: true, label: 'Resultado de aprendizaje 1'
-    = f.input :objetivo2, label: 'Resultado de aprendizaje 2', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo3, label: 'Resultado de aprendizaje 3', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo4, label: 'Resultado de aprendizaje 4', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo5, label: 'Resultado de aprendizaje 5', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo6, label: 'Resultado de aprendizaje 6', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo7, label: 'Resultado de aprendizaje 7', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo8, label: 'Resultado de aprendizaje 8', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo9, label: 'Resultado de aprendizaje 9', hint: "Dejar en blanco en caso de no tener"
-    = f.input :objetivo10, label: 'Resultado de aprendizaje 10', hint: "Dejar en blanco en caso de no tener"
-
-  .form-actions
+    .row
+      .col-xs-12.col-sm-12.col-md-6
+        .panel.panel-info
+          .panel-heading
+            Información General de la Asignatura
+          .panel-body
+            = f.input :division, collection: [["Arquitectura, Urbanismo y Diseño", "Arquitectura, Urbanismo y Diseño"],["Ciencias Básicas", "Ciencias Básicas"],["Ciencias de la Salud", "Ciencias de la Salud"],["Derecho", "Ciencia Política y Relaciones Internacionales", "Derecho", "Ciencia Política y Relaciones Internacionales"],["Escuela de Negocios", "Escuela de Negocios"],["Humanidades y Ciencias Sociales", "Humanidades y Ciencias Sociales"],["Ingenierías", "Ingenierías"],["Instituto de Estudios en Educación", "Instituto de Estudios en Educación"],["Instituto de Idiomas", "Instituto de Idiomas"]], required: true, label: 'Division'
+            = f.input :dpto, collection: [["ARQUITECTURA Y URBANISMO", "ARQUITECTURA Y URBANISMO"], ["COMUNICACION SOCIAL", "COMUNICACION SOCIAL"], ["CIENCIA  POLÍTICA Y REL. INTERN.", "CIENCIA  POLÍTICA Y REL. INTERN."], ["DERECHO", "DERECHO"] ,["DISEÑO", "DISEÑO"], ["ECONOMIA", "ECONOMIA"],["EDUCACION" , "EDUCACION"],["ENFERMERIA" , "ENFERMERIA"],["ESPAÑOL" , "ESPAÑOL"],["FINANZAS Y ORGANIZACIONES" , "FINANZAS Y ORGANIZACIONES"],["FISICA" , "FISICA"],["HISTORIA Y CIENCIAS SOCIALES" , "HISTORIA Y CIENCIAS SOCIALES"],["HUMANIDADES Y FILOSOFÍA" , "HUMANIDADES Y FILOSOFÍA"],["INGENIERÍA  CIVIL  Y  AMBIENTAL" , "INGENIERÍA  CIVIL  Y  AMBIENTAL"],["ELECTRICA Y ELECTRONICA" , "ELECTRICA Y ELECTRONICA"],["INGENIERIA INDUSTRIAL" , "INGENIERIA INDUSTRIAL"],["INGENIERIA MECANICA" , "INGENIERIA MECANICA"],["INGENIERIA DE SISTEMAS" , "INGENIERIA DE SISTEMAS"],["LENGUAS EXTRANJERAS" , "LENGUAS EXTRANJERAS"],["MATEMATICAS Y ESTADÍSTICA" , "MATEMATICAS Y ESTADÍSTICA"],["MEDICINA" , "MEDICINA"],["MERCADEO Y NEGOCIOS INTERNACIONALES" , "MERCADEO Y NEGOCIOS INTERNACIONALES"],["MÚSICA" , "MÚSICA"],["ODONTOLOGÍA" , "ODONTOLOGÍA"],["PSICOLOGIA" , "PSICOLOGIA"],["QUIMICA Y BIOLOGIA" , "QUIMICA Y BIOLOGIA"],["SALUD  PÚBLICA" , "SALUD  PÚBLICA"]]  ,required: true, label: 'Departamento', validate: { presence: true}
+            = f.input :programa, collection:[["Administración de empresas","Administración de empresas"],["Arquitectura","Arquitectura"],["Ciencia Política y Gobierno","Ciencia Política y Gobierno"],["Comunicación Social y Periodismo","Comunicación Social y Periodismo"],["Contaduría Púbica","Contaduría Púbica"],["Derecho","Derecho"],["Diseño Gráfico","Diseño Gráfico"],["Diseño Industrial","Diseño Industrial"],["Economía","Economía"],["Enfermería","Enfermería"],["Filosofía y Humanidades","Filosofía y Humanidades"],["Geología","Geología"],["IngenieríaElectrónica","IngenieríaElectrónica"],["Ingeniería Civil","Ingeniería Civil"],["Ingeniería de Sistemas y Computación","Ingeniería de Sistemas y Computación"],["Ingeniería Eléctrica","Ingeniería Eléctrica"],["Ingeniería Industrial","Ingeniería Industrial"],["Ingeniería Mecánica","Ingeniería Mecánica"],["Licenciatura en Filosofía y Humanidades","Licenciatura en Filosofía y Humanidades"],["Licenciatura en Matemáticas","Licenciatura en Matemáticas"],["Licenciatura en Pedagogía Infantil","Licenciatura en Pedagogía Infantil"],["Matemáticas","Matemáticas"],["Medicina","Medicina"],["Música","Música"],["Negocios Internacionales","Negocios Internacionales"],["Odontología","Odontología"],["Psicología","Psicología"],["Relaciones Internacionales","Relaciones Internacionales"]], required: true, label: 'Programa'
+            = f.input :nombre, input_html: { required: true }, label: 'Nombre de la Asignatura'
+      .col-xs-12.col-sm-12.col-md-6
+        .panel.panel-info
+          .panel-heading
+            Información Detallada de la Asignatura
+          .panel-body
+            = f.input :nrc, required: true, label: 'NRC', validate: { presence: true}
+            = f.input :semestre, collection: @date, required: true, label: 'Semestre', validate: { presence: true }
+            = f.input :creditos, required: true, label: 'Numero de Creditos'
+            = f.input :num_estud, required: true, label: 'Numero de Estudiantes'
+    .panel.panel-info
+      .panel-heading
+        Resultados de aprendizaje 
+      .panel-body
+        %p
+          A continuación, escriba los resultados de aprendizaje que se han trabajado hasta ahora en su curso. Procure redactarlos de forma clara y específica para que el estudiante los comprenda fácilmente, puesto que éste deberá evaluarlos durante la implementación del QCD.
+        %p
+          No es necesario que llene todos los espacios, solo el número de resultados de aprendizaje que usted considere trabajados hasta ahora.
+        = f.input :objetivo1, required: true, label: 'Resultado de aprendizaje 1', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo2, label: 'Resultado de aprendizaje 2', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo3, label: 'Resultado de aprendizaje 3', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo4, label: 'Resultado de aprendizaje 4', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo5, label: 'Resultado de aprendizaje 5', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo6, label: 'Resultado de aprendizaje 6', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo7, label: 'Resultado de aprendizaje 7', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo8, label: 'Resultado de aprendizaje 8', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo9, label: 'Resultado de aprendizaje 9', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+        = f.input :objetivo10, label: 'Resultado de aprendizaje 10', :input_html => {"data-toggle" => "tooltip", "data-placement" => "top", "title" => "Ejemplo: \nIdentificar los diferentes tipos de escalas de medición en el diseño de planos arquitectónicos."}
+  .form-actions.text-left
     = f.button :submit, value: "Enviar"
+    
